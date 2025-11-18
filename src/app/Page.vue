@@ -2,9 +2,8 @@
   <div
       class="min-h-screen bg-gray-50"
   >
-    <Header />
     <keep-alive>
-      <VacancyList />
+      <h1>Salom</h1>
     </keep-alive>
 
     <div class="fixed bottom-6 right-6">
@@ -29,25 +28,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, getCurrentInstance } from "vue";
-import Header from "@/components/Header.vue";
-import VacancyList from "@/components/VacancyList.vue";
 import { useI18n } from "@/i18n-lite.js";
-import axios from "axios";
 
 const { translations } = useI18n();
-const { proxy } = getCurrentInstance();
-
-onMounted(() => {
-  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-  axios
-      .get(proxy.$locale + "/v1/visits/track", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-      .catch(() => {});
-});
 </script>
