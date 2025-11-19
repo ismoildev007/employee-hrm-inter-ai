@@ -3,6 +3,10 @@ import DashboardLayout from '@/components/DashboardLayout.vue'
 import Notes from '@/app/dashboard/Notes.vue'
 import DashboardPage from '@/app/dashboard/DashboardPage.vue'
 import Page from "@/components/home/Page.vue";
+import Login from "@/app/auth/Login.vue";
+import Register from "@/app/auth/Register.vue";
+import ResumeAuditPage from "@/app/auth/ResumeAuditPage.vue";
+import Onboarding from "@/app/auth/Onboarding.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -11,6 +15,28 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: Page,
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login,
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: Register,
+        },
+        {
+            path: '/resume-audit',
+            name: 'audit',
+            component: ResumeAuditPage,
+            meta: { requiresAuth: true, headerBack: true },
+        },
+        {
+            path: '/onboarding',
+            name: 'onboarding',
+            component: Onboarding,
+            meta: { requiresAuth: true, headerBack: true },
         },
         {
             path: '/dashboard',
