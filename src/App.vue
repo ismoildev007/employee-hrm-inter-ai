@@ -1,12 +1,14 @@
 <script setup>
 import { provideI18n } from './i18n-lite'
 import { useRouter } from "vue-router";
+import Navigation from "@/components/home/Navigation.vue";
 provideI18n()
 const router = useRouter()
 
 </script>
 
 <template>
+  <Navigation></Navigation>
   <router-view />
 </template>
 

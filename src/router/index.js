@@ -1,12 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DashboardLayout from '@/components/DashboardLayout.vue'
-import Notes from '@/app/dashboard/Notes.vue'
-import DashboardPage from '@/app/dashboard/DashboardPage.vue'
-import Page from "@/components/home/Page.vue";
+import Page from "@/app/home/Page.vue";
+import Hotel from "@/app/home/Hotel.vue";
+import Ticket from "@/app/home/Ticket.vue";
 import Login from "@/app/auth/Login.vue";
 import Register from "@/app/auth/Register.vue";
-import ResumeAuditPage from "@/app/auth/ResumeAuditPage.vue";
-import Onboarding from "@/app/auth/Onboarding.vue";
+import TicketPlanner from "@/app/home/Planner.vue";
+import Rent from "@/app/home/Rental.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -15,6 +14,26 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: Page,
+        },
+        {
+            path: '/hotel',
+            name: 'hotel',
+            component: Hotel,
+        },
+        {
+            path: '/ticket',
+            name: 'ticket',
+            component: Ticket,
+        },
+        {
+            path: '/rent',
+            name: 'rent',
+            component: Rent,
+        },
+        {
+            path: '/ticket-planner',
+            name: 'TicketPlanner',
+            component: TicketPlanner,
         },
         {
             path: '/login',
@@ -26,55 +45,43 @@ const router = createRouter({
             name: 'register',
             component: Register,
         },
-        {
-            path: '/resume-audit',
-            name: 'audit',
-            component: ResumeAuditPage,
-            meta: { requiresAuth: true, headerBack: true },
-        },
-        {
-            path: '/onboarding',
-            name: 'onboarding',
-            component: Onboarding,
-            meta: { requiresAuth: true, headerBack: true },
-        },
-        {
-            path: '/dashboard',
-            name: 'dashboard',
-            component: DashboardLayout,
-            meta: { requiresAuth: true, headerBack: true },
-            children: [
-                {
-                    path: '',
-                    name: 'dashboard-home',
-                    component: DashboardPage
-                },
-                {
-                    path: 'notes',
-                    component: () => import('@/app/dashboard/Notes.vue')
-                },
-                {
-                    path: 'mock-interview',
-                    component: () => import('@/app/dashboard/MockInterview.vue')
-                },
-                {
-                    path: 'upgrade',
-                    component: () => import('@/app/dashboard/Upgrade.vue')
-                },
-                {
-                    path: 'jobs',
-                    component: () => import('@/app/dashboard/Jobs.vue')
-                },
-                {
-                    path: 'notifications',
-                    component: () => import('@/app/dashboard/Notification.vue')
-                },
-                {
-                    path: 'profile',
-                    component: () => import('@/app/dashboard/Profile.vue')
-                },
-            ]
-        }
+        // {
+        //     path: '/dashboard',
+        //     name: 'dashboard',
+        //     component: DashboardLayout,
+        //     meta: { requiresAuth: true, headerBack: true },
+        //     children: [
+        //         {
+        //             path: '',
+        //             name: 'dashboard-home',
+        //             component: DashboardPage
+        //         },
+        //         {
+        //             path: 'notes',
+        //             component: () => import('@/app/dashboard/Notes.vue')
+        //         },
+        //         {
+        //             path: 'mock-interview',
+        //             component: () => import('@/app/dashboard/MockInterview.vue')
+        //         },
+        //         {
+        //             path: 'upgrade',
+        //             component: () => import('@/app/dashboard/Upgrade.vue')
+        //         },
+        //         {
+        //             path: 'jobs',
+        //             component: () => import('@/app/dashboard/Jobs.vue')
+        //         },
+        //         {
+        //             path: 'notifications',
+        //             component: () => import('@/app/dashboard/Notification.vue')
+        //         },
+        //         {
+        //             path: 'profile',
+        //             component: () => import('@/app/dashboard/Profile.vue')
+        //         },
+        //     ]
+        // }
     ]
 })
 

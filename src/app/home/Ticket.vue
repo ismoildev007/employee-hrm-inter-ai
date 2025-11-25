@@ -1,9 +1,9 @@
 <script setup>
-import Upgrade from '@/components/Upgrade.vue'
+import Ticket from '@/components/home/Ticket.vue';
 </script>
 
 <template>
-<Upgrade></Upgrade>
+  <Ticket></Ticket>
 </template>
 
 <style scoped>
