@@ -21,8 +21,8 @@ const router = createRouter({
             component: Hotel,
         },
         {
-            path: '/ticket',
-            name: 'ticket',
+            path: '/tickets',
+            name: 'tickets',
             component: Ticket,
         },
         {
