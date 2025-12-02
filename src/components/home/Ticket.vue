@@ -274,7 +274,6 @@ const searchParams = ref({
 const ticketTypes = [
   { value: 'flight', label: 'Aviabilet', icon: Plane },
   { value: 'bus', label: 'Avtobus', icon: Bus },
-  { value: 'event', label: 'Tadbirlar', icon: Ticket }
 ]
 
 const mockTickets = [
@@ -337,18 +336,6 @@ const mockTickets = [
     price: 120000,
     company: 'Comfort Travel',
     seatsAvailable: 8
-  },
-  {
-    id: 6,
-    type: 'event',
-    from: 'Tashkent Arena',
-    to: 'Konsert',
-    date: '2025-12-15',
-    time: '19:00',
-    duration: '3s 00min',
-    price: 150000,
-    company: 'Music Fest 2025',
-    seatsAvailable: 45
   }
 ]
 
@@ -365,7 +352,6 @@ const getIconColorClass = (type) => {
   const colors = {
     flight: 'w-5 h-5 text-blue-600',
     bus: 'w-5 h-5 text-green-600',
-    event: 'w-5 h-5 text-purple-600'
   }
   return colors[type] || 'w-5 h-5 text-blue-600'
 }
