@@ -1,0 +1,90 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "error": "Error",
+        "save": "Save",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "back": "Back",
+        "next": "Next",
+        "previous": "Previous",
+        "close": "Close",
+        "logout": "Logout"
+    },
+    "auth": {
+        "login": {
+            "title": "Welcome Back!",
+            "subtitle": "Sign in to your account to continue",
+            "phone": "Phone Number",
+            "password": "Password",
+            "forgotPassword": "Forgot Password?",
+            "loginButton": "Login",
+            "noAccount": "Don't have an account?",
+            "register": "Register"
+        }
+    },
+    "dashboard": {
+        "sidebar": {
+            "title": "HR Alaqada",
+            "subtitle": "EMPLOYEE PLATFORM",
+            "myProfile": "My Profile",
+            "bankStructure": "Bank Structure",
+            "training": "Learning & Development",
+            "assessment": "Assessment (Test/Interview)",
+            "support": "HR Support"
+        },
+        "header": {
+            "refresh": "Refresh",
+            "fullscreen": "Fullscreen",
+            "desktopView": "Desktop view",
+            "tabletView": "Tablet view",
+            "mobileView": "Mobile view"
+        },
+        "profile": {
+            "title": "My Profile",
+            "education": "Higher",
+            "kpi": "KPI",
+            "gender": "Male",
+            "monthlySalary": "MONTHLY SALARY",
+            "skillsAnalysis": "Skills Analysis",
+            "testResults": "Test Results & Analysis",
+            "errorsAnalysis": "ERRORS ANALYSIS",
+            "completedCourses": "Completed courses",
+            "certificates": "Certificates",
+            "totalScore": "Total score",
+            "read": "Read",
+            "hardSkills": "Hard Skills",
+            "softSkills": "Soft Skills",
+            "russian": "Russian",
+            "english": "English"
+        }
+    },
+    "training": {
+        "center": {
+            "title": "Training Center",
+            "subtitle": "ALOQABANK PROFESSIONAL DEVELOPMENT PORTAL",
+            "directions": "DIRECTION",
+            "lessons": "LESSON",
+            "certificate": "CERTIFICATE",
+            "enterCourse": "ENTER COURSE"
+        },
+        "course": {
+            "backToCourses": "Back",
+            "lessons": "LESSON",
+            "certificate": "CERTIFICATE",
+            "read": "Read",
+            "unread": "Unread",
+            "minutes": "minutes"
+        },
+        "lesson": {
+            "backToCourse": "Back to course",
+            "lesson": "Lesson",
+            "read": "Read",
+            "minutes": "minutes",
+            "markAsRead": "Mark as read",
+            "alreadyRead": "You have read this lesson",
+            "previousLesson": "Previous lesson",
+            "nextLesson": "Next lesson"
+        }
+    }
+}

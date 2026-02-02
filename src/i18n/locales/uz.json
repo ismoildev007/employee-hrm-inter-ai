@@ -1,0 +1,90 @@
+{
+    "common": {
+        "loading": "Yuklanmoqda...",
+        "error": "Xatolik",
+        "save": "Saqlash",
+        "cancel": "Bekor qilish",
+        "confirm": "Tasdiqlash",
+        "back": "Orqaga",
+        "next": "Keyingi",
+        "previous": "Oldingi",
+        "close": "Yopish",
+        "logout": "Chiqish"
+    },
+    "auth": {
+        "login": {
+            "title": "Xush kelibsiz!",
+            "subtitle": "Davom etish uchun hisobingizga kiring",
+            "phone": "Telefon raqami",
+            "password": "Parol",
+            "forgotPassword": "Parolni unutdingizmi?",
+            "loginButton": "Kirish",
+            "noAccount": "Hisobingiz yo'qmi?",
+            "register": "Ro'yxatdan o'tish"
+        }
+    },
+    "dashboard": {
+        "sidebar": {
+            "title": "HR Alaqada",
+            "subtitle": "XODIMLAR PLATFORMASI",
+            "myProfile": "Mening Profilim",
+            "bankStructure": "Bank Strukturasi",
+            "training": "O'qish va Rivojlanish",
+            "assessment": "Baholash (Test/Suhbat)",
+            "support": "HR Support"
+        },
+        "header": {
+            "refresh": "Yangilash",
+            "fullscreen": "To'liq ekran",
+            "desktopView": "Desktop ko'rinish",
+            "tabletView": "Tablet ko'rinish",
+            "mobileView": "Mobile ko'rinish"
+        },
+        "profile": {
+            "title": "Mening Profilim",
+            "education": "Oliy",
+            "kpi": "KPI",
+            "gender": "Erkak",
+            "monthlySalary": "OYLIK MAOSH",
+            "skillsAnalysis": "Ko'nikmalar Tahlili",
+            "testResults": "Test Natijalari & Tahlil",
+            "errorsAnalysis": "XATOLAR TAHLILI",
+            "completedCourses": "O'tilgan kurslar",
+            "certificates": "Sertifikatlar",
+            "totalScore": "Umum iy ball",
+            "read": "O'qildi",
+            "hardSkills": "Hard Skills",
+            "softSkills": "Soft Skills",
+            "russian": "Russian",
+            "english": "English"
+        }
+    },
+    "training": {
+        "center": {
+            "title": "O'quv Markazi",
+            "subtitle": "ALOQABANK PROFESSIONAL RIVOJLANISH PORTALI",
+            "directions": "YO'NALISH",
+            "lessons": "DARS",
+            "certificate": "SERTIFIKAT",
+            "enterCourse": "KURSGA KIRISH"
+        },
+        "course": {
+            "backToCourses": "Orqaga",
+            "lessons": "DARS",
+            "certificate": "SERTIFIKAT",
+            "read": "O'qildi",
+            "unread": "O'qilmadi",
+            "minutes": "daqiqa"
+        },
+        "lesson": {
+            "backToCourse": "Kursga qaytish",
+            "lesson": "Dars",
+            "read": "O'qildi",
+            "minutes": "daqiqa",
+            "markAsRead": "O'qildi deb belgilash",
+            "alreadyRead": "Siz bu darsni o'qidingiz",
+            "previousLesson": "Oldingi dars",
+            "nextLesson": "Keyingi dars"
+        }
+    }
+}

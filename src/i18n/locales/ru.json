@@ -1,0 +1,90 @@
+{
+    "common": {
+        "loading": "Загрузка...",
+        "error": "Ошибка",
+        "save": "Сохранить",
+        "cancel": "Отмена",
+        "confirm": "Подтвердить",
+        "back": "Назад",
+        "next": "Следующий",
+        "previous": "Предыдущий",
+        "close": "Закрыть",
+        "logout": "Выход"
+    },
+    "auth": {
+        "login": {
+            "title": "Добро пожаловать!",
+            "subtitle": "Войдите в свою учетную запись, чтобы продолжить",
+            "phone": "Номер телефона",
+            "password": "Пароль",
+            "forgotPassword": "Забыли пароль?",
+            "loginButton": "Войти",
+            "noAccount": "Нет учетной записи?",
+            "register": "Регистрация"
+        }
+    },
+    "dashboard": {
+        "sidebar": {
+            "title": "HR Alaqada",
+            "subtitle": "ПЛАТФОРМА СОТРУДНИКОВ",
+            "myProfile": "Мой Профиль",
+            "bankStructure": "Структура Банка",
+            "training": "Обучение и Развитие",
+            "assessment": "Оценка (Тест/Собеседование)",
+            "support": "HR Поддержка"
+        },
+        "header": {
+            "refresh": "Обновить",
+            "fullscreen": "Полный экран",
+            "desktopView": "Вид рабочего стола",
+            "tabletView": "Вид планшета",
+            "mobileView": "Мобильный вид"
+        },
+        "profile": {
+            "title": "Мой Профиль",
+            "education": "Высшее",
+            "kpi": "KPI",
+            "gender": "Мужской",
+            "monthlySalary": "МЕСЯЧНАЯ ЗАРПЛАТА",
+            "skillsAnalysis": "Анализ Навыков",
+            "testResults": "Результаты Теста & Анализ",
+            "errorsAnalysis": "АНАЛИЗ ОШИБОК",
+            "completedCourses": "Пройденные курсы",
+            "certificates": "Сертификаты",
+            "totalScore": "Общий балл",
+            "read": "Прочитано",
+            "hardSkills": "Hard Skills",
+            "softSkills": "Soft Skills",
+            "russian": "Русский",
+            "english": "Английский"
+        }
+    },
+    "training": {
+        "center": {
+            "title": "Учебный Центр",
+            "subtitle": "ПОРТАЛ ПРОФЕССИОНАЛЬНОГО РАЗВИТИЯ ALOQABANK",
+            "directions": "НАПРАВЛЕНИЕ",
+            "lessons": "УРОК",
+            "certificate": "СЕРТИФИКАТ",
+            "enterCourse": "ВОЙТИ В КУРС"
+        },
+        "course": {
+            "backToCourses": "Назад",
+            "lessons": "УРОК",
+            "certificate": "СЕРТИФИКАТ",
+            "read": "Прочитано",
+            "unread": "Не прочитано",
+            "minutes": "минут"
+        },
+        "lesson": {
+            "backToCourse": "Вернуться к курсу",
+            "lesson": "Урок",
+            "read": "Прочитано",
+            "minutes": "минут",
+            "markAsRead": "Отметить как прочитанное",
+            "alreadyRead": "Вы прочитали этот урок",
+            "previousLesson": "Предыдущий урок",
+            "nextLesson": "Следующий урок"
+        }
+    }
+}
