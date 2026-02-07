@@ -1,152 +1,277 @@
 <template>
-  <div>
-    <!-- User Profile Card -->
-    <div class="bg-white rounded-xl p-4 sm:p-6 lg:p-8 shadow-sm mb-4 sm:mb-6">
-      <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
-        <!-- Avatar -->
-        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-blue-100 rounded-2xl flex items-center justify-center flex-shrink-0">
-          <span class="text-blue-600 font-bold text-2xl sm:text-3xl">{{ userInitials }}</span>
+  <main class="p-10 flex-1 w-full overflow-x-hidden">
+    <div class="space-y-8 pb-10">
+      <div
+        class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row gap-8 items-center relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 opacity-10 -translate-y-8 translate-x-8 rounded-full bg-blue-600">
         </div>
-
-        <!-- User Info -->
-        <div class="flex-1 min-w-0">
-          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">{{ $t('dashboard.profile.title') }}</h1>
-          <p class="text-blue-600 text-xs sm:text-sm font-medium mb-3">
-            {{ userData.position }} • {{ userData.department }}
-          </p>
-          
-          <div class="flex flex-wrap items-center gap-3 sm:gap-6 mt-4">
-            <div class="flex items-center gap-2">
-              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              <span class="text-xs sm:text-sm text-gray-600">{{ $t('dashboard.profile.education') }}</span>
-            </div>
-            
-            <div class="flex items-center gap-2">
-              <span class="text-xs sm:text-sm font-medium text-green-600 flex items-center gap-1">
-                <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                </svg>
-                {{ $t('dashboard.profile.kpi') }}: {{ userData.kpi }}%
-              </span>
-            </div>
-
-            <div class="flex items-center gap-2">
-              <span class="text-xs sm:text-sm text-gray-600">{{ $t('dashboard.profile.gender') }}</span>
-            </div>
-          </div>
+        <div class="w-32 h-32 rounded-3xl flex items-center justify-center shadow-inner bg-blue-100 text-blue-600">
+          <span class="text-4xl font-black">TMIo</span>
         </div>
-
-        <!-- Salary -->
-        <div class="w-full sm:w-auto text-left sm:text-right mt-4 sm:mt-0 pt-4 sm:pt-0 border-t sm:border-t-0 border-gray-200">
-          <div class="text-left sm:text-right">
-            <p class="text-xs text-gray-500 mb-1">{{ $t('dashboard.profile.monthlySalary') }}</p>
-            <p class="text-lg sm:text-xl font-bold text-gray-900">{{ formatSalary(userData.salary) }} UZS</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Charts Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- Skills Chart -->
-      <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
-        <h2 class="text-base sm:text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-          {{ $t('dashboard.profile.skillsAnalysis') }}
-        </h2>
-
-        <div class="flex justify-center">
-          <div class="w-full max-w-md">
-            <Radar :data="skillsChartData" :options="skillsChartOptions" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Test Results -->
-      <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
-        <div class="flex items-center gap-2 mb-6">
-          <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
-          </svg>
-          <h2 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">{{ $t('dashboard.profile.testResults') }}</h2>
-        </div>
-
-        <!-- Test Score -->
-        <div class="mb-6">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="font-semibold text-gray-900">Kichik va o'rta biznes</h3>
-            <span class="text-2xl font-bold text-green-600">{{ testResults.score }}/10</span>
-          </div>
-          <p class="text-sm text-gray-500 mb-4">{{ testResults.date }}</p>
-
-          <!-- Errors List -->
-          <div class="space-y-2">
-            <p class="text-sm font-semibold text-red-600 mb-2">{{ $t('dashboard.profile.errorsAnalysis') }}</p>
+        <div class="flex-1 text-center md:text-left z-10">
+          <h1 class="text-3xl font-black text-slate-800 flex items-center justify-center md:justify-start gap-3">
+            Tursunov Muhammadqodir Islomjon o'g'li<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" class="lucide lucide-user text-blue-500" aria-hidden="true">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg></h1>
+          <p class="text-blue-600 font-bold mt-1 uppercase tracking-wider text-sm">Mutaxassis • Chakana kredit
+            amaliyotlarini muvofiqllashshirish departamenti</p>
+          <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-4">
             <div
-              v-for="(error, index) in testResults.errors"
-              :key="index"
-              class="flex items-start gap-2 text-sm"
-            >
-              <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-              </svg>
-              <span class="text-gray-700">{{ error.question }}: {{ error.description }}</span>
+              class="flex items-center gap-2 px-3 py-1.5 bg-slate-50 rounded-full text-xs font-bold text-slate-500 border border-slate-100">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-graduation-cap" aria-hidden="true">
+                <path
+                  d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z">
+                </path>
+                <path d="M22 10v6"></path>
+                <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
+              </svg> Magistr
+            </div>
+            <div
+              class="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full text-xs font-bold text-green-600 border border-green-100">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-trending-up" aria-hidden="true">
+                <path d="M16 7h6v6"></path>
+                <path d="m22 7-8.5 8.5-5-5L2 17"></path>
+              </svg> KPI: 70%
+            </div>
+            <div
+              class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold border bg-blue-50 text-blue-600 border-blue-100">
+              Erkak</div>
+          </div>
+        </div>
+        <div class="text-right hidden xl:block z-10">
+          <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">Oylik maosh</p>
+          <p class="text-2xl font-black text-slate-800">6,316,294 UZS</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+              height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" class="lucide lucide-award text-yellow-500" aria-hidden="true">
+              <path
+                d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526">
+              </path>
+              <circle cx="12" cy="8" r="6"></circle>
+            </svg> Ko'nikmalar Tahlili</h2>
+          <div class="h-80">
+            <div class="recharts-responsive-container" style="width: 100%; height: 100%; min-width: 0px;">
+              <div style="width: 0px; height: 0px; overflow: visible;">
+                <div width="464" height="280" class="recharts-wrapper"
+                  style="position: relative; cursor: default; width: 464px; height: 280px;"><svg cx="50%" cy="50%"
+                    role="application" tabindex="0" class="recharts-surface" width="464" height="280"
+                    viewBox="0 0 464 280" style="width: 100%; height: 100%; display: block;">
+                    <title></title>
+                    <desc></desc>
+                    <g tabindex="-1">
+                      <g class="recharts-polar-grid">
+                        <g class="recharts-polar-grid-concentric">
+                          <path stroke="#ccc" fill="none" cx="232" cy="140" radius="0"
+                            class="recharts-polar-grid-concentric-polygon"
+                            d="M 232,140L 232,140L 232,140L 232,140L 232,140Z"></path>
+                          <path stroke="#ccc" fill="none" cx="232" cy="140" radius="27"
+                            class="recharts-polar-grid-concentric-polygon"
+                            d="M 232,113L 257.6785259399691,131.6565411518764L 247.87020181189678,161.8434588481236L 216.12979818810322,161.8434588481236L 206.32147406003085,131.6565411518764Z">
+                          </path>
+                          <path stroke="#ccc" fill="none" cx="232" cy="140" radius="54"
+                            class="recharts-polar-grid-concentric-polygon"
+                            d="M 232,86L 283.3570518799383,123.31308230375284L 263.74040362379355,183.68691769624718L 200.25959637620645,183.68691769624718L 180.6429481200617,123.31308230375285Z">
+                          </path>
+                          <path stroke="#ccc" fill="none" cx="232" cy="140" radius="81"
+                            class="recharts-polar-grid-concentric-polygon"
+                            d="M 232,59L 309.0355778199074,114.96962345562926L 279.61060543569033,205.53037654437074L 184.38939456430967,205.53037654437074L 154.96442218009255,114.96962345562928Z">
+                          </path>
+                          <path stroke="#ccc" fill="none" cx="232" cy="140" radius="108"
+                            class="recharts-polar-grid-concentric-polygon"
+                            d="M 232,32L 334.7141037598766,106.62616460750567L 295.4808072475871,227.37383539249433L 168.51919275241292,227.37383539249433L 129.2858962401234,106.6261646075057Z">
+                          </path>
+                        </g>
+                        <g class="recharts-polar-grid-angle">
+                          <line stroke="#ccc" cx="232" cy="140" x1="232" y1="140" x2="232" y2="32"></line>
+                          <line stroke="#ccc" cx="232" cy="140" x1="232" y1="140" x2="334.7141037598766"
+                            y2="106.62616460750567"></line>
+                          <line stroke="#ccc" cx="232" cy="140" x1="232" y1="140" x2="295.4808072475871"
+                            y2="227.37383539249433"></line>
+                          <line stroke="#ccc" cx="232" cy="140" x1="232" y1="140" x2="168.51919275241292"
+                            y2="227.37383539249433"></line>
+                          <line stroke="#ccc" cx="232" cy="140" x1="232" y1="140" x2="129.2858962401234"
+                            y2="106.6261646075057"></line>
+                        </g>
+                      </g>
+                    </g>
+                    <g tabindex="-1"></g>
+                    <defs>
+                      <clipPath id="recharts1-clip">
+                        <rect x="5" y="5" height="270" width="454"></rect>
+                      </clipPath>
+                    </defs>
+                    <g tabindex="-1">
+                      <g class="recharts-layer recharts-radar">
+                        <g class="recharts-layer recharts-radar-polygon">
+                          <path name="Siz" stroke="#3b82f6" fill="#3b82f6" fill-opacity="0.6" id="recharts-radar-_r_0_"
+                            class="recharts-polygon"
+                            d="M232,79.52L293.6285,119.9757L276.4366,201.1617L221.8431,153.9798L182.6972,123.9806L232,79.52Z">
+                          </path>
+                        </g>
+                      </g>
+                    </g>
+                    <g tabindex="-1"></g>
+                    <g tabindex="-1"></g>
+                    <g tabindex="-1"></g>
+                    <g tabindex="-1">
+                      <g class="recharts-layer recharts-polar-angle-axis angleAxis">
+                        <path angle="0" cx="232" cy="140" orientation="outer" radius="108" fill="none"
+                          class="recharts-polygon recharts-polar-angle-axis-line"
+                          d="M232,32L334.7141,106.6262L295.4808,227.3738L168.5192,227.3738L129.2859,106.6262L232,32Z">
+                        </path>
+                        <g class="recharts-layer recharts-polar-angle-axis-ticks">
+                          <g class="recharts-layer recharts-polar-angle-axis-tick">
+                            <line class="recharts-polar-angle-axis-tick-line" angle="0" cx="232" cy="140"
+                              orientation="outer" radius="108" fill="none" x1="232" y1="32" x2="232" y2="24"></line>
+                            <text cx="232" cy="140" orientation="outer" radius="108" stroke="none" x="232" y="24"
+                              class="recharts-text recharts-polar-angle-axis-tick-value" text-anchor="middle"
+                              fill="#808080">
+                              <tspan x="232" dy="0em">Hard Skills</tspan>
+                            </text>
+                          </g>
+                          <g class="recharts-layer recharts-polar-angle-axis-tick">
+                            <line class="recharts-polar-angle-axis-tick-line" angle="0" cx="232" cy="140"
+                              orientation="outer" radius="108" fill="none" x1="334.7141037598766"
+                              y1="106.62616460750567" x2="342.3225558902378" y2="104.1540286525061"></line><text
+                              cx="232" cy="140" orientation="outer" radius="108" stroke="none" x="342.3225558902378"
+                              y="104.1540286525061" class="recharts-text recharts-polar-angle-axis-tick-value"
+                              text-anchor="start" fill="#808080">
+                              <tspan x="342.3225558902378" dy="0.355em">Soft Skills</tspan>
+                            </text>
+                          </g>
+                          <g class="recharts-layer recharts-polar-angle-axis-tick">
+                            <line class="recharts-polar-angle-axis-tick-line" angle="0" cx="232" cy="140"
+                              orientation="outer" radius="108" fill="none" x1="295.4808072475871"
+                              y1="227.37383539249433" x2="300.18308926592687" y2="233.8459713474939"></line><text
+                              cx="232" cy="140" orientation="outer" radius="108" stroke="none" x="300.18308926592687"
+                              y="233.8459713474939" class="recharts-text recharts-polar-angle-axis-tick-value"
+                              text-anchor="start" fill="#808080">
+                              <tspan x="300.18308926592687" dy="0.71em">KPI</tspan>
+                            </text>
+                          </g>
+                          <g class="recharts-layer recharts-polar-angle-axis-tick">
+                            <line class="recharts-polar-angle-axis-tick-line" angle="0" cx="232" cy="140"
+                              orientation="outer" radius="108" fill="none" x1="168.51919275241292"
+                              y1="227.37383539249433" x2="163.81691073407313" y2="233.8459713474939"></line><text
+                              cx="232" cy="140" orientation="outer" radius="108" stroke="none" x="163.81691073407313"
+                              y="233.8459713474939" class="recharts-text recharts-polar-angle-axis-tick-value"
+                              text-anchor="end" fill="#808080">
+                              <tspan x="163.81691073407313" dy="0.71em">English</tspan>
+                            </text>
+                          </g>
+                          <g class="recharts-layer recharts-polar-angle-axis-tick">
+                            <line class="recharts-polar-angle-axis-tick-line" angle="0" cx="232" cy="140"
+                              orientation="outer" radius="108" fill="none" x1="129.2858962401234" y1="106.6261646075057"
+                              x2="121.67744410976218" y2="104.15402865250611"></line><text cx="232" cy="140"
+                              orientation="outer" radius="108" stroke="none" x="121.67744410976218"
+                              y="104.15402865250611" class="recharts-text recharts-polar-angle-axis-tick-value"
+                              text-anchor="end" fill="#808080">
+                              <tspan x="121.67744410976218" dy="0.355em">Russian</tspan>
+                            </text>
+                          </g>
+                        </g>
+                      </g>
+                      <g class="recharts-layer recharts-polar-radius-axis radiusAxis">
+                        <line class="recharts-polar-radius-axis-line" orientation="right" stroke="#ccc" fill="none"
+                          x1="232" y1="140" x2="340" y2="140"></line>
+                        <g class="recharts-layer recharts-polar-radius-axis-ticks">
+                          <g class="recharts-layer recharts-polar-radius-axis-tick"><text
+                              transform="rotate(90, 232, 140)" orientation="right" cx="232" cy="140" stroke="none"
+                              x="232" y="140" class="recharts-text recharts-polar-radius-axis-tick-value"
+                              text-anchor="start" fill="#ccc">
+                              <tspan x="232" dy="0em">0</tspan>
+                            </text></g>
+                          <g class="recharts-layer recharts-polar-radius-axis-tick"><text
+                              transform="rotate(90, 259, 140)" orientation="right" cx="232" cy="140" stroke="none"
+                              x="259" y="140" class="recharts-text recharts-polar-radius-axis-tick-value"
+                              text-anchor="start" fill="#ccc">
+                              <tspan x="259" dy="0em">25</tspan>
+                            </text></g>
+                          <g class="recharts-layer recharts-polar-radius-axis-tick"><text
+                              transform="rotate(90, 286, 140)" orientation="right" cx="232" cy="140" stroke="none"
+                              x="286" y="140" class="recharts-text recharts-polar-radius-axis-tick-value"
+                              text-anchor="start" fill="#ccc">
+                              <tspan x="286" dy="0em">50</tspan>
+                            </text></g>
+                          <g class="recharts-layer recharts-polar-radius-axis-tick"><text
+                              transform="rotate(90, 313, 140)" orientation="right" cx="232" cy="140" stroke="none"
+                              x="313" y="140" class="recharts-text recharts-polar-radius-axis-tick-value"
+                              text-anchor="start" fill="#ccc">
+                              <tspan x="313" dy="0em">75</tspan>
+                            </text></g>
+                          <g class="recharts-layer recharts-polar-radius-axis-tick"><text
+                              transform="rotate(90, 340, 140)" orientation="right" cx="232" cy="140" stroke="none"
+                              x="340" y="140" class="recharts-text recharts-polar-radius-axis-tick-value"
+                              text-anchor="start" fill="#ccc">
+                              <tspan x="340" dy="0em">100</tspan>
+                            </text></g>
+                        </g>
+                      </g>
+                    </g>
+                    <g tabindex="-1"></g>
+                    <g tabindex="-1"></g>
+                    <g tabindex="-1"></g>
+                    <g tabindex="-1"></g>
+                    <g tabindex="-1"></g>
+                  </svg></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+          <h2 class="text-xl font-bold mb-6 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+              height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" class="lucide lucide-book text-blue-600" aria-hidden="true">
+              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"></path>
+            </svg> Test Natijalari &amp; Tahlil</h2>
+          <div class="space-y-4 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
+            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-3 hover:bg-white transition-all">
+              <div class="flex justify-between items-center">
+                <div>
+                  <h4 class="font-bold text-slate-800">Kichik va o'rta biznes</h4>
+                  <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">2024-03-01</p>
+                </div>
+                <div class="px-4 py-1.5 rounded-xl font-black text-sm bg-green-100 text-green-700 shadow-sm">7/10
+                </div>
+              </div>
+              <div class="pt-2 border-t border-slate-200">
+                <p class="text-[10px] font-black text-red-500 uppercase mb-2 tracking-widest">Xatolar tahlili:</p>
+                <ul class="space-y-1">
+                  <li class="text-xs text-slate-600 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg"
+                      width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x text-red-400"
+                      aria-hidden="true">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="m15 9-6 6"></path>
+                      <path d="m9 9 6 6"></path>
+                    </svg> Savol #2: AI tavsiya qilgan mavzu ustida ishlang.</li>
+                  <li class="text-xs text-slate-600 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg"
+                      width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x text-red-400"
+                      aria-hidden="true">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="m15 9-6 6"></path>
+                      <path d="m9 9 6 6"></path>
+                    </svg> Savol #5: AI tavsiya qilgan mavzu ustida ishlang.</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Additional Stats -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:mt-6">
-      <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
-        <div class="flex items-center gap-3 sm:gap-4">
-          <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
-            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-          </div>
-          <div>
-            <p class="text-sm text-gray-600">{{ $t('dashboard.profile.completedCourses') }}</p>
-            <p class="text-2xl font-bold text-gray-900">{{ stats.completedCourses }}</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-xl p-6 shadow-sm">
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
-            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-            </svg>
-          </div>
-          <div>
-            <p class="text-sm text-gray-600">{{ $t('dashboard.profile.certificates') }}</p>
-            <p class="text-2xl font-bold text-gray-900">{{ stats.certificates }}</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-xl p-6 shadow-sm">
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center">
-            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </div>
-          <div>
-            <p class="text-sm text-gray-600">{{ $t('dashboard.profile.totalScore') }}</p>
-            <p class="text-2xl font-bold text-gray-900">{{ stats.totalScore }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  </main>
 </template>
 
 <script setup>
@@ -231,7 +356,7 @@ const skillsChartOptions = ref({
     },
     tooltip: {
       callbacks: {
-        label: function(context) {
+        label: function (context) {
           return context.parsed.r + '%';
         }
       }

@@ -60,6 +60,33 @@
         }
     },
     "training": {
+        "breadcrumb": {
+            "training": "Learning & Development"
+        },
+        "stats": {
+            "blocksCount": "BLOCKS COUNT",
+            "activeDirections": "ACTIVE DIRECTIONS",
+            "totalLessons": "TOTAL LESSONS",
+            "testQuestions": "TEST QUESTIONS"
+        },
+        "blocks": {
+            "title": "Training Blocks",
+            "viewAll": "VIEW ALL",
+            "directions": "DIRECTION"
+        },
+        "blockDetail": {
+            "directionsTitle": "block directions",
+            "subtitle": "ALL DIRECTIONS WITHIN THE BLOCK",
+            "goToLessons": "GO TO LESSONS"
+        },
+        "directionDetail": {
+            "totalLessons": "LESSON TOPICS",
+            "lesson": "LESSON",
+            "lessonsList": "LESSON TOPICS",
+            "video": "VIDEO AVAILABLE",
+            "min": "min",
+            "addNewLesson": "ADD NEW LESSON"
+        },
         "center": {
             "title": "Training Center",
             "subtitle": "ALOQABANK PROFESSIONAL DEVELOPMENT PORTAL",
@@ -86,5 +113,71 @@
             "previousLesson": "Previous lesson",
             "nextLesson": "Next lesson"
         }
+    },
+    "bankStructure": {
+        "sidebar": {
+            "title": "Bank Structure"
+        },
+        "title": "Employee Database",
+        "totalEmployees": "Total employees: {count} people",
+        "searchPlaceholder": "Search by name or employee ID...",
+        "categories": {
+            "raislar": "Leadership",
+            "departament": "Department Heads",
+            "bolim": "Division Heads",
+            "all": "All Employees"
+        },
+        "positions": {
+            "bankRaisi": "Bank President",
+            "firstDeputy": "First Deputy",
+            "secondDeputy": "Second Deputy",
+            "specialist": "Specialist"
+        },
+        "departments": {
+            "it": "IT Department",
+            "finance": "Finance Department",
+            "hr": "HR Department",
+            "security": "Security Department",
+            "retail": "Retail Credit Division",
+            "corporate": "Corporate Division",
+            "monitoring": "Monitoring Division"
+        },
+        "status": {
+            "assessmentOpen": "Assessment: Open"
+        },
+        "actions": {
+            "profile": "Profile"
+        }
+    },
+    "profile": {
+        "position": "Specialist",
+        "department": "Retail Credit Operations Coordination Department",
+        "education": "Master's",
+        "kpi": "KPI",
+        "gender": "Male",
+        "monthlySalary": "Monthly Salary"
+    },
+    "assessment": {
+        "title": "Candidate Information",
+        "fields": {
+            "tabelNumber": "Employee ID",
+            "region": "Candidate Regional Division",
+            "division": "Candidate Division",
+            "position": "Candidate Position"
+        },
+        "placeholders": {
+            "tabelNumber": "For example: 000553"
+        },
+        "actions": {
+            "nextStep": "Next Step"
+        }
+    },
+    "support": {
+        "title": "AloqaBank AI Assistant",
+        "status": "Grounded on Aloqabank.uz",
+        "badge": "AI Powered",
+        "greeting": "Hello! I'm the Aloqabank HR and information assistant. How can I help you with banking services or internal procedures?",
+        "placeholder": "Ask a question about Aloqabank (e.g., Visa card terms)...",
+        "disclaimer": "AI-generated responses may contain errors. Please check the official Aloqabank.uz website."
     }
 }

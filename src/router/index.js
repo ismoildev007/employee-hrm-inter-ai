@@ -3,6 +3,7 @@ import Login from "@/components/auth/Login.vue";
 import Register from "@/components/auth/Register.vue";
 import DashboardLayout from "@/components/layout/DashboardLayout.vue";
 import TrainingCenter from "@/components/training/TrainingCenter.vue";
+import BlockDetail from "@/components/training/BlockDetail.vue";
 import CourseDetail from "@/components/training/CourseDetail.vue";
 import LessonDetail from "@/components/training/LessonDetail.vue";
 
@@ -32,12 +33,17 @@ const router = createRouter({
                     component: TrainingCenter
                 },
                 {
-                    path: 'training/course/:id',
-                    name: 'course-detail',
+                    path: 'training/block/:blockId',
+                    name: 'block-detail',
+                    component: BlockDetail
+                },
+                {
+                    path: 'training/block/:blockId/direction/:directionId',
+                    name: 'direction-detail',
                     component: CourseDetail
                 },
                 {
-                    path: 'training/lesson/:id',
+                    path: 'training/block/:blockId/direction/:directionId/lesson/:lessonId',
                     name: 'lesson-detail',
                     component: LessonDetail
                 },

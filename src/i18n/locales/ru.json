@@ -60,6 +60,33 @@
         }
     },
     "training": {
+        "breadcrumb": {
+            "training": "Обучение и Развитие"
+        },
+        "stats": {
+            "blocksCount": "КОЛИЧЕСТВО БЛОКОВ",
+            "activeDirections": "АКТИВНЫЕ НАПРАВЛЕНИЯ",
+            "totalLessons": "ВСЕГО УРОКОВ",
+            "testQuestions": "ТЕСТОВЫЕ ВОПРОСЫ"
+        },
+        "blocks": {
+            "title": "Учебные блоки",
+            "viewAll": "ПОСМОТРЕТЬ ВСЕ",
+            "directions": "НАПРАВЛЕНИЕ"
+        },
+        "blockDetail": {
+            "directionsTitle": "направления блока",
+            "subtitle": "ПО ВСЕМ НАПРАВЛЕНИЯМ ВНУТРИ БЛОКА",
+            "goToLessons": "ПЕРЕЙТИ К УРОКАМ"
+        },
+        "directionDetail": {
+            "totalLessons": "ТЕМЫ УРОКОВ",
+            "lesson": "УРОК",
+            "lessonsList": "ТЕМЫ УРОКОВ",
+            "video": "ВИДЕО ДОСТУПНО",
+            "min": "минут",
+            "addNewLesson": "ДОБАВИТЬ НОВЫЙ УРОК"
+        },
         "center": {
             "title": "Учебный Центр",
             "subtitle": "ПОРТАЛ ПРОФЕССИОНАЛЬНОГО РАЗВИТИЯ ALOQABANK",
@@ -86,5 +113,71 @@
             "previousLesson": "Предыдущий урок",
             "nextLesson": "Следующий урок"
         }
+    },
+    "bankStructure": {
+        "sidebar": {
+            "title": "Структура Банка"
+        },
+        "title": "База сотрудников",
+        "totalEmployees": "Всего сотрудников: {count} человек",
+        "searchPlaceholder": "Поиск по Ф.И.О или табельному номеру...",
+        "categories": {
+            "raislar": "Руководители",
+            "departament": "Начальники департаментов",
+            "bolim": "Начальники отделов",
+            "all": "Все сотрудники"
+        },
+        "positions": {
+            "bankRaisi": "Председатель банка",
+            "firstDeputy": "Первый заместитель",
+            "secondDeputy": "Второй заместитель",
+            "specialist": "Специалист"
+        },
+        "departments": {
+            "it": "IT департамент",
+            "finance": "Финансовый департамент",
+            "hr": "HR департамент",
+            "security": "Департамент безопасности",
+            "retail": "Отдел розничного кредитования",
+            "corporate": "Корпоративный отдел",
+            "monitoring": "Отдел мониторинга"
+        },
+        "status": {
+            "assessmentOpen": "Оценка: Открыто"
+        },
+        "actions": {
+            "profile": "Профиль"
+        }
+    },
+    "profile": {
+        "position": "Специалист",
+        "department": "Департамент координации розничного кредитования",
+        "education": "Магистр",
+        "kpi": "KPI",
+        "gender": "Мужской",
+        "monthlySalary": "Месячная зарплата"
+    },
+    "assessment": {
+        "title": "Данные кандидата",
+        "fields": {
+            "tabelNumber": "Табельный номер",
+            "region": "Региональное подразделение кандидата",
+            "division": "Отдел кандидата",
+            "position": "Должность кандидата"
+        },
+        "placeholders": {
+            "tabelNumber": "Например: 000553"
+        },
+        "actions": {
+            "nextStep": "Следующий шаг"
+        }
+    },
+    "support": {
+        "title": "AloqaBank AI Помощник",
+        "status": "На основе Aloqabank.uz",
+        "badge": "AI Powered",
+        "greeting": "Здравствуйте! Я помощник Aloqabank по HR и информации. Как я могу помочь вам с банковскими услугами или внутренними процедурами?",
+        "placeholder": "Задайте вопрос об Aloqabank (например: условия Visa карты)...",
+        "disclaimer": "Ответы, сгенерированные AI, могут содержать ошибки. Проверьте официальный сайт Aloqabank.uz."
     }
 }

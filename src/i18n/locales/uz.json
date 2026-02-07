@@ -60,9 +60,37 @@
         }
     },
     "training": {
+        "breadcrumb": {
+            "training": "O'qitish va Rivojlanish"
+        },
+        "stats": {
+            "blocksCount": "BLOKLAR SONI",
+            "activeDirections": "AKTIV YO'NALISHLAR",
+            "totalLessons": "JAMI DARSLIKLLAR",
+            "testQuestions": "TEST SAVOLLARI"
+        },
+        "blocks": {
+            "title": "O'quv bloklari",
+            "viewAll": "BARCHASINI KO'RISH",
+            "directions": "YO'NALISH"
+        },
+        "blockDetail": {
+            "directionsTitle": "bloki yo'nalishlari",
+            "subtitle": "BLOK ICHIDAGI BARCHA YO'NALISHLAR BO'YICHA",
+            "goToLessons": "DARSLIKLARGA O'TISH"
+        },
+        "directionDetail": {
+            "totalLessons": "DARSLIK MAVZULARI",
+            "lesson": "TA DARS",
+            "lessonsList": "DARSLIK MAVZULARI",
+            "video": "VIDEO MAVJUD",
+            "min": "daqiqa",
+            "addNewLesson": "YANGI DARSLIK QO'SHISH"
+        },
         "center": {
             "title": "O'quv Markazi",
             "subtitle": "ALOQABANK PROFESSIONAL RIVOJLANISH PORTALI",
+            "started": "O'qitish boshlangani",
             "directions": "YO'NALISH",
             "lessons": "DARS",
             "certificate": "SERTIFIKAT",
@@ -86,5 +114,71 @@
             "previousLesson": "Oldingi dars",
             "nextLesson": "Keyingi dars"
         }
+    },
+    "bankStructure": {
+        "sidebar": {
+            "title": "Bank Strukturasi"
+        },
+        "title": "Xodimlar bazasi",
+        "totalEmployees": "Jami xodimlar soni: {count} nafar",
+        "searchPlaceholder": "F.I.SH yoki Tabel raqami orqali qidirish...",
+        "categories": {
+            "raislar": "Raislar",
+            "departament": "Departament boshlig'i",
+            "bolim": "Bo'lim boshlig'i",
+            "all": "Barcha xodimlar"
+        },
+        "positions": {
+            "bankRaisi": "Bank raisi",
+            "firstDeputy": "Birinchi o'rinbosar",
+            "secondDeputy": "Ikkinchi o'rinbosar",
+            "specialist": "Mutaxassis"
+        },
+        "departments": {
+            "it": "IT departamenti",
+            "finance": "Moliya departamenti",
+            "hr": "HR departamenti",
+            "security": "Xavfsizlik departamenti",
+            "retail": "Chakana kredit bo'limi",
+            "corporate": "Korporativ bo'lim",
+            "monitoring": "Monitoring bo'limi"
+        },
+        "status": {
+            "assessmentOpen": "Baholash: Ochiq"
+        },
+        "actions": {
+            "profile": "Profil"
+        }
+    },
+    "profile": {
+        "position": "Mutaxassis",
+        "department": "Chakana kredit amaliyotlarini muvofiqllashshirish departamenti",
+        "education": "Magistr",
+        "kpi": "KPI",
+        "gender": "Erkak",
+        "monthlySalary": "Oylik maosh"
+    },
+    "assessment": {
+        "title": "Nomzod Ma'lumotlari",
+        "fields": {
+            "tabelNumber": "Tabel Raqami",
+            "region": "Nomzod Hududiy Bo'linma",
+            "division": "Nomzod Bo'lim",
+            "position": "Nomzod Lavozim"
+        },
+        "placeholders": {
+            "tabelNumber": "Masalan: 000553"
+        },
+        "actions": {
+            "nextStep": "Keyingi Bosqich"
+        }
+    },
+    "support": {
+        "title": "AloqaBank AI Yordamchi",
+        "status": "Aloqabank.uz asosida grounded",
+        "badge": "AI Powered",
+        "greeting": "Assalomu alaykum! Men Aloqabank HR va axborot yordamchisiman. Sizga bank xizmatlari yoki ichki tartiblar haqida qanday yordam bera olaman?",
+        "placeholder": "Aloqabank haqida savol bering (masalan: Visa karta shartlari)...",
+        "disclaimer": "AI tomonidan generatsiya qilingan javoblar xato bo'lishi mumkin. Aloqabank.uz rasmiy saytini tekshiring."
     }
 }

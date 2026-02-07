@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 sm:p-6 lg:p-8 ">
+  <div class="p-4 sm:p-6 lg:p-8 min-h-screen bg-blue-50">
     <div class="mb-8">
       <h1 class="text-[28px] font-bold text-[#1a2b50] mb-1">O'qitish va rivojlantirish bo'limi</h1>
       <p class="text-[11px] font-bold text-[#3169e1] uppercase tracking-wider">ALOQABANK HR PLATFORMASI</p>
@@ -37,8 +37,7 @@
         <div>
           <p class="text-2xl font-black text-slate-800">13</p>
           <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">O'quv
-            Yo'nalishlari
-          </p>
+            Yo'nalishlari</p>
         </div>
       </div>
 
@@ -83,74 +82,131 @@
         </div>
       </div>
     </div>
-
+    <!-- Breadcrumb in Card -->
     <div
       class="flex items-center gap-2 text-sm font-bold text-slate-400 mb-6 bg-white/50 p-3 rounded-xl backdrop-blur-sm self-start">
-      <button class="hover:text-blue-600 transition-colors">O'qitish boshqaruvi</button>
+      <router-link :to="{ name: 'training-center' }" class="hover:text-blue-600 font-medium">{{
+        $t('training.breadcrumb.training') }}</router-link>
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="lucide lucide-chevron-right" aria-hidden="true">
+        <path d="m9 18 6-6-6-6"></path>
+      </svg>
+      <button class="hover:text-blue-600 transition-colors">{{ blockTitle }}</button>
     </div>
 
     <div
-      class="bg-white/40 backdrop-blur-xl rounded-[48px] border border-white/50 p-10 min-h-[600px] shadow-2xl shadow-blue-100/50 z-10 relative">
-      <div class="flex items-center justify-between mb-8">
-        <h2 class="text-[22px] font-bold text-[#1a2b50]">O'quv bloklari</h2>
-        <button class="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-          BLOKLARNI BOSHQARISH
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <router-link v-for="block in blocks" :key="block.id"
-          :to="{ name: 'block-detail', params: { blockId: block.id } }"
-          class="w-full h-full text-left bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col justify-between">
-          <div class="w-12 h-12 bg-[#f0f4ff] rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-6 h-6 text-[#3169e1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-            </svg>
-          </div>
-
-          <h3 class="text-[17px] font-bold text-[#1a2b50] mb-2">{{ block.title }}</h3>
-          <p class="text-[13px] text-gray-400 leading-relaxed mb-8">{{ block.desc }}</p>
-
-          <div class="flex items-center justify-between mt-auto">
-            <span class="text-[11px] font-black text-[#3169e1] uppercase tracking-wider">{{ block.count }}
-              YO'NALISH</span>
-            <div
-              class="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-50 transition-colors">
-              <svg class="w-4 h-4 text-gray-300 group-hover:text-[#3169e1]" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      class="bg-white/40 backdrop-blur-xl rounded-[48px] border border-white/50 p-1 min-h-[600px] shadow-2xl shadow-blue-100/50 z-10 relative">
+      <!-- Page Header - Centered -->
+      <div class="px-6 lg:px-8 py-6">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-6">
+            <button @click="goBack"
+              class="p-4 bg-white rounded-3xl border border-slate-100 text-slate-400 hover:text-blue-600 shadow-lg hover:shadow-blue-100 transition-all group">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-arrow-left group-hover:-translate-x-1 transition-transform" aria-hidden="true">
+                <path d="m12 19-7-7 7-7"></path>
+                <path d="M19 12H5"></path>
               </svg>
+            </button>
+            <div>
+              <h3 class="text-3xl font-black text-slate-800">{{ blockTitle }} {{
+                $t('training.blockDetail.directionsTitle') }}</h3>
+              <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mt-1">{{
+                $t('training.blockDetail.subtitle') }}</p>
             </div>
           </div>
-        </router-link>
+        </div>
+      </div>
+
+      <!-- Directions Grid in Card -->
+      <div class="px-6 lg:px-8 pb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div v-for="direction in directions" :key="direction.id"
+            class="bg-white p-8 rounded-[44px] border border-slate-100 shadow-sm hover:border-blue-200 transition-all group flex flex-col justify-between h-full">
+            <!-- Icon -->
+            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+
+            <!-- Direction Title -->
+            <h3 class="text-base font-semibold text-gray-900 mb-4">{{ direction.title }}</h3>
+
+            <!-- Action Button -->
+            <button @click="goToDirection(direction.id)"
+              class="w-full py-4 bg-slate-900 text-white rounded-3xl text-xs font-black hover:bg-blue-600 transition-all flex items-center justify-center gap-3 shadow-xl shadow-slate-200 hover:shadow-blue-200">
+              {{ $t('training.blockDetail.goToLessons') }}
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-const blocks = [
-  { id: 1, title: 'Chakana', desc: 'Chakana bank xizmatlari va operatsiyalari', count: 4 },
-  { id: 2, title: 'Korporativ / Yuridik', desc: 'Yuridik shaxslar bilan ishlash va kreditlash', count: 3 },
-  { id: 3, title: 'IT', desc: 'Axborot texnologiyalari va qo\'llab-quvvatlash', count: 2 },
-  { id: 4, title: 'Soft skill', desc: 'Shaxsiy rivojlanish va muloqot standartlari', count: 2 },
-  { id: 5, title: 'Korporativ / Yuridik', desc: 'Yuridik shaxslar bilan ishlash va kreditlash', count: 2 },
-  { id: 6, title: 'IT', desc: 'Axborot texnologiyalari va qo\'llab-quvvatlash', count: 2 },
-  { id: 7, title: 'Chakana', desc: 'Chakana bank xizmatlari va operatsiyalari', count: 2 },
-  { id: 8, title: 'Soft skill', desc: 'Shaxsiy rivojlanish va muloqot standartlari', count: 2 },
-];
-</script>
+import { ref, computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
-<style scoped>
-/* Google fontga o'xshash inter yoki sans-serif */
-div {
-  font-family: 'Inter', sans-serif;
-}
-</style>
+const router = useRouter();
+const route = useRoute();
+
+const blockId = computed(() => route.params.blockId);
+
+// Block data
+const blocks = {
+  1: { title: 'Chakana' },
+  2: { title: 'Korporativ / Yuridik' },
+  3: { title: 'IT' },
+  4: { title: 'Soft skill' },
+  5: { title: 'Chakana' },
+  6: { title: 'Korporativ / Yuridik' },
+  7: { title: 'IT' },
+  8: { title: 'Soft skill' }
+};
+
+const blockTitle = computed(() => blocks[blockId.value]?.title || 'Blok');
+
+// Directions data
+const directions = ref([
+  {
+    id: 1,
+    title: 'Chakana kredit amaliyotlarini muvofiqlashtirish'
+  },
+  {
+    id: 2,
+    title: 'Naqd pul va kassa amaliyotlari'
+  },
+  {
+    id: 3,
+    title: 'Chakana nokredit amaliyotlarini muvofiqlashtirish'
+  },
+  {
+    id: 1,
+    title: 'Chakana kredit amaliyotlarini muvofiqlashtirish'
+  },
+  {
+    id: 2,
+    title: 'Naqd pul va kassa amaliyotlari'
+  },
+  {
+    id: 3,
+    title: 'Chakana nokredit amaliyotlarini muvofiqlashtirish'
+  }
+]);
+
+const goBack = () => {
+  router.push({ name: 'training-center' });
+};
+
+const goToDirection = (directionId) => {
+  router.push({ name: 'direction-detail', params: { blockId: blockId.value, directionId } });
+};
+</script>
