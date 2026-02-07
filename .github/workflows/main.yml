@@ -127,7 +127,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
           source: "dist/*"
-          target: ${{ secrets.DEPLOY_PATH || '/var/www/html' }}
+          target: ${{ secrets.DEPLOY_PATH || '/var/www/employee-hrm-inter-ai' }}
           strip_components: 1
       
       - name: Restart web server (optional)
