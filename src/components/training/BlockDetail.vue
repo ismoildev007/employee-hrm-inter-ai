@@ -122,28 +122,31 @@
 
       <!-- Directions Grid in Card -->
       <div class="px-6 lg:px-8 pb-6">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div v-for="direction in directions" :key="direction.id"
-            class="bg-white p-8 rounded-[44px] border border-slate-100 shadow-sm hover:border-blue-200 transition-all group flex flex-col justify-between h-full">
-            <!-- Icon -->
-            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div v-for="direction in directions" :key="direction.id" @click="goToDirection(direction.id)"
+            class="cursor-pointer w-full h-full text-left bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col justify-between group">
+
+            <div class="w-12 h-12 bg-[#f0f4ff] rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-[#3169e1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
             </div>
 
-            <!-- Direction Title -->
-            <h3 class="text-base font-semibold text-gray-900 mb-4">{{ direction.title }}</h3>
+            <h3 class="text-[17px] font-bold text-[#1a2b50] mb-2 line-clamp-2">{{ direction.title }}</h3>
+            <p class="text-[13px] text-gray-400 leading-relaxed mb-8 line-clamp-3">{{ direction.desc }}</p>
 
-            <!-- Action Button -->
-            <button @click="goToDirection(direction.id)"
-              class="w-full py-4 bg-slate-900 text-white rounded-3xl text-xs font-black hover:bg-blue-600 transition-all flex items-center justify-center gap-3 shadow-xl shadow-slate-200 hover:shadow-blue-200">
-              {{ $t('training.blockDetail.goToLessons') }}
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+            <div class="flex items-center justify-between mt-auto">
+              <span class="text-[11px] font-black text-[#3169e1] uppercase tracking-wider">{{ direction.count }}
+                DARS</span>
+              <div
+                class="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-50 transition-colors">
+                <svg class="w-4 h-4 text-gray-300 group-hover:text-[#3169e1]" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -178,27 +181,39 @@ const blockTitle = computed(() => blocks[blockId.value]?.title || 'Blok');
 const directions = ref([
   {
     id: 1,
-    title: 'Chakana kredit amaliyotlarini muvofiqlashtirish'
+    title: 'Chakana kredit amaliyotlarini muvofiqlashtirish',
+    desc: 'Kreditlash jarayonlari va mijozlar bilan ishlash standartlari',
+    count: 12
   },
   {
     id: 2,
-    title: 'Naqd pul va kassa amaliyotlari'
+    title: 'Naqd pul va kassa amaliyotlari',
+    desc: 'Kassa operatsiyalari, valyuta ayirboshlash va hisobotlar',
+    count: 8
   },
   {
     id: 3,
-    title: 'Chakana nokredit amaliyotlarini muvofiqlashtirish'
+    title: 'Chakana nokredit amaliyotlarini muvofiqlashtirish',
+    desc: 'Omonatlar, pul o\'tkazmalari va to\'lovlar tizimi',
+    count: 15
   },
   {
-    id: 1,
-    title: 'Chakana kredit amaliyotlarini muvofiqlashtirish'
+    id: 4,
+    title: 'Mijozlarga xizmat ko\'rsatish standartlari',
+    desc: 'Bank xizmatlarini ko\'rsatishda mijozlar bilan muloqot etikasi',
+    count: 6
   },
   {
-    id: 2,
-    title: 'Naqd pul va kassa amaliyotlari'
+    id: 5,
+    title: 'Bank kartalari bilan ishlash',
+    desc: 'Plastik kartalarni ochish, saqlash va ular bo\'yicha operatsiyalar',
+    count: 10
   },
   {
-    id: 3,
-    title: 'Chakana nokredit amaliyotlarini muvofiqlashtirish'
+    id: 6,
+    title: 'Raqamli bank xizmatlari',
+    desc: 'Mobil ilova va internet banking orqali xizmat ko\'rsatish',
+    count: 9
   }
 ]);
 

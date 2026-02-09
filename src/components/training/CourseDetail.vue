@@ -104,7 +104,7 @@
 
     <div
       class="bg-white/40 backdrop-blur-xl rounded-[48px] border border-white/50 p-10 min-h-[600px] shadow-2xl shadow-blue-100/50 z-10 relative">
-      <div class="animate-in slide-in-from-right-8 duration-500 space-y-8 max-w-5xl mx-auto">
+      <div class="animate-in slide-in-from-right-8 duration-500 space-y-8 max-w-6xl mx-auto">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-6">
             <button @click="goBack"

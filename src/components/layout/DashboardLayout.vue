@@ -12,11 +12,15 @@
       isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
     ]">
       <!-- Logo/Header -->
-      <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+      <div class="px-6 pt-7 border-b border-gray-200 flex items-center justify-between">
         <div>
-          <h1 class="text-xl font-bold text-blue-600">{{ $t('dashboard.sidebar.title') }}</h1>
-          <p class="text-xs text-gray-500 mt-1">{{ $t('dashboard.sidebar.subtitle') }}</p>
+          <img src="../../assets/logo/Logo.svg" alt="LMS Inter-AI" class="h-10 w-auto" />
+          <p class="text-xm text-gray-500 mt-1 ml-10">
+            <!-- {{ $t('dashboard.sidebar.subtitle') }} -->
+            LMS by Inter-AI
+          </p>
         </div>
+
         <!-- Close button for mobile -->
         <button @click="toggleSidebar" class="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100"
           aria-label="Close sidebar">
@@ -25,6 +29,7 @@
           </svg>
         </button>
       </div>
+
 
       <!-- Navigation Menu -->
       <nav class="flex-1 p-4 overflow-y-auto">
@@ -152,26 +157,6 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-            </button>
-
-            <!-- Tablet Preview -->
-            <button @click="setPreviewMode('tablet')" class="p-2 rounded-lg transition"
-              :class="previewMode === 'tablet' ? 'bg-blue-100 text-blue-600' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'"
-              :title="$t('dashboard.header.tabletView')">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-              </svg>
-            </button>
-
-            <!-- Mobile Preview -->
-            <button @click="setPreviewMode('mobile')" class="p-2 rounded-lg transition"
-              :class="previewMode === 'mobile' ? 'bg-blue-100 text-blue-600' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'"
-              :title="$t('dashboard.header.mobileView')">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
             </button>
           </div>
