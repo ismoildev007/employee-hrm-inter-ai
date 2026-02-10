@@ -120,16 +120,18 @@
         </div>
       </div>
 
-      <!-- Directions Grid in Card -->
-      <div class="px-6 lg:px-8 pb-6">
+      <!-- Directions Grid -->
+      <div class="px-6 lg:px-8 pb-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="direction in directions" :key="direction.id" @click="goToDirection(direction.id)"
             class="cursor-pointer w-full h-full text-left bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col justify-between group">
 
             <div class="w-12 h-12 bg-[#f0f4ff] rounded-xl flex items-center justify-center mb-6">
-              <svg class="w-6 h-6 text-[#3169e1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-book-open text-blue-600" aria-hidden="true">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
               </svg>
             </div>
 
@@ -141,9 +143,12 @@
                 DARS</span>
               <div
                 class="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-50 transition-colors">
-                <svg class="w-4 h-4 text-gray-300 group-hover:text-[#3169e1]" fill="none" stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="lucide lucide-arrow-right text-gray-400 group-hover:text-blue-600 transition-colors"
+                  aria-hidden="true">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
                 </svg>
               </div>
             </div>
@@ -155,8 +160,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { fetchEducationalFields, fetchBlocks } from '../../services/trainingService';
 
 const router = useRouter();
 const route = useRoute();
@@ -164,58 +170,71 @@ const route = useRoute();
 const blockId = computed(() => route.params.blockId);
 
 // Block data
-const blocks = {
-  1: { title: 'Chakana' },
-  2: { title: 'Korporativ / Yuridik' },
-  3: { title: 'IT' },
-  4: { title: 'Soft skill' },
-  5: { title: 'Chakana' },
-  6: { title: 'Korporativ / Yuridik' },
-  7: { title: 'IT' },
-  8: { title: 'Soft skill' }
-};
-
-const blockTitle = computed(() => blocks[blockId.value]?.title || 'Blok');
+const currentBlock = ref(null);
+const blockTitle = computed(() => currentBlock.value?.name || 'Blok');
 
 // Directions data
-const directions = ref([
-  {
-    id: 1,
-    title: 'Chakana kredit amaliyotlarini muvofiqlashtirish',
-    desc: 'Kreditlash jarayonlari va mijozlar bilan ishlash standartlari',
-    count: 12
-  },
-  {
-    id: 2,
-    title: 'Naqd pul va kassa amaliyotlari',
-    desc: 'Kassa operatsiyalari, valyuta ayirboshlash va hisobotlar',
-    count: 8
-  },
-  {
-    id: 3,
-    title: 'Chakana nokredit amaliyotlarini muvofiqlashtirish',
-    desc: 'Omonatlar, pul o\'tkazmalari va to\'lovlar tizimi',
-    count: 15
-  },
-  {
-    id: 4,
-    title: 'Mijozlarga xizmat ko\'rsatish standartlari',
-    desc: 'Bank xizmatlarini ko\'rsatishda mijozlar bilan muloqot etikasi',
-    count: 6
-  },
-  {
-    id: 5,
-    title: 'Bank kartalari bilan ishlash',
-    desc: 'Plastik kartalarni ochish, saqlash va ular bo\'yicha operatsiyalar',
-    count: 10
-  },
-  {
-    id: 6,
-    title: 'Raqamli bank xizmatlari',
-    desc: 'Mobil ilova va internet banking orqali xizmat ko\'rsatish',
-    count: 9
+const directions = ref([]);
+const loading = ref(true);
+const error = ref(null);
+
+// Fetch block data
+const loadBlockData = async () => {
+  try {
+    const response = await fetchBlocks();
+    
+    if (response.success && response.data && response.data.data) {
+      // Find the current block by ID
+      const block = response.data.data.find(b => b.id == blockId.value);
+      if (block) {
+        currentBlock.value = block;
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load block data:', err);
   }
-]);
+};
+
+// Fetch educational fields for the current block
+const loadDirections = async () => {
+  try {
+    loading.value = true;
+    error.value = null;
+    
+    const response = await fetchEducationalFields(blockId.value);
+    
+    if (response.success && response.data && response.data.data) {
+      // Map API response to component format
+      directions.value = response.data.data.map(field => ({
+        id: field.id,
+        title: field.name,
+        desc: field.description,
+        count: 0 // Placeholder for lesson count
+      }));
+    }
+  } catch (err) {
+    console.error('Failed to load educational fields:', err);
+    error.value = 'Ma\'lumotlarni yuklashda xatolik yuz berdi';
+    
+    // Fallback to mock data on error
+    directions.value = [
+      {
+        id: 1,
+        title: 'Chakana kredit amaliyotlarini muvofiqlashtirish',
+        desc: 'Kreditlash jarayonlari va mijozlar bilan ishlash standartlari',
+        count: 12
+      },
+      {
+        id: 2,
+        title: 'Naqd pul va kassa amaliyotlari',
+        desc: 'Kassa operatsiyalari, valyuta ayirboshlash va hisobotlar',
+        count: 8
+      }
+    ];
+  } finally {
+    loading.value = false;
+  }
+};
 
 const goBack = () => {
   router.push({ name: 'training-center' });
@@ -224,4 +243,9 @@ const goBack = () => {
 const goToDirection = (directionId) => {
   router.push({ name: 'direction-detail', params: { blockId: blockId.value, directionId } });
 };
+
+onMounted(async () => {
+  await loadBlockData();
+  await loadDirections();
+});
 </script>

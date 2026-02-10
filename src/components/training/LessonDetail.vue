@@ -87,69 +87,89 @@
           </div>
         </div>
 
-        <!-- Question Section (Optional) -->
-        <div v-if="lesson.question" class="bg-blue-50/50 rounded-xl p-6 border border-blue-100">
+
+        <!-- Tests Section -->
+        <div v-for="test in tests" :key="test.id" class="bg-blue-50/50 rounded-xl p-6 border border-blue-100">
           <div class="flex items-start gap-4 mb-6">
             <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
             <div>
-              <h3 class="text-lg font-bold text-slate-800 mb-2">Nazorat savoli</h3>
-              <p class="text-slate-600 text-sm leading-relaxed">{{ lesson.question.text }}</p>
+              <h3 class="text-lg font-bold text-slate-800 mb-2">{{ test.name }}</h3>
+              <p class="text-sm text-slate-600">{{ test.questions.length }} ta savol</p>
             </div>
           </div>
 
-          <div class="space-y-4">
-            <textarea v-model="userAnswer" rows="4"
-              class="w-full rounded-xl border-slate-200 focus:border-blue-500 focus:ring-blue-500 text-sm p-4 resize-none shadow-sm"
-              placeholder="Javobingizni bu yerga yozing..."></textarea>
-            <div class="flex justify-end">
-              <button @click="submitAnswer"
-                class="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-medium text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-600/20 flex items-center gap-2">
-                <span>Javobni yuborish</span>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </button>
+          <!-- Questions -->
+          <div class="space-y-6">
+            <div v-for="(question, qIndex) in test.questions" :key="question.id" class="bg-white rounded-lg p-4">
+              <p class="font-medium text-slate-800 mb-4">{{ qIndex + 1 }}. {{ question.question }}</p>
+
+              <!-- Single/Multiple Choice Options -->
+              <div v-if="question.type !== 'text'" class="space-y-2">
+                <label v-for="option in question.options" :key="option.id"
+                  class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 cursor-pointer transition"
+                  :class="{ 'bg-blue-50 border-blue-400': isAnswerSelected(question.id, option.id) }">
+                  <input :type="question.type === 'single_choice' ? 'radio' : 'checkbox'"
+                    :name="`question-${question.id}`" :value="option.id"
+                    @change="selectAnswer(question.id, option.id, question.type === 'multiple_choice')"
+                    :checked="isAnswerSelected(question.id, option.id)" class="w-4 h-4 text-blue-600">
+                  <span class="text-sm text-slate-700">{{ option.option_text }}</span>
+                </label>
+              </div>
+
+              <!-- Text Answer -->
+              <div v-else>
+                <textarea v-model="selectedAnswers[question.id]" rows="3"
+                  class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  placeholder="Javobingizni kiriting..."></textarea>
+              </div>
             </div>
+          </div>
+
+          <!-- Submit Test Button -->
+          <div class="mt-6 flex justify-end">
+            <button @click="submitTest(test.id)" :disabled="testSubmitted"
+              class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed font-medium">
+              {{ testSubmitted ? 'Topshirildi' : 'Testni topshirish' }}
+            </button>
           </div>
         </div>
 
-        <!-- Mark as Read / Navigation -->
-        <div class="pt-6 border-t border-gray-200">
-          <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-            <!-- Previous Button -->
-            <button v-if="hasPreviousLesson" @click="goToPreviousLesson"
-              class="flex items-center justify-center gap-2 text-gray-600 hover:text-gray-900 transition px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-              </svg>
-              <span class="text-sm sm:text-base font-medium">{{ $t('training.lesson.previousLesson') }}</span>
+        <!-- Feedback Section -->
+        <div v-if="tutorial?.feedback_enabled" class="bg-slate-50 rounded-xl p-6 border border-slate-100">
+          <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+            </svg>
+            Fikr-mulohaza qoldiring
+          </h3>
+          <p class="text-sm text-slate-600 mb-4">Ushbu dars haqida fikr-mulohazangizni yozing</p>
+          <textarea v-model="feedbackText" rows="4" :disabled="feedbackSubmitted"
+            class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none disabled:bg-slate-100"
+            placeholder="Fikr-mulohazangizni kiriting..."></textarea>
+          <div class="mt-4 flex justify-end">
+            <button @click="submitFeedbackForm" :disabled="feedbackSubmitted || !feedbackText.trim()"
+              class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed font-medium">
+              {{ feedbackSubmitted ? 'Yuborildi' : 'Yuborish' }}
             </button>
-            <div v-else></div>
-
-            <!-- Mark Read / Next Group -->
-            <div class="flex items-center gap-3">
-              <button v-if="!lesson.isRead" @click="markAsRead"
-                class="flex-1 sm:flex-none px-6 py-2.5 bg-green-600 text-white rounded-lg font-medium text-sm hover:bg-green-700 transition flex items-center justify-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                <span>{{ $t('training.lesson.markAsRead') }}</span>
-              </button>
-
-              <button v-if="hasNextLesson" @click="goToNextLesson"
-                class="flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition">
-                <span>{{ $t('training.lesson.nextLesson') }}</span>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
           </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+          <button @click="goBack"
+            class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium">
+            {{ $t('training.lesson.backToCourse') }}
+          </button>
+          <button @click="goToNextLesson"
+            class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
+            {{ $t('training.lesson.nextLesson') }}
+          </button>
         </div>
       </div>
     </div>
@@ -159,61 +179,144 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { fetchTutorialDetail, submitTestAttempt, submitFeedback } from '../../services/trainingService';
 
 const router = useRouter();
 const route = useRoute();
 
-const lessonId = computed(() => parseInt(route.params.lessonId));
 const blockId = computed(() => route.params.blockId);
 const directionId = computed(() => route.params.directionId);
+const lessonId = computed(() => route.params.lessonId);
+const lessonNumber = computed(() => 1); // Can be calculated based on position
 
-// Mock lesson data
-const lesson = ref({
-  id: 1,
-  title: 'Kredit tahlil metodologiyasi',
-  duration: 15,
-  isRead: false,
-  // New fields
-  videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Example video
-  videoType: 'iframe', // 'native' or 'iframe'
-  files: [
-    { name: 'Kredit_Siyosati_2024.pdf', size: '2.4 MB', ext: 'PDF', url: '#' },
-    { name: 'Tahlil_Namuna.docx', size: '156 KB', ext: 'DOC', url: '#' }
-  ],
-  question: {
-    id: 101,
-    text: "Kredit tahlilining asosiy maqsadi nima va u bank uchun qanday ahamiyatga ega? Qisqacha tushuntirib bering."
-  },
-  content: `
-    <h2>Kredit tahlili metodologiyasi</h2>
-    <p>Kredit tahlili - bu qarz oluvchining kreditga layoqatliligini baholash jarayoni.</p>
-    
-    <h3>Asosiy bosqichlar:</h3>
-    <ul>
-      <li>Mijozning moliyaviy holatini o'rganish</li>
-      <li>Kredit tarixini tekshirish</li>
-      <li>Garov ta'minotini baholash</li>
-      <li>Biznes rejani tahlil qilish</li>
-    </ul>
-  `
+// Data refs
+const tutorial = ref(null);
+const loading = ref(true);
+const error = ref(null);
+
+// Test state
+const selectedAnswers = ref({});
+const testSubmitted = ref(false);
+const testResult = ref(null);
+
+// Feedback state
+const feedbackText = ref('');
+const feedbackSubmitted = ref(false);
+
+// Computed lesson data
+const lesson = computed(() => {
+  if (!tutorial.value) {
+    return {
+      title: 'Yuklanmoqda...',
+      duration: 0,
+      content: '',
+      videoUrl: null,
+      videoType: 'native',
+      files: [],
+      isRead: false
+    };
+  }
+
+  return {
+    title: tutorial.value.name,
+    duration: tutorial.value.videos?.[0]?.duration_seconds ? Math.ceil(tutorial.value.videos[0].duration_seconds / 60) : 0,
+    content: tutorial.value.description || '',
+    videoUrl: tutorial.value.videos?.[0]?.video_file_path || null,
+    videoType: 'native',
+    files: tutorial.value.files?.map(file => ({
+      name: file.description || 'File',
+      ext: file.file_path?.split('.').pop()?.toUpperCase() || 'FILE',
+      size: '0 KB',
+      url: file.file_path
+    })) || [],
+    isRead: false
+  };
 });
 
-const userAnswer = ref('');
+// Tests data
+const tests = computed(() => tutorial.value?.tests || []);
 
-const submitAnswer = () => {
-  if (!userAnswer.value.trim()) return;
-  // TODO: Submit to API
-  console.log('Answer submitted:', userAnswer.value);
-  alert('Javobingiz qabul qilindi!');
-  userAnswer.value = '';
+// Load tutorial detail
+const loadTutorialDetail = async () => {
+  try {
+    loading.value = true;
+    error.value = null;
+
+    const response = await fetchTutorialDetail(lessonId.value);
+
+    if (response.success && response.data) {
+      tutorial.value = response.data;
+    }
+  } catch (err) {
+    console.error('Failed to load tutorial detail:', err);
+    error.value = 'Darsni yuklashda xatolik yuz berdi';
+  } finally {
+    loading.value = false;
+  }
 };
 
-const lessonNumber = computed(() => lessonId.value);
-const hasPreviousLesson = computed(() => lessonId.value > 1);
-const hasNextLesson = computed(() => lessonId.value < 12);
+// Handle answer selection
+const selectAnswer = (questionId, optionId, isMultiple) => {
+  if (isMultiple) {
+    if (!selectedAnswers.value[questionId]) {
+      selectedAnswers.value[questionId] = [];
+    }
+    const index = selectedAnswers.value[questionId].indexOf(optionId);
+    if (index > -1) {
+      selectedAnswers.value[questionId].splice(index, 1);
+    } else {
+      selectedAnswers.value[questionId].push(optionId);
+    }
+  } else {
+    selectedAnswers.value[questionId] = [optionId];
+  }
+};
 
-const markAsRead = () => {
-  lesson.value.isRead = true;
+// Check if answer is selected
+const isAnswerSelected = (questionId, optionId) => {
+  return selectedAnswers.value[questionId]?.includes(optionId) || false;
+};
+
+// Submit test
+const submitTest = async (testId) => {
+  try {
+    const answers = Object.keys(selectedAnswers.value).map(questionId => ({
+      question_id: parseInt(questionId),
+      option_ids: selectedAnswers.value[questionId]
+    }));
+
+    const response = await submitTestAttempt(lessonId.value, testId, answers);
+
+    if (response.success) {
+      testSubmitted.value = true;
+      testResult.value = response.data;
+      alert('Test muvaffaqiyatli topshirildi!');
+    }
+  } catch (err) {
+    console.error('Failed to submit test:', err);
+    alert('Testni topshirishda xatolik yuz berdi');
+  }
+};
+
+// Submit feedback
+const submitFeedbackForm = async () => {
+  if (!feedbackText.value.trim()) {
+    alert('Iltimos, fikr-mulohazangizni kiriting');
+    return;
+  }
+
+  try {
+    const response = await submitFeedback(lessonId.value, feedbackText.value);
+
+    if (response.success) {
+      feedbackSubmitted.value = true;
+      alert('Fikr-mulohazangiz uchun rahmat!');
+      feedbackText.value = '';
+    }
+  } catch (err) {
+    console.error('Failed to submit feedback:', err);
+    alert('Fikr-mulohazani yuborishda xatolik yuz berdi');
+  }
 };
 
 const goBack = () => {
@@ -226,37 +329,13 @@ const goBack = () => {
   });
 };
 
-const goToPreviousLesson = () => {
-  if (hasPreviousLesson.value) {
-    router.push({
-      name: 'lesson-detail',
-      params: {
-        blockId: blockId.value,
-        directionId: directionId.value,
-        lessonId: lessonId.value - 1
-      }
-    });
-  }
-};
-
 const goToNextLesson = () => {
-  if (hasNextLesson.value) {
-    router.push({
-      name: 'lesson-detail',
-      params: {
-        blockId: blockId.value,
-        directionId: directionId.value,
-        lessonId: lessonId.value + 1
-      }
-    });
-  }
+  // TODO: Navigate to next lesson
+  console.log('Go to next lesson');
 };
 
-// Load lesson data from API
-onMounted(() => {
-  // TODO: Fetch lesson data from API
-  // const data = await fetchLessonData(lessonId.value);
-  // lesson.value = data;
+onMounted(async () => {
+  await loadTutorialDetail();
 });
 </script>
 

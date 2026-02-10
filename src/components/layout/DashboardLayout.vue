@@ -191,11 +191,13 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import LanguageSwitcher from '../common/LanguageSwitcher.vue';
+import { getCurrentUser } from '../../services/authService';
 
 const router = useRouter();
 
-// User data
-const userName = ref('Tursunov Muhammadqodir Islomjon o\'g\'li');
+// User data from localStorage
+const currentUser = getCurrentUser();
+const userName = ref(currentUser ? `${currentUser.first_name} ${currentUser.last_name}` : 'User');
 const userRole = ref('MUTAXASSIS • XODIMLARNI BOSHQARISH DEPARTAMENTI');
 
 const userInitials = computed(() => {

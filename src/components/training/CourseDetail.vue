@@ -103,8 +103,9 @@
     </div>
 
     <div
-      class="bg-white/40 backdrop-blur-xl rounded-[48px] border border-white/50 p-10 min-h-[600px] shadow-2xl shadow-blue-100/50 z-10 relative">
-      <div class="animate-in slide-in-from-right-8 duration-500 space-y-8 max-w-6xl mx-auto">
+      class="bg-white/40 backdrop-blur-xl rounded-[48px] border border-white/50 p-1 min-h-[600px] shadow-2xl shadow-blue-100/50 z-10 relative">
+      <!-- Page Header -->
+      <div class="px-6 lg:px-8 py-6">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-6">
             <button @click="goBack"
@@ -121,66 +122,56 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Tutorials List -->
+      <div class="px-6 lg:px-8 pb-8">
+        <div class="flex items-center justify-between mb-6">
+          <!-- <h3 class="text-2xl font-black text-slate-800">{{ $t('training.courseDetail.lessonsTitle') }}</h3> -->
+          <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">{{ tutorials.length }} TA DARS</span>
+        </div>
+
         <div class="space-y-4">
-          <div class="flex items-center justify-between px-4">
-            <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Darslik mavzulari</h4>
-            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">1 TA DARS</span>
-          </div>
-          <div class="flex flex-col gap-4">
-            <div v-for="lesson in lessons" :key="lesson.id" @click="goToLesson(lesson.id)"
-              class="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl hover:border-blue-100 transition-all group flex items-center justify-between cursor-pointer">
-              <div class="flex items-center gap-8 min-w-0">
-                <div class="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button disabled=""
-                    class="p-1.5 text-slate-300 hover:text-blue-600 disabled:opacity-10 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          <div v-for="(tutorial, index) in tutorials" :key="tutorial.id" @click="goToLesson(tutorial.id)"
+            class="cursor-pointer bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all group">
+            <div class="flex items-center gap-6">
+              <div
+                class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center font-black text-2xl shadow-inner">
+                {{ index + 1 }}
+              </div>
+              <div class="flex-1">
+                <h4 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">{{
+                  tutorial.title }}</h4>
+                <div class="flex items-center gap-6">
+                  <span
+                    class="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      class="lucide lucide-arrow-up" aria-hidden="true">
-                      <path d="m5 12 7-7 7 7"></path>
-                      <path d="M12 19V5"></path>
-                    </svg>
-                  </button>
-                  <button disabled=""
-                    class="p-1.5 text-slate-300 hover:text-blue-600 disabled:opacity-10 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                      class="lucide lucide-clock text-blue-500" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg> {{ tutorial.duration }}
+                  </span>
+                  <span
+                    class="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      class="lucide lucide-arrow-down" aria-hidden="true">
-                      <path d="M12 5v14"></path>
-                      <path d="m19 12-7 7-7-7"></path>
-                    </svg>
-                  </button>
-                </div>
-                <div
-                  class="w-14 h-14 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center font-black text-xl shadow-inner group-hover:bg-blue-600 group-hover:text-white transition-all">
-                  {{ lesson.id }}</div>
-                <div class="min-w-0">
-                  <p class="font-black text-slate-800 truncate text-xl leading-tight">{{ lesson.title }}</p>
-                  <div class="flex items-center gap-4 mt-2">
-                    <span
-                      class="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-video text-red-500" aria-hidden="true">
-                        <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path>
-                        <rect x="2" y="6" width="14" height="12" rx="2"></rect>
-                      </svg> Video mavjud
-                    </span>
-                    <div class="w-1 h-1 bg-slate-200 rounded-full"></div>
-                    <span
-                      class="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-file-check text-green-500" aria-hidden="true">
-                        <path
-                          d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z">
-                        </path>
-                        <path d="M14 2v5a1 1 0 0 0 1 1h5"></path>
-                        <path d="m9 15 2 2 4-4"></path>
-                      </svg> 5 Savol
-                    </span>
-                  </div>
+                      class="lucide lucide-file-check text-green-500" aria-hidden="true">
+                      <path
+                        d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z">
+                      </path>
+                      <path d="M14 2v5a1 1 0 0 0 1 1h5"></path>
+                      <path d="m9 15 2 2 4-4"></path>
+                    </svg> {{ tutorial.lessons }} Savol
+                  </span>
                 </div>
               </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-chevron-right text-slate-400 group-hover:text-blue-600 transition-colors"
+                aria-hidden="true">
+                <path d="m9 18 6-6-6-6"></path>
+              </svg>
             </div>
           </div>
         </div>
@@ -190,8 +181,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { fetchTutorials, fetchEducationalFields, fetchBlocks } from '../../services/trainingService';
 
 const router = useRouter();
 const route = useRoute();
@@ -199,39 +191,104 @@ const route = useRoute();
 const blockId = computed(() => route.params.blockId);
 const directionId = computed(() => route.params.directionId);
 
-// Block data
-const blocks = {
-  1: { title: 'Chakana' },
-  2: { title: 'Korporativ / Yuridik' },
-  3: { title: 'IT' },
-  4: { title: 'Soft skill' }
-};
+// Data refs
+const currentBlock = ref(null);
+const currentDirection = ref(null);
+const tutorials = ref([]);
+const loading = ref(true);
+const error = ref(null);
 
-const blockTitle = computed(() => blocks[blockId.value]?.title || 'Blok');
+// Computed properties
+const blockTitle = computed(() => currentBlock.value?.name || 'Blok');
+const directionTitle = computed(() => currentDirection.value?.name || 'Yo\'nalish');
 
-// Direction data
-const directions = {
-  1: { title: 'Chakana kredit amaliyotlarini muvofiqlashtirish darsliklari' },
-  2: { title: 'Naqd pul va kassa amaliyotlari' },
-  3: { title: 'Chakana nokredit amaliyotlarini muvofiqlashtirish' }
-};
-
-const directionTitle = computed(() => directions[directionId.value]?.title || 'Yo\'nalish');
-
-// Lessons data
-const lessons = ref([
-  {
-    id: 1,
-    title: 'Kredit tahlil metodologiyasi',
-    duration: 5
+// Load block data
+const loadBlockData = async () => {
+  try {
+    const response = await fetchBlocks();
+    if (response.success && response.data && response.data.data) {
+      const block = response.data.data.find(b => b.id == blockId.value);
+      if (block) {
+        currentBlock.value = block;
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load block data:', err);
   }
-]);
+};
+
+// Load direction data
+const loadDirectionData = async () => {
+  try {
+    const response = await fetchEducationalFields(blockId.value);
+    if (response.success && response.data && response.data.data) {
+      const direction = response.data.data.find(d => d.id == directionId.value);
+      if (direction) {
+        currentDirection.value = direction;
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load direction data:', err);
+  }
+};
+
+// Load tutorials
+const loadTutorials = async () => {
+  try {
+    loading.value = true;
+    error.value = null;
+
+    const response = await fetchTutorials(directionId.value);
+
+    if (response.success && response.data && response.data.data) {
+      // Map API response to component format
+      tutorials.value = response.data.data.map(tutorial => ({
+        id: tutorial.id,
+        title: tutorial.name,
+        duration: '45 daqiqa', // Default duration, can be updated if API provides it
+        lessons: 5 // Default lessons count, can be updated if API provides it
+      }));
+    }
+  } catch (err) {
+    console.error('Failed to load tutorials:', err);
+    error.value = 'Darsliklarni yuklashda xatolik yuz berdi';
+
+    // Fallback to mock data on error
+    tutorials.value = [
+      {
+        id: 1,
+        title: 'Kredit tahlil metodologiyasi',
+        duration: '45 daqiqa',
+        lessons: 5
+      }
+    ];
+  } finally {
+    loading.value = false;
+  }
+};
 
 const goBack = () => {
   router.push({ name: 'block-detail', params: { blockId: blockId.value } });
 };
 
-const goToLesson = (lessonId) => {
-  router.push({ name: 'lesson-detail', params: { blockId: blockId.value, directionId: directionId.value, lessonId } });
+const goToLesson = (tutorialId) => {
+  router.push({
+    name: 'lesson-detail',
+    params: {
+      blockId: blockId.value,
+      directionId: directionId.value,
+      lessonId: tutorialId
+    }
+  });
 };
+
+onMounted(async () => {
+  await loadBlockData();
+  await loadDirectionData();
+  await loadTutorials();
+});
 </script>
+
+<style scoped>
+/* Add any component-specific styles here */
+</style>

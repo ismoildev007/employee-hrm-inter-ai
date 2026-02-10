@@ -136,16 +136,49 @@
 </template>
 
 <script setup>
-const blocks = [
-  { id: 1, title: 'Chakana', desc: 'Chakana bank xizmatlari va operatsiyalari', count: 4 },
-  { id: 2, title: 'Korporativ / Yuridik', desc: 'Yuridik shaxslar bilan ishlash va kreditlash', count: 3 },
-  { id: 3, title: 'IT', desc: 'Axborot texnologiyalari va qo\'llab-quvvatlash', count: 2 },
-  { id: 4, title: 'Soft skill', desc: 'Shaxsiy rivojlanish va muloqot standartlari', count: 2 },
-  { id: 5, title: 'Korporativ / Yuridik', desc: 'Yuridik shaxslar bilan ishlash va kreditlash', count: 2 },
-  { id: 6, title: 'IT', desc: 'Axborot texnologiyalari va qo\'llab-quvvatlash', count: 2 },
-  { id: 7, title: 'Chakana', desc: 'Chakana bank xizmatlari va operatsiyalari', count: 2 },
-  { id: 8, title: 'Soft skill', desc: 'Shaxsiy rivojlanish va muloqot standartlari', count: 2 },
-];
+import { ref, onMounted } from 'vue';
+import { fetchBlocks } from '../../services/trainingService';
+
+const blocks = ref([]);
+const loading = ref(true);
+const error = ref(null);
+
+// Fetch blocks from API
+const loadBlocks = async () => {
+  try {
+    loading.value = true;
+    error.value = null;
+
+    const response = await fetchBlocks();
+
+    if (response.success && response.data && response.data.data) {
+      // Map API response to component format
+      blocks.value = response.data.data.map(block => ({
+        id: block.id,
+        title: block.name,
+        desc: block.description,
+        count: 0 // Will be updated when we have direction counts
+      }));
+    }
+  } catch (err) {
+    console.error('Failed to load blocks:', err);
+    error.value = 'Ma\'lumotlarni yuklashda xatolik yuz berdi';
+
+    // Fallback to mock data on error
+    blocks.value = [
+      { id: 1, title: 'Chakana', desc: 'Chakana bank xizmatlari va operatsiyalari', count: 4 },
+      { id: 2, title: 'Korporativ / Yuridik', desc: 'Yuridik shaxslar bilan ishlash va kreditlash', count: 3 },
+      { id: 3, title: 'IT', desc: 'Axborot texnologiyalari va qo\'llab-quvvatlash', count: 2 },
+      { id: 4, title: 'Soft skill', desc: 'Shaxsiy rivojlanish va muloqot standartlari', count: 2 }
+    ];
+  } finally {
+    loading.value = false;
+  }
+};
+
+onMounted(() => {
+  loadBlocks();
+});
 </script>
 
 <style scoped>
