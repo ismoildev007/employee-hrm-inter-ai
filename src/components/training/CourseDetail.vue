@@ -132,48 +132,65 @@
         </div>
 
         <div class="space-y-4">
-          <div v-for="(tutorial, index) in tutorials" :key="tutorial.id" @click="goToLesson(tutorial.id)"
-            class="cursor-pointer bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all group">
-            <div class="flex items-center gap-6">
-              <div
-                class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center font-black text-2xl shadow-inner">
-                {{ index + 1 }}
-              </div>
-              <div class="flex-1">
-                <h4 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">{{
-                  tutorial.title }}</h4>
-                <div class="flex items-center gap-6">
-                  <span
-                    class="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      class="lucide lucide-clock text-blue-500" aria-hidden="true">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg> {{ tutorial.duration }}
-                  </span>
-                  <span
-                    class="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      class="lucide lucide-file-check text-green-500" aria-hidden="true">
-                      <path
-                        d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z">
-                      </path>
-                      <path d="M14 2v5a1 1 0 0 0 1 1h5"></path>
-                      <path d="m9 15 2 2 4-4"></path>
-                    </svg> {{ tutorial.lessons }} Savol
-                  </span>
+          <!-- Loading Skeletons -->
+          <template v-if="loading && tutorials.length === 0">
+            <div v-for="n in 4" :key="n"
+              class="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm animate-pulse">
+              <div class="flex items-center gap-6">
+                <div class="w-16 h-16 bg-slate-200 rounded-2xl"></div>
+                <div class="flex-1">
+                  <div class="h-6 bg-slate-200 rounded w-3/4 mb-2"></div>
+                  <div class="h-4 bg-slate-200 rounded w-1/2"></div>
                 </div>
               </div>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="lucide lucide-chevron-right text-slate-400 group-hover:text-blue-600 transition-colors"
-                aria-hidden="true">
-                <path d="m9 18 6-6-6-6"></path>
-              </svg>
             </div>
-          </div>
+          </template>
+
+          <!-- Actual Tutorials -->
+          <template v-else>
+            <div v-for="(tutorial, index) in tutorials" :key="tutorial.id" @click="goToLesson(tutorial.id)"
+              class="cursor-pointer bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all group">
+              <div class="flex items-center gap-6">
+                <div
+                  class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center font-black text-2xl shadow-inner">
+                  {{ index + 1 }}
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">{{
+                    tutorial.title }}</h4>
+                  <div class="flex items-center gap-6">
+                    <span
+                      class="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-clock text-blue-500" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg> {{ tutorial.duration }}
+                    </span>
+                    <span
+                      class="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-file-check text-green-500" aria-hidden="true">
+                        <path
+                          d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z">
+                        </path>
+                        <path d="M14 2v5a1 1 0 0 0 1 1h5"></path>
+                        <path d="m9 15 2 2 4-4"></path>
+                      </svg> {{ tutorial.lessons }} Savol
+                    </span>
+                  </div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="lucide lucide-chevron-right text-slate-400 group-hover:text-blue-600 transition-colors"
+                  aria-hidden="true">
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -197,10 +214,41 @@ const currentDirection = ref(null);
 const tutorials = ref([]);
 const loading = ref(true);
 const error = ref(null);
+const directionTitle = ref('');
+const blockTitle = ref('');
 
-// Computed properties
-const blockTitle = computed(() => currentBlock.value?.name || 'Blok');
-const directionTitle = computed(() => currentDirection.value?.name || 'Yo\'nalish');
+// Cache key for sessionStorage
+const getCacheKey = () => `tutorials_${route.params.blockId}_${route.params.directionId}`;
+
+// Load cached data from sessionStorage
+const loadCachedData = () => {
+  try {
+    const cached = sessionStorage.getItem(getCacheKey());
+    if (cached) {
+      const data = JSON.parse(cached);
+      tutorials.value = data.tutorials || [];
+      directionTitle.value = data.directionTitle || '';
+      blockTitle.value = data.blockTitle || '';
+      return true;
+    }
+  } catch (err) {
+    console.error('Failed to load cached tutorials:', err);
+  }
+  return false;
+};
+
+// Save data to sessionStorage
+const saveCachedData = (tutorialsData, dirTitle, blkTitle) => {
+  try {
+    sessionStorage.setItem(getCacheKey(), JSON.stringify({
+      tutorials: tutorialsData,
+      directionTitle: dirTitle,
+      blockTitle: blkTitle
+    }));
+  } catch (err) {
+    console.error('Failed to cache tutorials:', err);
+  }
+};
 
 // Load block data
 const loadBlockData = async () => {
@@ -210,6 +258,7 @@ const loadBlockData = async () => {
       const block = response.data.data.find(b => b.id == blockId.value);
       if (block) {
         currentBlock.value = block;
+        blockTitle.value = block.name; // Set blockTitle ref
       }
     }
   } catch (err) {
@@ -225,11 +274,18 @@ const loadDirectionData = async () => {
       const direction = response.data.data.find(d => d.id == directionId.value);
       if (direction) {
         currentDirection.value = direction;
+        directionTitle.value = direction.name; // Set directionTitle ref
       }
     }
   } catch (err) {
     console.error('Failed to load direction data:', err);
   }
+};
+
+// Combined function to load breadcrumb data (block and direction titles)
+const loadBreadcrumbData = async () => {
+  await loadBlockData();
+  await loadDirectionData();
 };
 
 // Load tutorials
@@ -242,26 +298,30 @@ const loadTutorials = async () => {
 
     if (response.success && response.data && response.data.data) {
       // Map API response to component format
-      tutorials.value = response.data.data.map(tutorial => ({
+      const mappedTutorials = response.data.data.map(tutorial => ({
         id: tutorial.id,
         title: tutorial.name,
         duration: '45 daqiqa', // Default duration, can be updated if API provides it
         lessons: 5 // Default lessons count, can be updated if API provides it
       }));
+      tutorials.value = mappedTutorials;
+      saveCachedData(mappedTutorials, directionTitle.value, blockTitle.value);
     }
   } catch (err) {
     console.error('Failed to load tutorials:', err);
     error.value = 'Darsliklarni yuklashda xatolik yuz berdi';
 
     // Fallback to mock data on error
-    tutorials.value = [
-      {
-        id: 1,
-        title: 'Kredit tahlil metodologiyasi',
-        duration: '45 daqiqa',
-        lessons: 5
-      }
-    ];
+    if (tutorials.value.length === 0) { // Only fallback if no cached data or initial load failed
+      tutorials.value = [
+        {
+          id: 1,
+          title: 'Kredit tahlil metodologiyasi',
+          duration: '45 daqiqa',
+          lessons: 5
+        }
+      ];
+    }
   } finally {
     loading.value = false;
   }
@@ -282,9 +342,18 @@ const goToLesson = (tutorialId) => {
   });
 };
 
+// Load data on mount
 onMounted(async () => {
-  await loadBlockData();
-  await loadDirectionData();
+  // First, try to load cached data
+  const hasCachedData = loadCachedData();
+
+  // If we have cached data, show it immediately
+  if (hasCachedData) {
+    loading.value = false;
+  }
+
+  // Then fetch fresh data in the background
+  await loadBreadcrumbData();
   await loadTutorials();
 });
 </script>
@@ -292,3 +361,4 @@ onMounted(async () => {
 <style scoped>
 /* Add any component-specific styles here */
 </style>
+```

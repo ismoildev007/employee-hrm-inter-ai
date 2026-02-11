@@ -120,39 +120,47 @@
         </div>
       </div>
 
-      <!-- Directions Grid -->
+      <!-- Educational Fields Grid -->
       <div class="px-6 lg:px-8 pb-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div v-for="direction in directions" :key="direction.id" @click="goToDirection(direction.id)"
-            class="cursor-pointer w-full h-full text-left bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col justify-between group">
+          <!-- Loading Skeletons -->
+          <template v-if="loading && directions.length === 0">
+            <SkeletonCard v-for="n in 6" :key="n" />
+          </template>
 
-            <div class="w-12 h-12 bg-[#f0f4ff] rounded-xl flex items-center justify-center mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="lucide lucide-book-open text-blue-600" aria-hidden="true">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-              </svg>
-            </div>
+          <!-- Actual Fields -->
+          <template v-else>
+            <div v-for="direction in directions" :key="direction.id" @click="goToDirection(direction.id)"
+              class="cursor-pointer w-full h-full text-left bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col justify-between group">
 
-            <h3 class="text-[17px] font-bold text-[#1a2b50] mb-2 line-clamp-2">{{ direction.title }}</h3>
-            <p class="text-[13px] text-gray-400 leading-relaxed mb-8 line-clamp-3">{{ direction.desc }}</p>
-
-            <div class="flex items-center justify-between mt-auto">
-              <span class="text-[11px] font-black text-[#3169e1] uppercase tracking-wider">{{ direction.count }}
-                DARS</span>
-              <div
-                class="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-50 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              <div class="w-12 h-12 bg-[#f0f4ff] rounded-xl flex items-center justify-center mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="lucide lucide-arrow-right text-gray-400 group-hover:text-blue-600 transition-colors"
-                  aria-hidden="true">
-                  <path d="M5 12h14"></path>
-                  <path d="m12 5 7 7-7 7"></path>
+                  class="lucide lucide-book-open text-blue-600" aria-hidden="true">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                 </svg>
               </div>
+
+              <h3 class="text-[17px] font-bold text-[#1a2b50] mb-2 line-clamp-2">{{ direction.title }}</h3>
+              <p class="text-[13px] text-gray-400 leading-relaxed mb-8 line-clamp-3">{{ direction.desc }}</p>
+
+              <div class="flex items-center justify-between mt-auto">
+                <span class="text-[11px] font-black text-[#3169e1] uppercase tracking-wider">{{ direction.count }}
+                  DARS</span>
+                <div
+                  class="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-50 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-arrow-right text-gray-400 group-hover:text-blue-600 transition-colors"
+                    aria-hidden="true">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                  </svg>
+                </div>
+              </div>
             </div>
-          </div>
+          </template>
         </div>
       </div>
     </div>
@@ -163,6 +171,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { fetchEducationalFields, fetchBlocks } from '../../services/trainingService';
+import SkeletonCard from '../common/SkeletonCard.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -171,23 +180,50 @@ const blockId = computed(() => route.params.blockId);
 
 // Block data
 const currentBlock = ref(null);
-const blockTitle = computed(() => currentBlock.value?.name || 'Blok');
-
 // Directions data
 const directions = ref([]);
 const loading = ref(true);
 const error = ref(null);
+const blockTitle = ref('');
+
+// Cache key for sessionStorage
+const getCacheKey = () => `educational_fields_${route.params.blockId}`;
+
+// Load cached data from sessionStorage
+const loadCachedData = () => {
+  try {
+    const cached = sessionStorage.getItem(getCacheKey());
+    if (cached) {
+      const data = JSON.parse(cached);
+      directions.value = data.fields || [];
+      blockTitle.value = data.blockTitle || '';
+      return true;
+    }
+  } catch (err) {
+    console.error('Failed to load cached educational fields:', err);
+  }
+  return false;
+};
+
+// Save data to sessionStorage
+const saveCachedData = (fields, title) => {
+  try {
+    sessionStorage.setItem(getCacheKey(), JSON.stringify({ fields, blockTitle: title }));
+  } catch (err) {
+    console.error('Failed to cache educational fields:', err);
+  }
+};
 
 // Fetch block data
 const loadBlockData = async () => {
   try {
     const response = await fetchBlocks();
-    
+
     if (response.success && response.data && response.data.data) {
       // Find the current block by ID
       const block = response.data.data.find(b => b.id == blockId.value);
       if (block) {
-        currentBlock.value = block;
+        blockTitle.value = block.name;
       }
     }
   } catch (err) {
@@ -196,26 +232,28 @@ const loadBlockData = async () => {
 };
 
 // Fetch educational fields for the current block
-const loadDirections = async () => {
+const loadEducationalFields = async () => {
   try {
     loading.value = true;
     error.value = null;
-    
+
     const response = await fetchEducationalFields(blockId.value);
-    
+
     if (response.success && response.data && response.data.data) {
       // Map API response to component format
-      directions.value = response.data.data.map(field => ({
+      const mappedFields = response.data.data.map(field => ({
         id: field.id,
         title: field.name,
         desc: field.description,
-        count: 0 // Placeholder for lesson count
+        count: field.tutorials_count || 0 // Placeholder for lesson count
       }));
+      directions.value = mappedFields;
+      saveCachedData(mappedFields, blockTitle.value);
     }
   } catch (err) {
     console.error('Failed to load educational fields:', err);
     error.value = 'Ma\'lumotlarni yuklashda xatolik yuz berdi';
-    
+
     // Fallback to mock data on error
     directions.value = [
       {
@@ -244,8 +282,20 @@ const goToDirection = (directionId) => {
   router.push({ name: 'direction-detail', params: { blockId: blockId.value, directionId } });
 };
 
+// Load data on mount
 onMounted(async () => {
+  // First, try to load cached data
+  const hasCachedData = loadCachedData();
+
+  // If we have cached data, show it immediately
+  if (hasCachedData) {
+    loading.value = false;
+  }
+
+  // Always load block data to ensure blockTitle is up-to-date
   await loadBlockData();
-  await loadDirections();
+
+  // Then fetch fresh data in the background
+  await loadEducationalFields();
 });
 </script>

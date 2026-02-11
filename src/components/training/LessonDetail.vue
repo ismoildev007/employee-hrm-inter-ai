@@ -9,7 +9,14 @@
     </button>
 
     <!-- Lesson Content -->
-    <div class="bg-white rounded-xl shadow-sm">
+    <div v-if="loading && !tutorial" class="bg-white rounded-xl shadow-sm p-8 animate-pulse">
+      <div class="h-8 bg-slate-200 rounded w-3/4 mb-4"></div>
+      <div class="h-4 bg-slate-200 rounded w-1/2 mb-8"></div>
+      <div class="h-64 bg-slate-200 rounded mb-4"></div>
+      <div class="h-32 bg-slate-200 rounded"></div>
+    </div>
+
+    <div v-else class="bg-white rounded-xl shadow-sm">
       <!-- Lesson Header -->
       <div class="p-4 sm:p-6 lg:p-8 border-b border-gray-200">
         <div class="flex items-start justify-between mb-4">
@@ -97,9 +104,10 @@
                   d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <div>
+            <div class="flex-1">
               <h3 class="text-lg font-bold text-slate-800 mb-2">{{ test.name }}</h3>
               <p class="text-sm text-slate-600">{{ test.questions.length }} ta savol</p>
+              <p v-if="isTestAttempted" class="text-sm text-green-600 font-medium mt-1">✓ Test topshirilgan</p>
             </div>
           </div>
 
@@ -111,20 +119,25 @@
               <!-- Single/Multiple Choice Options -->
               <div v-if="question.type !== 'text'" class="space-y-2">
                 <label v-for="option in question.options" :key="option.id"
-                  class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 cursor-pointer transition"
-                  :class="{ 'bg-blue-50 border-blue-400': isAnswerSelected(question.id, option.id) }">
+                  class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer transition"
+                  :class="{
+                    'bg-blue-50 border-blue-400': isAnswerSelected(question.id, option.id),
+                    'hover:border-blue-300 hover:bg-blue-50/50': !isTestAttempted,
+                    'opacity-60 cursor-not-allowed': isTestAttempted
+                  }">
                   <input :type="question.type === 'single_choice' ? 'radio' : 'checkbox'"
                     :name="`question-${question.id}`" :value="option.id"
                     @change="selectAnswer(question.id, option.id, question.type === 'multiple_choice')"
-                    :checked="isAnswerSelected(question.id, option.id)" class="w-4 h-4 text-blue-600">
+                    :checked="isAnswerSelected(question.id, option.id)" :disabled="isTestAttempted"
+                    class="w-4 h-4 text-blue-600 disabled:opacity-50">
                   <span class="text-sm text-slate-700">{{ option.option_text }}</span>
                 </label>
               </div>
 
               <!-- Text Answer -->
               <div v-else>
-                <textarea v-model="selectedAnswers[question.id]" rows="3"
-                  class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                <textarea v-model="selectedAnswers[question.id]" rows="3" :disabled="isTestAttempted"
+                  class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none disabled:bg-slate-100 disabled:cursor-not-allowed"
                   placeholder="Javobingizni kiriting..."></textarea>
               </div>
             </div>
@@ -132,30 +145,34 @@
 
           <!-- Submit Test Button -->
           <div class="mt-6 flex justify-end">
-            <button @click="submitTest(test.id)" :disabled="testSubmitted"
+            <button @click="submitTest(test.id)" :disabled="!canSubmitTest(test)"
               class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed font-medium">
-              {{ testSubmitted ? 'Topshirildi' : 'Testni topshirish' }}
+              {{ isTestAttempted ? 'Test topshirilgan' : 'Testni topshirish' }}
             </button>
           </div>
         </div>
 
         <!-- Feedback Section -->
         <div v-if="tutorial?.feedback_enabled" class="bg-slate-50 rounded-xl p-6 border border-slate-100">
-          <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-start gap-2 mb-4">
+            <svg class="w-5 h-5 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
             </svg>
-            Fikr-mulohaza qoldiring
-          </h3>
+            <div class="flex-1">
+              <h3 class="text-lg font-bold text-slate-800">Fikr-mulohaza qoldiring</h3>
+              <p v-if="isFeedbackAttempted" class="text-sm text-green-600 font-medium mt-1">✓ Fikr-mulohaza yuborilgan
+              </p>
+            </div>
+          </div>
           <p class="text-sm text-slate-600 mb-4">Ushbu dars haqida fikr-mulohazangizni yozing</p>
-          <textarea v-model="feedbackText" rows="4" :disabled="feedbackSubmitted"
-            class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none disabled:bg-slate-100"
+          <textarea v-model="feedbackText" rows="4" :disabled="isFeedbackAttempted"
+            class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none disabled:bg-slate-100 disabled:cursor-not-allowed"
             placeholder="Fikr-mulohazangizni kiriting..."></textarea>
           <div class="mt-4 flex justify-end">
-            <button @click="submitFeedbackForm" :disabled="feedbackSubmitted || !feedbackText.trim()"
+            <button @click="submitFeedbackForm" :disabled="isFeedbackAttempted || !feedbackText.trim()"
               class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed font-medium">
-              {{ feedbackSubmitted ? 'Yuborildi' : 'Yuborish' }}
+              {{ isFeedbackAttempted ? 'Yuborilgan' : 'Yuborish' }}
             </button>
           </div>
         </div>
@@ -194,6 +211,45 @@ const tutorial = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
+// Cache key for sessionStorage
+const getCacheKey = () => `tutorial_detail_${route.params.lessonId}`;
+
+// Load cached data from sessionStorage
+const loadCachedData = () => {
+  try {
+    const cached = sessionStorage.getItem(getCacheKey());
+    if (cached) {
+      const data = JSON.parse(cached);
+      tutorial.value = data.tutorial;
+      lesson.value = data.lesson;
+      selectedAnswers.value = data.selectedAnswers || {};
+      feedbackText.value = data.feedbackText || '';
+      testSubmitted.value = data.testSubmitted || false;
+      feedbackSubmitted.value = data.feedbackSubmitted || false;
+      return true;
+    }
+  } catch (err) {
+    console.error('Failed to load cached tutorial:', err);
+  }
+  return false;
+};
+
+// Save data to sessionStorage
+const saveCachedData = () => {
+  try {
+    sessionStorage.setItem(getCacheKey(), JSON.stringify({
+      tutorial: tutorial.value,
+      lesson: lesson.value,
+      selectedAnswers: selectedAnswers.value,
+      feedbackText: feedbackText.value,
+      testSubmitted: testSubmitted.value,
+      feedbackSubmitted: feedbackSubmitted.value
+    }));
+  } catch (err) {
+    console.error('Failed to cache tutorial:', err);
+  }
+};
+
 // Test state
 const selectedAnswers = ref({});
 const testSubmitted = ref(false);
@@ -202,6 +258,30 @@ const testResult = ref(null);
 // Feedback state
 const feedbackText = ref('');
 const feedbackSubmitted = ref(false);
+
+// Check if test already attempted from API
+const isTestAttempted = computed(() => tutorial.value?.test_attempted || false);
+
+// Check if feedback already attempted from API
+const isFeedbackAttempted = computed(() => tutorial.value?.feedback_attempted || false);
+
+// Check if all questions are answered for a test
+const areAllQuestionsAnswered = (test) => {
+  if (!test || !test.questions) return false;
+
+  return test.questions.every(question => {
+    if (question.type === 'text') {
+      return selectedAnswers.value[question.id] && selectedAnswers.value[question.id].trim().length > 0;
+    } else {
+      return selectedAnswers.value[question.id] && selectedAnswers.value[question.id].length > 0;
+    }
+  });
+};
+
+// Check if submit button should be enabled for a specific test
+const canSubmitTest = (test) => {
+  return !isTestAttempted.value && areAllQuestionsAnswered(test);
+};
 
 // Computed lesson data
 const lesson = computed(() => {
@@ -246,6 +326,13 @@ const loadTutorialDetail = async () => {
 
     if (response.success && response.data) {
       tutorial.value = response.data;
+
+      // Set submitted states from API
+      testSubmitted.value = response.data.test_attempted || false;
+      feedbackSubmitted.value = response.data.feedback_attempted || false;
+
+      // Save to cache
+      saveCachedData();
     }
   } catch (err) {
     console.error('Failed to load tutorial detail:', err);
@@ -257,6 +344,9 @@ const loadTutorialDetail = async () => {
 
 // Handle answer selection
 const selectAnswer = (questionId, optionId, isMultiple) => {
+  // Don't allow selection if test already attempted
+  if (isTestAttempted.value) return;
+
   if (isMultiple) {
     if (!selectedAnswers.value[questionId]) {
       selectedAnswers.value[questionId] = [];
@@ -334,7 +424,17 @@ const goToNextLesson = () => {
   console.log('Go to next lesson');
 };
 
+// Load data on mount
 onMounted(async () => {
+  // First, try to load cached data
+  const hasCachedData = loadCachedData();
+
+  // If we have cached data, show it immediately
+  if (hasCachedData) {
+    loading.value = false;
+  }
+
+  // Then fetch fresh data in the background
   await loadTutorialDetail();
 });
 </script>

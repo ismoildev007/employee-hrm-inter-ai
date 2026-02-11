@@ -185,11 +185,39 @@ export const submitFeedback = async (tutorialId, feedbackText) => {
     }
 };
 
+/**
+ * Fetch dashboard data
+ * @returns {Promise<Object>} Dashboard data with stats, recent attempts, recommended tutorials, and feedbacks
+ */
+export const fetchDashboard = async () => {
+    try {
+        const response = await fetch(buildUrl('/user/dashboard'), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'x-api-key': '09d5a8233bfb55786ab182166694cd85a96f4c7f831b9ae9f1f7454c4b11c12f'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Error fetching dashboard:', error);
+        throw error;
+    }
+};
+
 export default {
     fetchBlocks,
     fetchEducationalFields,
     fetchTutorials,
     fetchTutorialDetail,
     submitTestAttempt,
-    submitFeedback
+    submitFeedback,
+    fetchDashboard
 };

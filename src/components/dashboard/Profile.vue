@@ -236,38 +236,81 @@
               <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"></path>
             </svg> Test Natijalari &amp; Tahlil</h2>
           <div class="space-y-4 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
-            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-3 hover:bg-white transition-all">
+            <!-- Loading State -->
+            <div v-if="loading" class="p-4 bg-slate-50 rounded-2xl border border-slate-100 animate-pulse">
+              <div class="h-6 bg-slate-200 rounded w-3/4 mb-2"></div>
+              <div class="h-4 bg-slate-200 rounded w-1/2"></div>
+            </div>
+
+            <!-- No Data State -->
+            <div v-else-if="!recentAttempts || recentAttempts.length === 0"
+              class="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center">
+              <p class="text-sm text-slate-500">Hali test topshirilmagan</p>
+            </div>
+
+            <!-- Recent Attempts from API -->
+            <div v-else v-for="attempt in recentAttempts" :key="attempt.id"
+              class="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-3 hover:bg-white transition-all">
               <div class="flex justify-between items-center">
                 <div>
-                  <h4 class="font-bold text-slate-800">Kichik va o'rta biznes</h4>
-                  <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">2024-03-01</p>
+                  <h4 class="font-bold text-slate-800">{{ attempt.tutorial?.name || 'Test' }}</h4>
+                  <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{{
+                    formatDate(attempt.created_at) }}</p>
                 </div>
-                <div class="px-4 py-1.5 rounded-xl font-black text-sm bg-green-100 text-green-700 shadow-sm">7/10
+                <div class="px-4 py-1.5 rounded-xl font-black text-sm shadow-sm"
+                  :class="getScoreClass(attempt.correct_count, attempt.total_questions)">
+                  {{ attempt.correct_count }}/{{ attempt.total_questions }}
                 </div>
               </div>
-              <div class="pt-2 border-t border-slate-200">
+              <div v-if="attempt.incorrect_count > 0" class="pt-2 border-t border-slate-200">
                 <p class="text-[10px] font-black text-red-500 uppercase mb-2 tracking-widest">Xatolar tahlili:</p>
                 <ul class="space-y-1">
-                  <li class="text-xs text-slate-600 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg"
-                      width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x text-red-400"
-                      aria-hidden="true">
+                  <li class="text-xs text-slate-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="lucide lucide-circle-x text-red-400" aria-hidden="true">
                       <circle cx="12" cy="12" r="10"></circle>
                       <path d="m15 9-6 6"></path>
                       <path d="m9 9 6 6"></path>
-                    </svg> Savol #2: AI tavsiya qilgan mavzu ustida ishlang.</li>
-                  <li class="text-xs text-slate-600 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg"
-                      width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x text-red-400"
-                      aria-hidden="true">
+                    </svg>
+                    {{ attempt.incorrect_count }} ta noto'g'ri javob
+                  </li>
+                  <li v-if="attempt.pending_count > 0" class="text-xs text-slate-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="lucide lucide-clock text-yellow-400" aria-hidden="true">
                       <circle cx="12" cy="12" r="10"></circle>
-                      <path d="m15 9-6 6"></path>
-                      <path d="m9 9 6 6"></path>
-                    </svg> Savol #5: AI tavsiya qilgan mavzu ustida ishlang.</li>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    {{ attempt.pending_count }} ta tekshirilmagan
+                  </li>
                 </ul>
               </div>
             </div>
           </div>
+          <div class="px-4 py-1.5 rounded-xl font-black text-sm bg-green-100 text-green-700 shadow-sm">7/10
+          </div>
+        </div>
+        <div class="pt-2 border-t border-slate-200">
+          <p class="text-[10px] font-black text-red-500 uppercase mb-2 tracking-widest">Xatolar tahlili:</p>
+          <ul class="space-y-1">
+            <li class="text-xs text-slate-600 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg"
+                width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x text-red-400"
+                aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m15 9-6 6"></path>
+                <path d="m9 9 6 6"></path>
+              </svg> Savol #2: AI tavsiya qilgan mavzu ustida ishlang.</li>
+            <li class="text-xs text-slate-600 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg"
+                width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x text-red-400"
+                aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m15 9-6 6"></path>
+                <path d="m9 9 6 6"></path>
+              </svg> Savol #5: AI tavsiya qilgan mavzu ustida ishlang.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -275,8 +318,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { Radar } from 'vue-chartjs';
+import { fetchDashboard } from '../../services/trainingService';
+import { getCurrentUser } from '../../services/authService';
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -297,14 +342,28 @@ ChartJS.register(
   Legend
 );
 
-// Static user data
+// Get current user from localStorage
+const currentUser = getCurrentUser();
+
+// Dynamic user data from API
 const userData = ref({
-  fullName: 'Tursunov Muhammadqodir Islomjon o\'g\'li',
+  fullName: currentUser ? `${currentUser.first_name} ${currentUser.last_name}` : 'User',
   position: 'MUTAXASSIS',
   department: 'XODIMLARNI BOSHQARISH DEPARTAMENTI',
   kpi: 77,
-  salary: 5254870
+  salary: 6316294
 });
+
+// Dashboard data from API
+const dashboardData = ref(null);
+const loading = ref(true);
+const error = ref(null);
+
+// Computed properties for dashboard data
+const recentAttempts = computed(() => dashboardData.value?.recent_attempts || []);
+const recommendedTutorials = computed(() => dashboardData.value?.recommended_tutorials || []);
+const recentFeedbacks = computed(() => dashboardData.value?.recent_feedbacks || []);
+const stats = computed(() => dashboardData.value?.stats || {});
 
 const userInitials = computed(() => {
   const names = userData.value.fullName.split(' ');
@@ -380,17 +439,49 @@ const testResults = ref({
   ]
 });
 
-// Additional stats
-const stats = ref({
-  completedCourses: 12,
-  certificates: 8,
-  totalScore: 456
-});
-
 // Format salary with thousand separators
 const formatSalary = (amount) => {
   return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
+
+// Format date
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  return date.toLocaleDateString('uz-UZ', { year: 'numeric', month: '2-digit', day: '2-digit' });
+};
+
+// Get score class based on correct/total ratio
+const getScoreClass = (correct, total) => {
+  const percentage = (correct / total) * 100;
+  if (percentage >= 80) return 'bg-green-100 text-green-700';
+  if (percentage >= 60) return 'bg-yellow-100 text-yellow-700';
+  return 'bg-red-100 text-red-700';
+};
+
+// Load dashboard data
+const loadDashboard = async () => {
+  try {
+    loading.value = true;
+    error.value = null;
+
+    const response = await fetchDashboard();
+
+    if (response.success && response.data) {
+      dashboardData.value = response.data;
+    }
+  } catch (err) {
+    console.error('Failed to load dashboard:', err);
+    error.value = 'Dashboard ma\'lumotlarini yuklashda xatolik';
+  } finally {
+    loading.value = false;
+  }
+};
+
+// Load data on mount
+onMounted(async () => {
+  await loadDashboard();
+});
 </script>
 
 <style scoped>

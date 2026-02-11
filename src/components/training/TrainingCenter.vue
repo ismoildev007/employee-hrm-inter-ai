@@ -104,32 +104,41 @@
         </button>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <router-link v-for="block in blocks" :key="block.id"
-          :to="{ name: 'block-detail', params: { blockId: block.id } }"
-          class="w-full h-full text-left bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col justify-between">
-          <div class="w-12 h-12 bg-[#f0f4ff] rounded-xl flex items-center justify-center mb-6">
-            <svg class="w-6 h-6 text-[#3169e1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-            </svg>
-          </div>
+      <!-- Blocks Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Loading Skeletons -->
+        <template v-if="loading && blocks.length === 0">
+          <SkeletonCard v-for="n in 6" :key="n" />
+        </template>
 
-          <h3 class="text-[17px] font-bold text-[#1a2b50] mb-2">{{ block.title }}</h3>
-          <p class="text-[13px] text-gray-400 leading-relaxed mb-8">{{ block.desc }}</p>
-
-          <div class="flex items-center justify-between mt-auto">
-            <span class="text-[11px] font-black text-[#3169e1] uppercase tracking-wider">{{ block.count }}
-              YO'NALISH</span>
-            <div
-              class="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-50 transition-colors">
-              <svg class="w-4 h-4 text-gray-300 group-hover:text-[#3169e1]" fill="none" stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        <!-- Actual Blocks -->
+        <template v-else>
+          <router-link v-for="block in blocks" :key="block.id"
+            :to="{ name: 'block-detail', params: { blockId: block.id } }"
+            class="w-full h-full text-left bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col justify-between">
+            <div class="w-12 h-12 bg-[#f0f4ff] rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-[#3169e1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
             </div>
-          </div>
-        </router-link>
+
+            <h3 class="text-[17px] font-bold text-[#1a2b50] mb-2">{{ block.title }}</h3>
+            <p class="text-[13px] text-gray-400 leading-relaxed mb-8">{{ block.desc }}</p>
+
+            <div class="flex items-center justify-between mt-auto">
+              <span class="text-[11px] font-black text-[#3169e1] uppercase tracking-wider">{{ block.count }}
+                YO'NALISH</span>
+              <div
+                class="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-50 transition-colors">
+                <svg class="w-4 h-4 text-gray-300 group-hover:text-[#3169e1]" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </router-link>
+        </template>
       </div>
     </div>
   </div>
@@ -137,11 +146,40 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { fetchBlocks } from '../../services/trainingService';
+import SkeletonCard from '../common/SkeletonCard.vue';
 
 const blocks = ref([]);
 const loading = ref(true);
 const error = ref(null);
+
+// Cache key for sessionStorage
+const CACHE_KEY = 'training_blocks_cache';
+
+// Load cached data from sessionStorage
+const loadCachedData = () => {
+  try {
+    const cached = sessionStorage.getItem(CACHE_KEY);
+    if (cached) {
+      const data = JSON.parse(cached);
+      blocks.value = data;
+      return true;
+    }
+  } catch (err) {
+    console.error('Failed to load cached blocks:', err);
+  }
+  return false;
+};
+
+// Save data to sessionStorage
+const saveCachedData = (data) => {
+  try {
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(data));
+  } catch (err) {
+    console.error('Failed to cache blocks:', err);
+  }
+};
 
 // Fetch blocks from API
 const loadBlocks = async () => {
@@ -153,31 +191,46 @@ const loadBlocks = async () => {
 
     if (response.success && response.data && response.data.data) {
       // Map API response to component format
-      blocks.value = response.data.data.map(block => ({
+      const mappedBlocks = response.data.data.map(block => ({
         id: block.id,
         title: block.name,
         desc: block.description,
-        count: 0 // Will be updated when we have direction counts
+        count: block.educational_fields_count || 0
       }));
+
+      blocks.value = mappedBlocks;
+      saveCachedData(mappedBlocks);
     }
   } catch (err) {
     console.error('Failed to load blocks:', err);
     error.value = 'Ma\'lumotlarni yuklashda xatolik yuz berdi';
 
-    // Fallback to mock data on error
-    blocks.value = [
-      { id: 1, title: 'Chakana', desc: 'Chakana bank xizmatlari va operatsiyalari', count: 4 },
-      { id: 2, title: 'Korporativ / Yuridik', desc: 'Yuridik shaxslar bilan ishlash va kreditlash', count: 3 },
-      { id: 3, title: 'IT', desc: 'Axborot texnologiyalari va qo\'llab-quvvatlash', count: 2 },
-      { id: 4, title: 'Soft skill', desc: 'Shaxsiy rivojlanish va muloqot standartlari', count: 2 }
-    ];
+    // Fallback to mock data on error if no cached data was available
+    if (blocks.value.length === 0) {
+      blocks.value = [
+        { id: 1, title: 'Chakana', desc: 'Chakana bank xizmatlari va operatsiyalari', count: 4 },
+        { id: 2, title: 'Korporativ / Yuridik', desc: 'Yuridik shaxslar bilan ishlash va kreditlash', count: 3 },
+        { id: 3, title: 'IT', desc: 'Axborot texnologiyalari va qo\'llab-quvvatlash', count: 2 },
+        { id: 4, title: 'Soft skill', desc: 'Shaxsiy rivojlanish va muloqot standartlari', count: 2 }
+      ];
+    }
   } finally {
     loading.value = false;
   }
 };
 
-onMounted(() => {
-  loadBlocks();
+// Load data on mount
+onMounted(async () => {
+  // First, try to load cached data
+  const hasCachedData = loadCachedData();
+
+  // If we have cached data, show it immediately and set loading to false
+  if (hasCachedData) {
+    loading.value = false;
+  }
+
+  // Then fetch fresh data in the background
+  await loadBlocks();
 });
 </script>
 
