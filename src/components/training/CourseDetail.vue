@@ -2,8 +2,9 @@
   <div class="p-4 sm:p-6 lg:p-8 min-h-screen bg-blue-50">
     <!-- Page Header with Title -->
     <div class="mb-8">
-      <h1 class="text-[28px] font-bold text-[#1a2b50] mb-1">O'qitish va rivojlantirish bo'limi</h1>
-      <p class="text-[11px] font-bold text-[#3169e1] uppercase tracking-wider">ALOQABANK HR PLATFORMASI</p>
+      <h1 class="text-[28px] font-bold text-[#1a2b50] mb-1">{{ $t('training.center.headerTitle') }}</h1>
+      <p class="text-[11px] font-bold text-[#3169e1] uppercase tracking-wider">{{ $t('training.center.platformName') }}
+      </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
@@ -21,8 +22,9 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">8</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">Bloklar soni</p>
+          <p class="text-2xl font-black text-slate-800">{{ stats.blocks_count || 0 }}</p>
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
+            $t('training.stats.blocksCount') }}</p>
         </div>
       </div>
 
@@ -36,9 +38,9 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">13</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">O'quv
-            Yo'nalishlari</p>
+          <p class="text-2xl font-black text-slate-800">{{ stats.educational_fields_count || 0 }}</p>
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
+            $t('training.stats.educationalFields') }}</p>
         </div>
       </div>
 
@@ -56,9 +58,10 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">2</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">Jami Darsliklar
-          </p>
+
+          <p class="text-2xl font-black text-slate-800">{{ stats.tutorials_count || 0 }}</p>
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
+            $t('training.stats.totalTutorials') }}</p>
         </div>
       </div>
 
@@ -77,9 +80,9 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">15</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">Test savollari
-          </p>
+          <p class="text-2xl font-black text-slate-800">{{ stats.tests_count || 0 }}</p>
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
+            $t('training.stats.testQuestions') }}</p>
         </div>
       </div>
     </div>
@@ -99,6 +102,7 @@
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
+
       <button class="hover:text-blue-600 transition-colors">{{ directionTitle }}</button>
     </div>
 
@@ -200,7 +204,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { fetchTutorials, fetchEducationalFields, fetchBlocks } from '../../services/trainingService';
+import { fetchTutorials, fetchEducationalFields, fetchBlocks, fetchStats } from '../../services/trainingService';
 
 const router = useRouter();
 const route = useRoute();
@@ -216,6 +220,13 @@ const loading = ref(true);
 const error = ref(null);
 const directionTitle = ref('');
 const blockTitle = ref('');
+// Stats data
+const stats = ref({
+  blocks_count: 0,
+  educational_fields_count: 0,
+  tutorials_count: 0,
+  tests_count: 0
+});
 
 // Cache key for sessionStorage
 const getCacheKey = () => `tutorials_${route.params.blockId}_${route.params.directionId}`;
@@ -342,8 +353,43 @@ const goToLesson = (tutorialId) => {
   });
 };
 
+// Stats cache key
+const STATS_CACHE_KEY = 'training_stats_cache';
+
+const loadCachedStats = () => {
+  try {
+    const cached = sessionStorage.getItem(STATS_CACHE_KEY);
+    if (cached) {
+      stats.value = JSON.parse(cached);
+      return true;
+    }
+  } catch (err) {
+    console.error('Failed to load cached stats:', err);
+  }
+  return false;
+};
+
+const loadStats = async () => {
+  try {
+    const response = await fetchStats();
+    if (response.success && response.data) {
+      stats.value = response.data;
+      try {
+        sessionStorage.setItem(STATS_CACHE_KEY, JSON.stringify(response.data));
+      } catch (e) {
+        console.error('Failed to cache stats:', e);
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load stats:', err);
+  }
+};
+
 // Load data on mount
 onMounted(async () => {
+  // Try to load cached stats first
+  loadCachedStats();
+
   // First, try to load cached data
   const hasCachedData = loadCachedData();
 
@@ -355,6 +401,7 @@ onMounted(async () => {
   // Then fetch fresh data in the background
   await loadBreadcrumbData();
   await loadTutorials();
+  loadStats();
 });
 </script>
 

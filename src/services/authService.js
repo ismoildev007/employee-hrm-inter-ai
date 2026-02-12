@@ -107,10 +107,47 @@ export const isAuthenticated = () => {
     return !!localStorage.getItem('token');
 };
 
+/**
+ * Fetch current user data from API
+ * @returns {Promise<Object>} - User data
+ */
+export const fetchUser = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) return null;
+
+        const response = await fetch(buildUrl('/user/me'), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                'x-api-key': '09d5a8233bfb55786ab182166694cd85a96f4c7f831b9ae9f1f7454c4b11c12f'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.success && result.data) {
+            // Update localStorage with fresh data
+            localStorage.setItem('user', JSON.stringify(result.data));
+            return result.data;
+        }
+        return null;
+    } catch (error) {
+        console.error('Fetch user error:', error);
+        return null; // Return null instead of throwing to prevent app crash
+    }
+};
+
 export default {
     login,
     register,
     logout,
     getCurrentUser,
-    isAuthenticated
+    isAuthenticated,
+    fetchUser
 };

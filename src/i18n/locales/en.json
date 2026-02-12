@@ -56,7 +56,12 @@
             "hardSkills": "Hard Skills",
             "softSkills": "Soft Skills",
             "russian": "Russian",
-            "english": "English"
+            "english": "English",
+            "skills": "Skills",
+            "errorAnalysis": "ERROR ANALYSIS",
+            "wrongAnswer": "wrong answers",
+            "unchecked": "unchecked",
+            "noTests": "No tests taken yet"
         }
     },
     "training": {
@@ -65,8 +70,8 @@
         },
         "stats": {
             "blocksCount": "BLOCKS COUNT",
-            "activeDirections": "ACTIVE DIRECTIONS",
-            "totalLessons": "TOTAL LESSONS",
+            "educationalFields": "ACTIVE DIRECTIONS",
+            "totalTutorials": "TOTAL LESSONS",
             "testQuestions": "TEST QUESTIONS"
         },
         "blocks": {
@@ -88,6 +93,10 @@
             "addNewLesson": "ADD NEW LESSON"
         },
         "center": {
+            "headerTitle": "Department of Education and Development",
+            "platformName": "ALOQABANK HR PLATFORM",
+            "teachingManagement": "Teaching Management",
+            "manageBlocks": "MANAGE BLOCKS",
             "title": "Training Center",
             "subtitle": "ALOQABANK PROFESSIONAL DEVELOPMENT PORTAL",
             "directions": "DIRECTION",
@@ -112,6 +121,26 @@
             "alreadyRead": "You have read this lesson",
             "previousLesson": "Previous lesson",
             "nextLesson": "Next lesson"
+        },
+        "lessonDetail": {
+            "attachedFiles": "Attached files",
+            "questionsCount": "{count} questions",
+            "testSubmitted": "Test submitted",
+            "submitTest": "Submit test",
+            "testSuccess": "Test submitted successfully!",
+            "testError": "Error submitting test",
+            "leaveFeedback": "Leave feedback",
+            "feedbackSent": "Feedback sent",
+            "writeFeedback": "Write your feedback about this lesson",
+            "feedbackPlaceholder": "Enter your feedback...",
+            "send": "Send",
+            "sent": "Sent",
+            "enterFeedback": "Please enter your feedback",
+            "feedbackSuccess": "Thank you for your feedback!",
+            "feedbackError": "Error sending feedback",
+            "videoFormatError": "Your browser does not support the video format.",
+            "submit": "Submit",
+            "submitted": "Submitted"
         }
     },
     "bankStructure": {

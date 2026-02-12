@@ -191,14 +191,26 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import LanguageSwitcher from '../common/LanguageSwitcher.vue';
-import { getCurrentUser } from '../../services/authService';
+import { getCurrentUser, fetchUser } from '../../services/authService';
 
 const router = useRouter();
 
 // User data from localStorage
-const currentUser = getCurrentUser();
-const userName = ref(currentUser ? `${currentUser.first_name} ${currentUser.last_name}` : 'User');
-const userRole = ref('MUTAXASSIS • XODIMLARNI BOSHQARISH DEPARTAMENTI');
+const currentUser = ref(getCurrentUser());
+const userName = ref(currentUser.value ? `${currentUser.value.first_name || currentUser.value.firstname} ${currentUser.value.last_name || currentUser.value.lastname}` : 'User');
+const userRole = ref(currentUser.value?.role || 'MUTAXASSIS • XODIMLARNI BOSHQARISH DEPARTAMENTI');
+
+const updateUserData = async () => {
+  const userData = await fetchUser();
+  if (userData) {
+    currentUser.value = userData;
+    // Adapt fields based on actual API response keys
+    const fname = userData.first_name || userData.firstname || 'User';
+    const lname = userData.last_name || userData.lastname || '';
+    userName.value = `${fname} ${lname}`.trim();
+    // userRole.value = userData.role || userRole.value;
+  }
+};
 
 const userInitials = computed(() => {
   const names = userName.value.split(' ');
@@ -260,6 +272,7 @@ const handleFullscreenChange = () => {
 onMounted(() => {
   document.addEventListener('fullscreenchange', handleFullscreenChange);
   setPreviewMode('desktop');
+  updateUserData();
 });
 
 onUnmounted(() => {

@@ -56,7 +56,13 @@
             "hardSkills": "Hard Skills",
             "softSkills": "Soft Skills",
             "russian": "Russian",
-            "english": "English"
+            "english": "Ingliz tili",
+            "skills": "Ko'nikmalar",
+            "noTests": "Testlar hali topshirilmagan",
+            "errorAnalysis": "Xatolar tahlili",
+            "wrongAnswer": "ta noto'g'ri javob",
+            "unchecked": "ta tekshirilmagan",
+            "aiRecommendation": "AI tavsiya qilgan mavzu ustida ishlang"
         }
     },
     "training": {
@@ -65,8 +71,8 @@
         },
         "stats": {
             "blocksCount": "BLOKLAR SONI",
-            "activeDirections": "AKTIV YO'NALISHLAR",
-            "totalLessons": "JAMI DARSLIKLLAR",
+            "educationalFields": "O'QUV YO'NALISHLARI",
+            "totalTutorials": "JAMI DARSLIKLAR",
             "testQuestions": "TEST SAVOLLARI"
         },
         "blocks": {
@@ -75,19 +81,23 @@
             "directions": "YO'NALISH"
         },
         "blockDetail": {
-            "directionsTitle": "bloki yo'nalishlari",
+            "directionsTitle": "yo'nalishlari",
             "subtitle": "BLOK ICHIDAGI BARCHA YO'NALISHLAR BO'YICHA",
             "goToLessons": "DARSLIKLARGA O'TISH"
         },
         "directionDetail": {
             "totalLessons": "DARSLIK MAVZULARI",
             "lesson": "TA DARS",
-            "lessonsList": "DARSLIK MAVZULARI",
+            "lessonsList": "Mavzular",
             "video": "VIDEO MAVJUD",
             "min": "daqiqa",
             "addNewLesson": "YANGI DARSLIK QO'SHISH"
         },
         "center": {
+            "headerTitle": "O'qitish va rivojlantirish bo'limi",
+            "platformName": "ALOQABANK HR PLATFORMASI",
+            "teachingManagement": "O'qitish boshqaruvi",
+            "manageBlocks": "BLOKLARNI BOSHQARISH",
             "title": "O'quv Markazi",
             "subtitle": "ALOQABANK PROFESSIONAL RIVOJLANISH PORTALI",
             "started": "O'qitish boshlangani",
@@ -113,6 +123,26 @@
             "alreadyRead": "Siz bu darsni o'qidingiz",
             "previousLesson": "Oldingi dars",
             "nextLesson": "Keyingi dars"
+        },
+        "lessonDetail": {
+            "attachedFiles": "Biriktirilgan fayllar",
+            "questionsCount": "{count} ta savol",
+            "testSubmitted": "Test topshirilgan",
+            "submitTest": "Testni topshirish",
+            "testSuccess": "Test muvaffaqiyatli topshirildi!",
+            "testError": "Testni topshirishda xatolik yuz berdi",
+            "leaveFeedback": "Fikr-mulohaza qoldiring",
+            "feedbackSent": "Fikr-mulohaza yuborilgan",
+            "writeFeedback": "Ushbu dars haqida fikr-mulohazangizni yozing",
+            "feedbackPlaceholder": "Fikr-mulohazangizni kiriting...",
+            "send": "Yuborish",
+            "sent": "Yuborilgan",
+            "enterFeedback": "Iltimos, fikr-mulohazangizni kiriting",
+            "feedbackSuccess": "Fikr-mulohazangiz uchun rahmat!",
+            "feedbackError": "Fikr-mulohazani yuborishda xatolik yuz berdi",
+            "videoFormatError": "Brauzeringiz video formatini qo'llab-quvvatlamaydi.",
+            "submit": "Yuborish",
+            "submitted": "Yuborilgan"
         }
     },
     "bankStructure": {

@@ -1,8 +1,10 @@
 <template>
   <div class="p-4 sm:p-6 lg:p-8 min-h-screen bg-blue-50">
     <div class="mb-8">
-      <h1 class="text-[28px] font-bold text-[#1a2b50] mb-1">O'qitish va rivojlantirish bo'limi</h1>
-      <p class="text-[11px] font-bold text-[#3169e1] uppercase tracking-wider">ALOQABANK HR PLATFORMASI</p>
+      <h2 class="text-3xl font-bold text-[#1a2b50] mb-2 font-display">{{ blockTitle }} {{
+        $t('training.blockDetail.directionsTitle') }}</h2>
+      <p class="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em]">{{ $t('training.blockDetail.subtitle')
+        }}</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
@@ -20,8 +22,9 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">8</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">Bloklar soni</p>
+          <p class="text-2xl font-black text-slate-800">{{ stats.blocks_count || 0 }}</p>
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
+            $t('training.stats.blocksCount') }}</p>
         </div>
       </div>
 
@@ -35,9 +38,9 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">13</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">O'quv
-            Yo'nalishlari</p>
+          <p class="text-2xl font-black text-slate-800">{{ stats.educational_fields_count || 0 }}</p>
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
+            $t('training.stats.educationalFields') }}</p>
         </div>
       </div>
 
@@ -55,9 +58,9 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">2</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">Jami Darsliklar
-          </p>
+          <p class="text-2xl font-black text-slate-800">{{ stats.tutorials_count || 0 }}</p>
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
+            $t('training.stats.totalTutorials') }}</p>
         </div>
       </div>
 
@@ -76,9 +79,9 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">15</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">Test savollari
-          </p>
+          <p class="text-2xl font-black text-slate-800">{{ stats.tests_count || 0 }}</p>
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
+            $t('training.stats.testQuestions') }}</p>
         </div>
       </div>
     </div>
@@ -146,8 +149,9 @@
               <p class="text-[13px] text-gray-400 leading-relaxed mb-8 line-clamp-3">{{ direction.desc }}</p>
 
               <div class="flex items-center justify-between mt-auto">
-                <span class="text-[11px] font-black text-[#3169e1] uppercase tracking-wider">{{ direction.count }}
-                  DARS</span>
+                <span
+                  class="text-[10px] font-black text-[#3169e1] uppercase tracking-wider group-hover:text-blue-700">{{
+                    $t('training.blockDetail.goToLessons') }}</span>
                 <div
                   class="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-50 transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -170,7 +174,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { fetchEducationalFields, fetchBlocks } from '../../services/trainingService';
+import { fetchEducationalFields, fetchBlocks, fetchStats } from '../../services/trainingService';
 import SkeletonCard from '../common/SkeletonCard.vue';
 
 const router = useRouter();
@@ -182,6 +186,12 @@ const blockId = computed(() => route.params.blockId);
 const currentBlock = ref(null);
 // Directions data
 const directions = ref([]);
+const stats = ref({
+  blocks_count: 0,
+  educational_fields_count: 0,
+  tutorials_count: 0,
+  tests_count: 0
+});
 const loading = ref(true);
 const error = ref(null);
 const blockTitle = ref('');
@@ -282,9 +292,44 @@ const goToDirection = (directionId) => {
   router.push({ name: 'direction-detail', params: { blockId: blockId.value, directionId } });
 };
 
+// Stats cache key
+const STATS_CACHE_KEY = 'training_stats_cache';
+
+const loadCachedStats = () => {
+  try {
+    const cached = sessionStorage.getItem(STATS_CACHE_KEY);
+    if (cached) {
+      stats.value = JSON.parse(cached);
+      return true;
+    }
+  } catch (err) {
+    console.error('Failed to load cached stats:', err);
+  }
+  return false;
+};
+
+const fetchStatsData = async () => {
+  try {
+    const response = await fetchStats();
+    if (response.success && response.data) {
+      stats.value = response.data;
+      try {
+        sessionStorage.setItem(STATS_CACHE_KEY, JSON.stringify(response.data));
+      } catch (e) {
+        console.error('Failed to cache stats:', e);
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load stats:', err);
+  }
+};
+
 // Load data on mount
 onMounted(async () => {
-  // First, try to load cached data
+  // Try to load cached stats first
+  loadCachedStats();
+
+  // First, try to load cached data for content
   const hasCachedData = loadCachedData();
 
   // If we have cached data, show it immediately
@@ -297,5 +342,6 @@ onMounted(async () => {
 
   // Then fetch fresh data in the background
   await loadEducationalFields();
+  await fetchStatsData();
 });
 </script>

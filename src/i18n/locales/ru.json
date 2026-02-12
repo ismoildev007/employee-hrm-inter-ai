@@ -56,7 +56,12 @@
             "hardSkills": "Hard Skills",
             "softSkills": "Soft Skills",
             "russian": "Русский",
-            "english": "Английский"
+            "english": "Английский",
+            "skills": "Навыки",
+            "errorAnalysis": "АНАЛИЗ ОШИБОК",
+            "wrongAnswer": "неверный ответ",
+            "unchecked": "не проверено",
+            "noTests": "Тесты ещё не пройдены"
         }
     },
     "training": {
@@ -65,8 +70,8 @@
         },
         "stats": {
             "blocksCount": "КОЛИЧЕСТВО БЛОКОВ",
-            "activeDirections": "АКТИВНЫЕ НАПРАВЛЕНИЯ",
-            "totalLessons": "ВСЕГО УРОКОВ",
+            "educationalFields": "АКТИВНЫЕ НАПРАВЛЕНИЯ",
+            "totalTutorials": "ВСЕГО УРОКОВ",
             "testQuestions": "ТЕСТОВЫЕ ВОПРОСЫ"
         },
         "blocks": {
@@ -88,6 +93,10 @@
             "addNewLesson": "ДОБАВИТЬ НОВЫЙ УРОК"
         },
         "center": {
+            "headerTitle": "Отдел обучения и развития",
+            "platformName": "HR ПЛАТФОРМА ALOQABANK",
+            "teachingManagement": "Управление обучением",
+            "manageBlocks": "УПРАВЛЕНИЕ БЛОКАМИ",
             "title": "Учебный Центр",
             "subtitle": "ПОРТАЛ ПРОФЕССИОНАЛЬНОГО РАЗВИТИЯ ALOQABANK",
             "directions": "НАПРАВЛЕНИЕ",
@@ -112,6 +121,26 @@
             "alreadyRead": "Вы прочитали этот урок",
             "previousLesson": "Предыдущий урок",
             "nextLesson": "Следующий урок"
+        },
+        "lessonDetail": {
+            "attachedFiles": "Прикрепленные файлы",
+            "questionsCount": "{count} вопросов",
+            "testSubmitted": "Тест сдан",
+            "submitTest": "Сдать тест",
+            "testSuccess": "Тест успешно сдан!",
+            "testError": "Ошибка при сдаче теста",
+            "leaveFeedback": "Оставьте отзыв",
+            "feedbackSent": "Отзыв отправлен",
+            "writeFeedback": "Напишите ваш отзыв об этом уроке",
+            "feedbackPlaceholder": "Введите ваш отзыв...",
+            "send": "Отправить",
+            "sent": "Отправлено",
+            "enterFeedback": "Пожалуйста, введите ваш отзыв",
+            "feedbackSuccess": "Спасибо за ваш отзыв!",
+            "feedbackError": "Ошибка при отправке отзыва",
+            "videoFormatError": "Ваш браузер не поддерживает формат видео.",
+            "submit": "Отправить",
+            "submitted": "Отправлено"
         }
     },
     "bankStructure": {

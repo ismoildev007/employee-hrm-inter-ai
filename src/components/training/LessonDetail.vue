@@ -23,7 +23,7 @@
           <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
               <span class="px-2 sm:px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs sm:text-sm font-medium">
-                {{ $t('training.lesson.lesson') }} {{ lessonNumber }}
+                {{ $t('training.directionDetail.lesson') }} {{ lessonNumber }}
               </span>
               <span v-if="lesson.isRead"
                 class="px-2 sm:px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs sm:text-sm font-medium flex items-center gap-1">
@@ -36,7 +36,8 @@
               </span>
             </div>
             <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">{{ lesson.title }}</h1>
-            <p class="text-sm sm:text-base text-gray-600">{{ lesson.duration }} {{ $t('training.lesson.minutes') }}</p>
+            <p class="text-sm sm:text-base text-gray-600">{{ lesson.duration }} {{ $t('training.directionDetail.min') }}
+            </p>
           </div>
         </div>
       </div>
@@ -49,7 +50,7 @@
           <div v-if="lesson.videoUrl" class="rounded-xl overflow-hidden bg-black aspect-video relative group shadow-lg">
             <video v-if="lesson.videoType === 'native'" controls class="w-full h-full object-cover">
               <source :src="lesson.videoUrl" type="video/mp4">
-              Brauzeringiz video formatini qo'llab-quvvatlamaydi.
+              {{ $t('training.lessonDetail.videoFormatError') }}
             </video>
             <iframe v-else :src="lesson.videoUrl" title="Lesson Video" frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -69,7 +70,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
             </svg>
-            Biriktirilgan fayllar
+            {{ $t('training.lessonDetail.attachedFiles') }}
           </h3>
           <div class="grid gap-3 sm:grid-cols-2">
             <div v-for="(file, index) in lesson.files" :key="index"
@@ -106,8 +107,12 @@
             </div>
             <div class="flex-1">
               <h3 class="text-lg font-bold text-slate-800 mb-2">{{ test.name }}</h3>
-              <p class="text-sm text-slate-600">{{ test.questions.length }} ta savol</p>
-              <p v-if="isTestAttempted" class="text-sm text-green-600 font-medium mt-1">✓ Test topshirilgan</p>
+              <p class="text-sm text-slate-600">{{ $t('training.lessonDetail.questionsCount', {
+                count:
+                  test.questions.length
+              }) }}</p>
+              <p v-if="isTestAttempted" class="text-sm text-green-600 font-medium mt-1">✓ {{
+                $t('training.lessonDetail.testSubmitted') }}</p>
             </div>
           </div>
 
@@ -138,7 +143,7 @@
               <div v-else>
                 <textarea v-model="selectedAnswers[question.id]" rows="3" :disabled="isTestAttempted"
                   class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none disabled:bg-slate-100 disabled:cursor-not-allowed"
-                  placeholder="Javobingizni kiriting..."></textarea>
+                  :placeholder="$t('training.lessonDetail.feedbackPlaceholder')"></textarea>
               </div>
             </div>
           </div>
@@ -147,7 +152,7 @@
           <div class="mt-6 flex justify-end">
             <button @click="submitTest(test.id)" :disabled="!canSubmitTest(test)"
               class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed font-medium">
-              {{ isTestAttempted ? 'Test topshirilgan' : 'Testni topshirish' }}
+              {{ isTestAttempted ? $t('training.lessonDetail.testSubmitted') : $t('training.lessonDetail.submitTest') }}
             </button>
           </div>
         </div>
@@ -160,19 +165,20 @@
                 d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
             </svg>
             <div class="flex-1">
-              <h3 class="text-lg font-bold text-slate-800">Fikr-mulohaza qoldiring</h3>
-              <p v-if="isFeedbackAttempted" class="text-sm text-green-600 font-medium mt-1">✓ Fikr-mulohaza yuborilgan
+              <h3 class="text-lg font-bold text-slate-800">{{ $t('training.lessonDetail.leaveFeedback') }}</h3>
+              <p v-if="isFeedbackAttempted" class="text-sm text-green-600 font-medium mt-1">✓ {{
+                $t('training.lessonDetail.feedbackSent') }}
               </p>
             </div>
           </div>
-          <p class="text-sm text-slate-600 mb-4">Ushbu dars haqida fikr-mulohazangizni yozing</p>
+          <p class="text-sm text-slate-600 mb-4">{{ $t('training.lessonDetail.writeFeedback') }}</p>
           <textarea v-model="feedbackText" rows="4" :disabled="isFeedbackAttempted"
             class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none disabled:bg-slate-100 disabled:cursor-not-allowed"
-            placeholder="Fikr-mulohazangizni kiriting..."></textarea>
+            :placeholder="$t('training.lessonDetail.feedbackPlaceholder')"></textarea>
           <div class="mt-4 flex justify-end">
             <button @click="submitFeedbackForm" :disabled="isFeedbackAttempted || !feedbackText.trim()"
               class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed font-medium">
-              {{ isFeedbackAttempted ? 'Yuborilgan' : 'Yuborish' }}
+              {{ isFeedbackAttempted ? $t('training.lessonDetail.sent') : $t('training.lessonDetail.send') }}
             </button>
           </div>
         </div>
@@ -196,10 +202,12 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { fetchTutorialDetail, submitTestAttempt, submitFeedback } from '../../services/trainingService';
 
 const router = useRouter();
 const route = useRoute();
+const { t } = useI18n();
 
 const blockId = computed(() => route.params.blockId);
 const directionId = computed(() => route.params.directionId);
@@ -287,7 +295,7 @@ const canSubmitTest = (test) => {
 const lesson = computed(() => {
   if (!tutorial.value) {
     return {
-      title: 'Yuklanmoqda...',
+      title: t('common.loading'),
       duration: 0,
       content: '',
       videoUrl: null,
@@ -336,7 +344,7 @@ const loadTutorialDetail = async () => {
     }
   } catch (err) {
     console.error('Failed to load tutorial detail:', err);
-    error.value = 'Darsni yuklashda xatolik yuz berdi';
+    error.value = t('common.error'); // Or specific error key if available
   } finally {
     loading.value = false;
   }
@@ -380,18 +388,18 @@ const submitTest = async (testId) => {
     if (response.success) {
       testSubmitted.value = true;
       testResult.value = response.data;
-      alert('Test muvaffaqiyatli topshirildi!');
+      alert(t('training.lessonDetail.testSuccess'));
     }
   } catch (err) {
     console.error('Failed to submit test:', err);
-    alert('Testni topshirishda xatolik yuz berdi');
+    alert(t('training.lessonDetail.testError'));
   }
 };
 
 // Submit feedback
 const submitFeedbackForm = async () => {
   if (!feedbackText.value.trim()) {
-    alert('Iltimos, fikr-mulohazangizni kiriting');
+    alert(t('training.lessonDetail.enterFeedback'));
     return;
   }
 
@@ -400,12 +408,12 @@ const submitFeedbackForm = async () => {
 
     if (response.success) {
       feedbackSubmitted.value = true;
-      alert('Fikr-mulohazangiz uchun rahmat!');
+      alert(t('training.lessonDetail.feedbackSuccess'));
       feedbackText.value = '';
     }
   } catch (err) {
     console.error('Failed to submit feedback:', err);
-    alert('Fikr-mulohazani yuborishda xatolik yuz berdi');
+    alert(t('training.lessonDetail.feedbackError'));
   }
 };
 

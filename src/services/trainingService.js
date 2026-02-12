@@ -19,6 +19,7 @@ export const fetchBlocks = async (page = 1) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
+        console.log(response);
 
         const result = await response.json();
         return result;
@@ -212,6 +213,35 @@ export const fetchDashboard = async () => {
     }
 };
 
+/**
+ * Fetch training statistics
+ * @returns {Promise<Object>} Training statistics (blocks, directions, tutorials, questions)
+ */
+export const fetchStats = async () => {
+    try {
+        const response = await fetch(buildUrl('/user/stats'), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'x-api-key': '09d5a8233bfb55786ab182166694cd85a96f4c7f831b9ae9f1f7454c4b11c12f'
+            }
+        });
+
+        console.log(response);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Error fetching stats:', error);
+        throw error;
+    }
+};
+
 export default {
     fetchBlocks,
     fetchEducationalFields,
@@ -219,5 +249,6 @@ export default {
     fetchTutorialDetail,
     submitTestAttempt,
     submitFeedback,
-    fetchDashboard
+    fetchDashboard,
+    fetchStats
 };

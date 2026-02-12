@@ -1,8 +1,9 @@
 <template>
   <div class="p-4 sm:p-6 lg:p-8 ">
     <div class="mb-8">
-      <h1 class="text-[28px] font-bold text-[#1a2b50] mb-1">O'qitish va rivojlantirish bo'limi</h1>
-      <p class="text-[11px] font-bold text-[#3169e1] uppercase tracking-wider">ALOQABANK HR PLATFORMASI</p>
+      <h1 class="text-[28px] font-bold text-[#1a2b50] mb-1">{{ $t('training.center.headerTitle') }}</h1>
+      <p class="text-[11px] font-bold text-[#3169e1] uppercase tracking-wider">{{ $t('training.center.platformName') }}
+      </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
@@ -20,8 +21,9 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">8</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">Bloklar soni</p>
+          <p class="text-2xl font-black text-slate-800">{{ stats.blocks_count || 0 }}</p>
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
+            $t('training.stats.blocksCount') }}</p>
         </div>
       </div>
 
@@ -35,9 +37,9 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">13</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">O'quv
-            Yo'nalishlari
+          <p class="text-2xl font-black text-slate-800">{{ stats.educational_fields_count || 0 }}</p>
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
+            $t('training.stats.educationalFields') }}
           </p>
         </div>
       </div>
@@ -56,8 +58,9 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">2</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">Jami Darsliklar
+          <p class="text-2xl font-black text-slate-800">{{ stats.tutorials_count || 0 }}</p>
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
+            $t('training.stats.totalTutorials') }}
           </p>
         </div>
       </div>
@@ -77,8 +80,9 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">15</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">Test savollari
+          <p class="text-2xl font-black text-slate-800">{{ stats.tests_count || 0 }}</p>
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
+            $t('training.stats.testQuestions') }}
           </p>
         </div>
       </div>
@@ -86,13 +90,13 @@
 
     <div
       class="flex items-center gap-2 text-sm font-bold text-slate-400 mb-6 bg-white/50 p-3 rounded-xl backdrop-blur-sm self-start">
-      <button class="hover:text-blue-600 transition-colors">O'qitish boshqaruvi</button>
+      <button class="hover:text-blue-600 transition-colors">{{ $t('training.center.teachingManagement') }}</button>
     </div>
 
     <div
       class="bg-white/40 backdrop-blur-xl rounded-[48px] border border-white/50 p-10 min-h-[600px] shadow-2xl shadow-blue-100/50 z-10 relative">
       <div class="flex items-center justify-between mb-8">
-        <h2 class="text-[22px] font-bold text-[#1a2b50]">O'quv bloklari</h2>
+        <h2 class="text-[22px] font-bold text-[#1a2b50]">{{ $t('training.blocks.title') }}</h2>
         <button class="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -100,7 +104,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          BLOKLARNI BOSHQARISH
+          {{ $t('training.center.manageBlocks') }}
         </button>
       </div>
 
@@ -128,7 +132,7 @@
 
             <div class="flex items-center justify-between mt-auto">
               <span class="text-[11px] font-black text-[#3169e1] uppercase tracking-wider">{{ block.count }}
-                YO'NALISH</span>
+                {{ $t('training.blocks.directions') }}</span>
               <div
                 class="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-50 transition-colors">
                 <svg class="w-4 h-4 text-gray-300 group-hover:text-[#3169e1]" fill="none" stroke="currentColor"
@@ -147,10 +151,16 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { fetchBlocks } from '../../services/trainingService';
+import { fetchBlocks, fetchStats } from '../../services/trainingService';
 import SkeletonCard from '../common/SkeletonCard.vue';
 
 const blocks = ref([]);
+const stats = ref({
+  blocks_count: 0,
+  educational_fields_count: 0,
+  tutorials_count: 0,
+  tests_count: 0
+});
 const loading = ref(true);
 const error = ref(null);
 
@@ -219,15 +229,53 @@ const loadBlocks = async () => {
   }
 };
 
+// Stats cache key
+const STATS_CACHE_KEY = 'training_stats_cache';
+
+const loadCachedStats = () => {
+  try {
+    const cached = sessionStorage.getItem(STATS_CACHE_KEY);
+    if (cached) {
+      stats.value = JSON.parse(cached);
+      return true;
+    }
+  } catch (err) {
+    console.error('Failed to load cached stats:', err);
+  }
+  return false;
+};
+
+// Load stats from API
+const loadStats = async () => {
+  try {
+    const response = await fetchStats();
+    if (response.success && response.data) {
+      stats.value = response.data;
+      // Cache the fresh stats
+      try {
+        sessionStorage.setItem(STATS_CACHE_KEY, JSON.stringify(response.data));
+      } catch (e) {
+        console.error('Failed to cache stats:', e);
+      }
+    }
+  } catch (err) {
+    console.error('Failed to load stats:', err);
+  }
+};
+
 // Load data on mount
 onMounted(async () => {
   // First, try to load cached data
   const hasCachedData = loadCachedData();
+  loadCachedStats(); // Load stats from cache immediately
 
   // If we have cached data, show it immediately and set loading to false
   if (hasCachedData) {
     loading.value = false;
   }
+
+  // Load stats in parallel
+  loadStats();
 
   // Then fetch fresh data in the background
   await loadBlocks();

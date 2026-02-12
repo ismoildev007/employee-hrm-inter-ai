@@ -10,9 +10,9 @@
         </div>
         <div class="flex-1 text-center md:text-left z-10">
           <h1 class="text-3xl font-black text-slate-800 flex items-center justify-center md:justify-start gap-3">
-            Tursunov Muhammadqodir Islomjon o'g'li<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" class="lucide lucide-user text-blue-500" aria-hidden="true">
+            {{ userData.fullName }}<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-user text-blue-500" aria-hidden="true">
               <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg></h1>
@@ -29,7 +29,7 @@
                 </path>
                 <path d="M22 10v6"></path>
                 <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
-              </svg> Magistr
+              </svg> {{ $t('dashboard.profile.education') }}
             </div>
             <div
               class="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-full text-xs font-bold text-green-600 border border-green-100">
@@ -42,11 +42,12 @@
             </div>
             <div
               class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold border bg-blue-50 text-blue-600 border-blue-100">
-              Erkak</div>
+              {{ $t('dashboard.profile.gender') }}</div>
           </div>
         </div>
         <div class="text-right hidden xl:block z-10">
-          <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">Oylik maosh</p>
+          <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">{{ $t('dashboard.profile.monthlySalary')
+          }}</p>
           <p class="text-2xl font-black text-slate-800">6,316,294 UZS</p>
         </div>
       </div>
@@ -59,7 +60,7 @@
                 d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526">
               </path>
               <circle cx="12" cy="8" r="6"></circle>
-            </svg> Ko'nikmalar Tahlili</h2>
+            </svg> {{ $t('dashboard.profile.skillsAnalysis') }}</h2>
           <div class="h-80">
             <div class="recharts-responsive-container" style="width: 100%; height: 100%; min-width: 0px;">
               <div style="width: 0px; height: 0px; overflow: visible;">
@@ -234,7 +235,7 @@
               height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
               stroke-linejoin="round" class="lucide lucide-book text-blue-600" aria-hidden="true">
               <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"></path>
-            </svg> Test Natijalari &amp; Tahlil</h2>
+            </svg> {{ $t('dashboard.profile.testResults') }}</h2>
           <div class="space-y-4 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
             <!-- Loading State -->
             <div v-if="loading" class="p-4 bg-slate-50 rounded-2xl border border-slate-100 animate-pulse">
@@ -245,7 +246,7 @@
             <!-- No Data State -->
             <div v-else-if="!recentAttempts || recentAttempts.length === 0"
               class="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center">
-              <p class="text-sm text-slate-500">Hali test topshirilmagan</p>
+              <p class="text-sm text-slate-500">{{ $t('dashboard.profile.noTests') }}</p>
             </div>
 
             <!-- Recent Attempts from API -->
@@ -263,7 +264,8 @@
                 </div>
               </div>
               <div v-if="attempt.incorrect_count > 0" class="pt-2 border-t border-slate-200">
-                <p class="text-[10px] font-black text-red-500 uppercase mb-2 tracking-widest">Xatolar tahlili:</p>
+                <p class="text-[10px] font-black text-red-500 uppercase mb-2 tracking-widest">{{
+                  $t('dashboard.profile.errorAnalysis') }}:</p>
                 <ul class="space-y-1">
                   <li class="text-xs text-slate-600 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
@@ -273,7 +275,7 @@
                       <path d="m15 9-6 6"></path>
                       <path d="m9 9 6 6"></path>
                     </svg>
-                    {{ attempt.incorrect_count }} ta noto'g'ri javob
+                    {{ attempt.incorrect_count }} {{ $t('dashboard.profile.wrongAnswer') }}
                   </li>
                   <li v-if="attempt.pending_count > 0" class="text-xs text-slate-600 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
@@ -282,7 +284,7 @@
                       <circle cx="12" cy="12" r="10"></circle>
                       <polyline points="12 6 12 12 16 14"></polyline>
                     </svg>
-                    {{ attempt.pending_count }} ta tekshirilmagan
+                    {{ attempt.pending_count }} {{ $t('dashboard.profile.unchecked') }}
                   </li>
                 </ul>
               </div>
@@ -292,7 +294,8 @@
           </div>
         </div>
         <div class="pt-2 border-t border-slate-200">
-          <p class="text-[10px] font-black text-red-500 uppercase mb-2 tracking-widest">Xatolar tahlili:</p>
+          <p class="text-[10px] font-black text-red-500 uppercase mb-2 tracking-widest">{{
+            $t('dashboard.profile.errorAnalysis') }}:</p>
           <ul class="space-y-1">
             <li class="text-xs text-slate-600 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg"
                 width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -301,7 +304,7 @@
                 <circle cx="12" cy="12" r="10"></circle>
                 <path d="m15 9-6 6"></path>
                 <path d="m9 9 6 6"></path>
-              </svg> Savol #2: AI tavsiya qilgan mavzu ustida ishlang.</li>
+              </svg> {{ $t('dashboard.profile.wrongAnswer') }} #2: AI tavsiya qilgan mavzu ustida ishlang.</li>
             <li class="text-xs text-slate-600 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg"
                 width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x text-red-400"
@@ -309,7 +312,7 @@
                 <circle cx="12" cy="12" r="10"></circle>
                 <path d="m15 9-6 6"></path>
                 <path d="m9 9 6 6"></path>
-              </svg> Savol #5: AI tavsiya qilgan mavzu ustida ishlang.</li>
+              </svg> {{ $t('dashboard.profile.wrongAnswer') }} #5: AI tavsiya qilgan mavzu ustida ishlang.</li>
           </ul>
         </div>
       </div>
@@ -319,9 +322,10 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { Radar } from 'vue-chartjs';
 import { fetchDashboard } from '../../services/trainingService';
-import { getCurrentUser } from '../../services/authService';
+import { getCurrentUser, fetchUser } from '../../services/authService';
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -342,17 +346,38 @@ ChartJS.register(
   Legend
 );
 
+const { t } = useI18n();
+
 // Get current user from localStorage
 const currentUser = getCurrentUser();
 
 // Dynamic user data from API
 const userData = ref({
-  fullName: currentUser ? `${currentUser.first_name} ${currentUser.last_name}` : 'User',
+  fullName: currentUser ? `${currentUser.first_name || currentUser.firstname} ${currentUser.last_name || currentUser.lastname}` : 'User',
   position: 'MUTAXASSIS',
   department: 'XODIMLARNI BOSHQARISH DEPARTAMENTI',
   kpi: 77,
   salary: 6316294
 });
+
+const loadUserData = async () => {
+  const user = await fetchUser();
+  if (user) {
+    // Use 'name' from API if available, otherwise construct from parts
+    if (user.name) {
+      userData.value.fullName = user.name;
+    } else {
+      const fname = user.first_name || user.firstname || 'User';
+      const lname = user.last_name || user.lastname || '';
+      userData.value.fullName = `${fname} ${lname}`.trim();
+    }
+
+    // Update other fields if available in API
+    if (user.role) userData.value.position = user.role.toUpperCase();
+    if (user.department) userData.value.department = user.department.toUpperCase();
+    if (user.phone) userData.value.phone = user.phone; // Store phone if needed
+  }
+};
 
 // Dashboard data from API
 const dashboardData = ref(null);
@@ -371,11 +396,17 @@ const userInitials = computed(() => {
 });
 
 // Skills chart data
-const skillsChartData = ref({
-  labels: ['Hard Skills', 'Soft Skills', 'Russian', 'English', 'KPI'],
+const skillsChartData = computed(() => ({
+  labels: [
+    'Hard Skills',
+    'Soft Skills',
+    t('dashboard.profile.russian'),
+    t('dashboard.profile.english'),
+    t('dashboard.profile.kpi')
+  ],
   datasets: [
     {
-      label: 'Ko\'nikmalar',
+      label: t('dashboard.profile.skills'),
       data: [85, 75, 60, 70, 77],
       backgroundColor: 'rgba(59, 130, 246, 0.2)',
       borderColor: 'rgb(59, 130, 246)',
@@ -386,7 +417,7 @@ const skillsChartData = ref({
       pointHoverBorderColor: 'rgb(59, 130, 246)'
     }
   ]
-});
+}));
 
 const skillsChartOptions = ref({
   responsive: true,
@@ -480,7 +511,7 @@ const loadDashboard = async () => {
 
 // Load data on mount
 onMounted(async () => {
-  await loadDashboard();
+  await Promise.all([loadDashboard(), loadUserData()]);
 });
 </script>
 
