@@ -10,8 +10,8 @@
       <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
         <div class="max-w-md mx-auto">
           <div class="text-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-900">Register</h1>
-            <p class="text-gray-500 text-sm mt-1">Inter-AI HeadHunter</p>
+            <h1 class="text-2xl font-bold text-gray-900">{{ $t('auth.register.title') }}</h1>
+            <p class="text-gray-500 text-sm mt-1">{{ $t('auth.register.subtitle') }}</p>
           </div>
 
           <form @submit.prevent="handleSubmit" class="space-y-6">
@@ -22,36 +22,39 @@
 
             <!-- First Name -->
             <div>
-              <label for="firstName" class="text-sm font-bold text-gray-600 block">First Name</label>
+              <label for="firstName" class="text-sm font-bold text-gray-600 block">{{ $t('auth.register.firstName')
+                }}</label>
               <input type="text" id="firstName" v-model="firstName" required
                 class="w-full mt-2 px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                placeholder="John" />
+                :placeholder="$t('auth.register.firstName')" />
             </div>
 
             <!-- Last Name -->
             <div>
-              <label for="lastName" class="text-sm font-bold text-gray-600 block">Last Name</label>
+              <label for="lastName" class="text-sm font-bold text-gray-600 block">{{ $t('auth.register.lastName')
+                }}</label>
               <input type="text" id="lastName" v-model="lastName" required
                 class="w-full mt-2 px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                placeholder="Doe" />
+                :placeholder="$t('auth.register.lastName')" />
             </div>
 
             <!-- Phone -->
             <div>
-              <label for="phone" class="text-sm font-bold text-gray-600 block">Phone</label>
+              <label for="phone" class="text-sm font-bold text-gray-600 block">{{ $t('auth.register.phone') }}</label>
               <div class="relative mt-2 flex">
-                <span class="flex items-center px-4 py-2 bg-gray-200 border border-r-0 rounded-l-lg text-gray-700 font-medium">+998</span>
+                <span
+                  class="flex items-center px-4 py-2 bg-gray-200 border border-r-0 rounded-l-lg text-gray-700 font-medium">+998</span>
                 <input type="text" id="phone" v-model="phoneNumber" required @input="formatPhone"
                   class="flex-1 px-4 py-2 border rounded-r-lg text-gray-700 bg-gray-50 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  :class="{ 'border-red-500': phoneError }"
-                  placeholder="901234567" maxlength="9" />
+                  :class="{ 'border-red-500': phoneError }" placeholder="901234567" maxlength="9" />
               </div>
               <p v-if="phoneError" class="text-sm text-red-500 mt-1">{{ $t(`auth.validation.${phoneError}`) }}</p>
             </div>
 
             <!-- Password -->
             <div>
-              <label for="password" class="text-sm font-bold text-gray-600 block">Password</label>
+              <label for="password" class="text-sm font-bold text-gray-600 block">{{ $t('auth.register.password')
+                }}</label>
               <input type="password" id="password" v-model="password" required @input="validatePassword"
                 class="w-full mt-2 px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 :class="{ 'border-red-500': passwordError }" placeholder="********" />
@@ -60,7 +63,8 @@
 
             <!-- Confirm Password -->
             <div>
-              <label for="confirmPassword" class="text-sm font-bold text-gray-600 block">Confirm Password</label>
+              <label for="confirmPassword" class="text-sm font-bold text-gray-600 block">{{
+                $t('auth.register.confirmPassword') }}</label>
               <input type="password" id="confirmPassword" v-model="confirmPassword" required
                 class="w-full mt-2 px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 :class="{ 'border-red-500': confirmPassword && password !== confirmPassword }" placeholder="********" />
@@ -72,14 +76,14 @@
             <div class="pt-2">
               <button type="submit" :disabled="loading"
                 class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
-                <span v-if="loading">Loading...</span>
-                <span v-else>Register</span>
+                <span v-if="loading">{{ $t('auth.register.loading') }}</span>
+                <span v-else>{{ $t('auth.register.registerButton') }}</span>
               </button>
             </div>
 
             <div class="text-center text-sm text-gray-500 mt-4">
-              Already have an account?
-              <a href="/login" class="text-blue-600 hover:underline font-bold">Login</a>
+              {{ $t('auth.register.haveAccount') }}
+              <a href="/login" class="text-blue-600 hover:underline font-bold">{{ $t('auth.register.login') }}</a>
             </div>
           </form>
         </div>
@@ -114,7 +118,7 @@ const formatPhone = (event) => {
   // Remove non-numeric characters and limit to 9 digits
   let value = event.target.value.replace(/[^0-9]/g, '').slice(0, 9);
   phoneNumber.value = value;
-  
+
   // Validate phone length
   if (value.length > 0 && value.length < 9) {
     phoneError.value = 'phoneLength';
@@ -128,7 +132,7 @@ const validatePassword = () => {
     passwordError.value = '';
     return;
   }
-  
+
   if (password.value.length < 8) {
     passwordError.value = 'passwordMinLength';
   } else if (!/[a-zA-Z]/.test(password.value)) {
@@ -163,7 +167,7 @@ const handleSubmit = async () => {
     passwordError.value = 'passwordMinLength';
     return;
   }
-  
+
   if (!/[a-zA-Z]/.test(password.value)) {
     passwordError.value = 'passwordRequireLetter';
     return;

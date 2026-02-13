@@ -22,6 +22,19 @@
             "noAccount": "Hisobingiz yo'qmi?",
             "register": "Ro'yxatdan o'tish"
         },
+        "register": {
+            "title": "Ro'yxatdan o'tish",
+            "subtitle": "LMS Inter-AI",
+            "firstName": "Ism",
+            "lastName": "Familiya",
+            "phone": "Telefon raqami",
+            "password": "Parol",
+            "confirmPassword": "Parolni tasdiqlang",
+            "registerButton": "Ro'yxatdan o'tish",
+            "haveAccount": "Hisobingiz bormi?",
+            "login": "Kirish",
+            "loading": "Yuklanmoqda..."
+        },
         "validation": {
             "phonePrefix": "Telefon raqam 998 bilan boshlanishi kerak",
             "phoneLength": "Telefon raqam 12 ta raqamdan iborat bo'lishi kerak",

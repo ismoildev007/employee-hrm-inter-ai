@@ -22,6 +22,19 @@
             "noAccount": "Нет учетной записи?",
             "register": "Регистрация"
         },
+        "register": {
+            "title": "Регистрация",
+            "subtitle": "LMS Inter-AI",
+            "firstName": "Имя",
+            "lastName": "Фамилия",
+            "phone": "Номер телефона",
+            "password": "Пароль",
+            "confirmPassword": "Подтвердите пароль",
+            "registerButton": "Зарегистрироваться",
+            "haveAccount": "Уже есть аккаунт?",
+            "login": "Войти",
+            "loading": "Загрузка..."
+        },
         "validation": {
             "phonePrefix": "Номер телефона должен начинаться с 998",
             "phoneLength": "Номер телефона должен состоять из 12 цифр",
