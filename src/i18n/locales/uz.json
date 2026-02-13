@@ -127,6 +127,8 @@
             "lessons": "DARS",
             "certificate": "SERTIFIKAT",
             "enterCourse": "KURSGA KIRISH"
+            ,"emptyTitle": "Hozircha bloklar yo'q",
+            "emptyDescription": "O'quv bloklari qo'shilganda bu yerda ko'rinadi"
         },
         "course": {
             "backToCourses": "Orqaga",

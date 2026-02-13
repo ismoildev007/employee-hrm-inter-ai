@@ -125,6 +125,8 @@
             "lessons": "LESSON",
             "certificate": "CERTIFICATE",
             "enterCourse": "ENTER COURSE"
+            ,"emptyTitle": "No blocks yet",
+            "emptyDescription": "Training blocks will appear here when added"
         },
         "course": {
             "backToCourses": "Back",

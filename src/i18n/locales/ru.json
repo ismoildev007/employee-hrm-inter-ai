@@ -125,6 +125,8 @@
             "lessons": "УРОК",
             "certificate": "СЕРТИФИКАТ",
             "enterCourse": "ВОЙТИ В КУРС"
+            ,"emptyTitle": "Пока нет блоков",
+            "emptyDescription": "Учебные блоки появятся здесь, когда будут добавлены"
         },
         "course": {
             "backToCourses": "Назад",
