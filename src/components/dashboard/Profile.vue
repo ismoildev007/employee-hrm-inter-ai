@@ -16,8 +16,8 @@
               <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg></h1>
-          <p class="text-blue-600 font-bold mt-1 uppercase tracking-wider text-sm">Mutaxassis • Chakana kredit
-            amaliyotlarini muvofiqllashshirish departamenti</p>
+          <p class="text-blue-600 font-bold mt-1 uppercase tracking-wider text-sm">{{ $t('profile.position') }} •
+            {{ $t('profile.department') }}</p>
           <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-4">
             <div
               class="flex items-center gap-2 px-3 py-1.5 bg-slate-50 rounded-full text-xs font-bold text-slate-500 border border-slate-100">
@@ -47,7 +47,7 @@
         </div>
         <div class="text-right hidden xl:block z-10">
           <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">{{ $t('dashboard.profile.monthlySalary')
-            }}</p>
+          }}</p>
           <p class="text-2xl font-black text-slate-800">6,316,294 UZS</p>
         </div>
       </div>
