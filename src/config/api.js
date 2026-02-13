@@ -7,7 +7,7 @@ const API_URLS = {
 
 // Set the active base URL here
 // Options: 'local8000', 'local8001', 'production'
-const ACTIVE_ENV = 'local8000';
+const ACTIVE_ENV = 'production';
 
 export const BASE_URL = API_URLS[ACTIVE_ENV];
 
