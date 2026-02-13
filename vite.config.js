@@ -5,7 +5,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // ✅ Production uchun to‘liq konfiguratsiya
 export default defineConfig(({ command, mode }) => ({
-    base: './', // 👈 MUHIM: barcha assets nisbiy yo‘lda yuklanadi
+    base: '/', // 👈 MUHIM: barcha assets nisbiy yo‘lda yuklanadi
     plugins: [
         vue(),
         vueDevTools(),
