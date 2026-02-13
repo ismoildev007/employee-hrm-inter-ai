@@ -1,11 +1,6 @@
 <template>
   <div class="bg-gray-50 min-h-screen py-12 flex flex-col justify-center sm:py-12">
     <div class="relative py-3 sm:max-w-xl sm:mx-auto">
-      <!-- Skewed gradient background -->
-      <div
-        class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
-      </div>
-
       <!-- Main content card -->
       <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
         <div class="max-w-md mx-auto">
@@ -23,7 +18,7 @@
             <!-- First Name -->
             <div>
               <label for="firstName" class="text-sm font-bold text-gray-600 block">{{ $t('auth.register.firstName')
-                }}</label>
+              }}</label>
               <input type="text" id="firstName" v-model="firstName" required
                 class="w-full mt-2 px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 :placeholder="$t('auth.register.firstName')" />
@@ -32,7 +27,7 @@
             <!-- Last Name -->
             <div>
               <label for="lastName" class="text-sm font-bold text-gray-600 block">{{ $t('auth.register.lastName')
-                }}</label>
+              }}</label>
               <input type="text" id="lastName" v-model="lastName" required
                 class="w-full mt-2 px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 :placeholder="$t('auth.register.lastName')" />
@@ -54,7 +49,7 @@
             <!-- Password -->
             <div>
               <label for="password" class="text-sm font-bold text-gray-600 block">{{ $t('auth.register.password')
-                }}</label>
+              }}</label>
               <input type="password" id="password" v-model="password" required @input="validatePassword"
                 class="w-full mt-2 px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 :class="{ 'border-red-500': passwordError }" placeholder="********" />

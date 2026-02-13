@@ -15,10 +15,9 @@
       <div class="px-6 pt-7 border-b border-gray-200 flex items-center justify-between">
         <div>
           <img src="../../assets/logo/Logo.svg" alt="LMS Inter-AI" class="h-10 w-auto" />
-          <p class="text-xm text-gray-500 mt-1 ml-10">
-            <!-- {{ $t('dashboard.sidebar.subtitle') }} -->
+          <!-- <p class="text-xm text-gray-500 mt-1 ml-10">
             LMS by Inter-AI
-          </p>
+          </p> -->
         </div>
 
         <!-- Close button for mobile -->
@@ -35,27 +34,25 @@
       <nav class="flex-1 p-4 overflow-y-auto">
         <ul class="space-y-1">
           <li>
-            <router-link to="/dashboard/profile" @click="closeSidebarOnMobile"
-              class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 transition"
-              :class="{ 'bg-blue-50 text-blue-600 border-l-4 border-blue-600': $route.path === '/dashboard/profile' }">
+            <div class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 cursor-not-allowed opacity-50"
+              title="Coming soon">
               <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               <span class="text-sm font-medium">{{ $t('dashboard.sidebar.myProfile') }}</span>
-            </router-link>
+            </div>
           </li>
 
           <li>
-            <router-link to="/dashboard/bank-structure" @click="closeSidebarOnMobile"
-              class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 transition"
-              :class="{ 'bg-blue-50 text-blue-600 border-l-4 border-blue-600': $route.path === '/dashboard/bank-structure' }">
+            <div class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 cursor-not-allowed opacity-50"
+              title="Coming soon">
               <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
               <span class="text-sm font-medium">{{ $t('dashboard.sidebar.bankStructure') }}</span>
-            </router-link>
+            </div>
           </li>
 
           <li>
@@ -71,27 +68,25 @@
           </li>
 
           <li>
-            <router-link to="/dashboard/assessment" @click="closeSidebarOnMobile"
-              class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 transition"
-              :class="{ 'bg-blue-50 text-blue-600 border-l-4 border-blue-600': $route.path === '/dashboard/assessment' }">
+            <div class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 cursor-not-allowed opacity-50"
+              title="Coming soon">
               <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
               </svg>
               <span class="text-sm font-medium">{{ $t('dashboard.sidebar.assessment') }}</span>
-            </router-link>
+            </div>
           </li>
 
           <li>
-            <router-link to="/dashboard/support" @click="closeSidebarOnMobile"
-              class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 transition"
-              :class="{ 'bg-blue-50 text-blue-600 border-l-4 border-blue-600': $route.path === '/dashboard/support' }">
+            <div class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 cursor-not-allowed opacity-50"
+              title="Coming soon">
               <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
               <span class="text-sm font-medium">{{ $t('dashboard.sidebar.support') }}</span>
-            </router-link>
+            </div>
           </li>
         </ul>
       </nav>
@@ -148,17 +143,17 @@
               </svg>
             </button>
 
-            <div class="w-px h-6 bg-gray-300 mx-1"></div>
+            <!-- <div class="w-px h-6 bg-gray-300 mx-1"></div> -->
 
             <!-- Desktop Preview -->
-            <button @click="setPreviewMode('desktop')" class="p-2 rounded-lg transition"
+            <!-- <button @click="setPreviewMode('desktop')" class="p-2 rounded-lg transition"
               :class="previewMode === 'desktop' ? 'bg-blue-100 text-blue-600' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'"
               :title="$t('dashboard.header.desktopView')">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
-            </button>
+            </button> -->
           </div>
         </div>
 
