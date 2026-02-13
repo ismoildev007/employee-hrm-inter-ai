@@ -1,4 +1,5 @@
 import { buildUrl } from '../config/api';
+import { apiFetch } from '../utils/apiClient';
 
 /**
  * Fetch all training blocks
@@ -7,7 +8,7 @@ import { buildUrl } from '../config/api';
  */
 export const fetchBlocks = async (page = 1) => {
     try {
-        const response = await fetch(buildUrl(`/user/blocks?page=${page}`), {
+        const response = await apiFetch(buildUrl(`/user/blocks?page=${page}`), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +43,7 @@ export const fetchEducationalFields = async (blockId = null, page = 1) => {
             url += `&block_id=${blockId}`;
         }
 
-        const response = await fetch(buildUrl(url), {
+        const response = await apiFetch(buildUrl(url), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,7 +77,7 @@ export const fetchTutorials = async (educationalFieldId = null, page = 1) => {
             url += `&educational_field_id=${educationalFieldId}`;
         }
 
-        const response = await fetch(buildUrl(url), {
+        const response = await apiFetch(buildUrl(url), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -104,7 +105,7 @@ export const fetchTutorials = async (educationalFieldId = null, page = 1) => {
  */
 export const fetchTutorialDetail = async (tutorialId) => {
     try {
-        const response = await fetch(buildUrl(`/user/tutorials/${tutorialId}`), {
+        const response = await apiFetch(buildUrl(`/user/tutorials/${tutorialId}`), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -134,7 +135,7 @@ export const fetchTutorialDetail = async (tutorialId) => {
  */
 export const submitTestAttempt = async (tutorialId, testId, answers) => {
     try {
-        const response = await fetch(buildUrl(`/user/tutorials/${tutorialId}/tests/${testId}/attempts`), {
+        const response = await apiFetch(buildUrl(`/user/tutorials/${tutorialId}/tests/${testId}/attempts`), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -164,7 +165,7 @@ export const submitTestAttempt = async (tutorialId, testId, answers) => {
  */
 export const submitFeedback = async (tutorialId, feedbackText) => {
     try {
-        const response = await fetch(buildUrl(`/user/tutorials/${tutorialId}/feedback`), {
+        const response = await apiFetch(buildUrl(`/user/tutorials/${tutorialId}/feedback`), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -192,7 +193,7 @@ export const submitFeedback = async (tutorialId, feedbackText) => {
  */
 export const fetchDashboard = async () => {
     try {
-        const response = await fetch(buildUrl('/user/dashboard'), {
+        const response = await apiFetch(buildUrl('/user/dashboard'), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -219,7 +220,7 @@ export const fetchDashboard = async () => {
  */
 export const fetchStats = async () => {
     try {
-        const response = await fetch(buildUrl('/user/stats'), {
+        const response = await apiFetch(buildUrl('/user/stats'), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

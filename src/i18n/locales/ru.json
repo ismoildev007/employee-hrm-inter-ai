@@ -21,6 +21,15 @@
             "loginButton": "Войти",
             "noAccount": "Нет учетной записи?",
             "register": "Регистрация"
+        },
+        "validation": {
+            "phonePrefix": "Номер телефона должен начинаться с 998",
+            "phoneLength": "Номер телефона должен состоять из 12 цифр",
+            "passwordMinLength": "Пароль должен содержать минимум 8 символов",
+            "passwordRequireLetter": "Пароль должен содержать хотя бы 1 букву",
+            "passwordsNotMatch": "Пароли не совпадают",
+            "fillAllFields": "Заполните все поля",
+            "invalidCredentials": "Неверный номер телефона или пароль"
         }
     },
     "dashboard": {

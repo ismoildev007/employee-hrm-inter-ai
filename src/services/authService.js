@@ -1,4 +1,5 @@
 import { buildUrl } from '../config/api';
+import { apiFetch } from '../utils/apiClient';
 
 /**
  * Login user with phone and password
@@ -8,7 +9,7 @@ import { buildUrl } from '../config/api';
  */
 export const login = async (phone, password) => {
     try {
-        const response = await fetch(buildUrl('/auth/login'), {
+        const response = await apiFetch(buildUrl('/auth/login'), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +53,7 @@ export const login = async (phone, password) => {
  */
 export const register = async (userData) => {
     try {
-        const response = await fetch(buildUrl('/auth/register'), {
+        const response = await apiFetch(buildUrl('/auth/register'), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -116,7 +117,7 @@ export const fetchUser = async () => {
         const token = localStorage.getItem('token');
         if (!token) return null;
 
-        const response = await fetch(buildUrl('/user/me'), {
+        const response = await apiFetch(buildUrl('/user/me'), {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

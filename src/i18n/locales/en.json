@@ -21,6 +21,15 @@
             "loginButton": "Login",
             "noAccount": "Don't have an account?",
             "register": "Register"
+        },
+        "validation": {
+            "phonePrefix": "Phone number must start with 998",
+            "phoneLength": "Phone number must be 12 digits",
+            "passwordMinLength": "Password must be at least 8 characters",
+            "passwordRequireLetter": "Password must contain at least 1 letter",
+            "passwordsNotMatch": "Passwords do not match",
+            "fillAllFields": "Please fill all fields",
+            "invalidCredentials": "Invalid phone number or password"
         }
     },
     "dashboard": {

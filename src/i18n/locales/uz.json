@@ -21,6 +21,15 @@
             "loginButton": "Kirish",
             "noAccount": "Hisobingiz yo'qmi?",
             "register": "Ro'yxatdan o'tish"
+        },
+        "validation": {
+            "phonePrefix": "Telefon raqam 998 bilan boshlanishi kerak",
+            "phoneLength": "Telefon raqam 12 ta raqamdan iborat bo'lishi kerak",
+            "passwordMinLength": "Parol kamida 8 ta belgidan iborat bo'lishi kerak",
+            "passwordRequireLetter": "Parol kamida 1 ta harf o'z ichiga olishi kerak",
+            "passwordsNotMatch": "Parollar mos emas",
+            "fillAllFields": "Barcha maydonlarni to'ldiring",
+            "invalidCredentials": "Telefon raqam yoki parol noto'g'ri"
         }
     },
     "dashboard": {
