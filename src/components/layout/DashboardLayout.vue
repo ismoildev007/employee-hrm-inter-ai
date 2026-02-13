@@ -193,7 +193,8 @@ const router = useRouter();
 // User data from localStorage
 const currentUser = ref(getCurrentUser());
 const userName = ref(currentUser.value ? `${currentUser.value.first_name || currentUser.value.firstname} ${currentUser.value.last_name || currentUser.value.lastname}` : 'User');
-const userRole = ref(currentUser.value?.role || 'MUTAXASSIS • XODIMLARNI BOSHQARISH DEPARTAMENTI');
+const userRole = ref(currentUser.value?.role || '------- . -------');
+// "MUTAXASSIS • XODIMLARNI BOSHQARISH DEPARTAMENTI"
 
 const updateUserData = async () => {
   const userData = await fetchUser();
