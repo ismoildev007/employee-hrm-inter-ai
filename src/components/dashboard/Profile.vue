@@ -47,7 +47,7 @@
         </div>
         <div class="text-right hidden xl:block z-10">
           <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">{{ $t('dashboard.profile.monthlySalary')
-          }}</p>
+            }}</p>
           <p class="text-2xl font-black text-slate-800">6,316,294 UZS</p>
         </div>
       </div>
@@ -290,8 +290,8 @@
               </div>
             </div>
           </div>
-          <div class="px-4 py-1.5 rounded-xl font-black text-sm bg-green-100 text-green-700 shadow-sm">7/10
-          </div>
+          <!-- <div class="px-4 py-1.5 rounded-xl font-black text-sm bg-green-100 text-green-700 shadow-sm">7/10
+          </div> -->
         </div>
         <div class="pt-2 border-t border-slate-200">
           <p class="text-[10px] font-black text-red-500 uppercase mb-2 tracking-widest">{{
