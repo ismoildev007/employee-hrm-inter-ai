@@ -3,7 +3,6 @@
     <button @click="isOpen = !isOpen"
       class="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition border border-gray-200"
       :title="$t('common.language')">
-      <span class="text-xl">{{ currentLanguage?.flag }}</span>
       <span class="text-sm font-medium uppercase">{{ currentLocale }}</span>
       <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -17,7 +16,6 @@
         <button v-for="lang in languages" :key="lang.code" @click="changeLanguage(lang.code)"
           class="w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 transition flex items-center gap-3"
           :class="{ 'bg-blue-50 text-blue-600 font-medium': currentLocale === lang.code }">
-          <span class="text-xl">{{ lang.flag }}</span>
           <span class="flex-1">{{ lang.name }}</span>
           <svg v-if="currentLocale === lang.code" class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd"
