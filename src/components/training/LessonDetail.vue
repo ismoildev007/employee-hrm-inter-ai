@@ -187,10 +187,10 @@
             class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium">
             {{ $t('training.lesson.backToCourse') }}
           </button>
-          <button @click="goToNextLesson"
+          <!-- <button @click="goToNextLesson"
             class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
             {{ $t('training.lesson.nextLesson') }}
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
