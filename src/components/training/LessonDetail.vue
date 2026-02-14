@@ -18,6 +18,7 @@
 
     <div v-else class="bg-white rounded-xl shadow-sm">
       <!-- Lesson Header -->
+
       <div class="p-4 sm:p-6 lg:p-8 border-b border-gray-200">
         <div class="flex items-start justify-between mb-4">
           <div class="flex-1 min-w-0">
@@ -48,7 +49,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
           <!-- Video Section -->
           <div v-if="lesson.videoUrl" class="rounded-xl overflow-hidden bg-black aspect-video relative group shadow-lg">
-            <video v-if="lesson.videoType === 'native'" controls class="w-full h-full object-cover">
+            <video v-if="lesson.videoType === 'native'" controls crossorigin="anonymous" preload="metadata" controlsList="nodownload" class="w-full h-full object-cover">
               <source :src="lesson.videoUrl" type="video/mp4">
               {{ $t('training.lessonDetail.videoFormatError') }}
             </video>
@@ -309,7 +310,10 @@ const lesson = computed(() => {
     title: tutorial.value.name,
     duration: tutorial.value.videos?.[0]?.duration_seconds ? Math.ceil(tutorial.value.videos[0].duration_seconds / 60) : 0,
     content: tutorial.value.description || '',
-    videoUrl: tutorial.value.videos?.[0]?.video_file_path || null,
+    videoUrl: tutorial.value.videos?.[0]?.video_url ||
+      (tutorial.value.videos?.[0]?.video_file_path
+        ? `https://api.lms.inter-ai.uz/storage/${tutorial.value.videos[0].video_file_path}`
+        : null),
     videoType: 'native',
     files: tutorial.value.files?.map(file => ({
       name: file.description || 'File',
