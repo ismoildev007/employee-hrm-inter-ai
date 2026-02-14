@@ -169,7 +169,7 @@
               </p>
             </div>
           </div>
-          <p class="text-sm text-slate-600 mb-4">{{ $t('training.lessonDetail.writeFeedback') }}</p>
+          <p class="text-sm text-slate-600 mb-4">{{ lesson.feedback_text }}</p>
           <textarea v-model="feedbackText" rows="4" :disabled="isFeedbackAttempted"
             class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none disabled:bg-slate-100 disabled:cursor-not-allowed"
             :placeholder="$t('training.lessonDetail.feedbackPlaceholder')"></textarea>
@@ -318,6 +318,7 @@ const lesson = computed(() => {
       size: '0 KB',
       url: file.file_path
     })) || [],
+    feedback_text: tutorial.value.feedback_text || '',
     isRead: false
   };
 });
@@ -389,12 +390,12 @@ const submitTest = async (testId) => {
     if (response.success) {
       testSubmitted.value = true;
       testResult.value = response.data;
-      
+
       // Update tutorial test_attempted flag to persist the state
       if (tutorial.value) {
         tutorial.value.test_attempted = true;
       }
-      
+
       // Save to cache so it persists across page reloads
       saveCachedData();
       alert(t('training.lessonDetail.testSuccess'));
@@ -417,12 +418,12 @@ const submitFeedbackForm = async () => {
 
     if (response.success) {
       feedbackSubmitted.value = true;
-      
+
       // Update tutorial feedback_attempted flag to persist the state
       if (tutorial.value) {
         tutorial.value.feedback_attempted = true;
       }
-      
+
       // Save to cache so it persists across page reloads
       saveCachedData();
       alert(t('training.lessonDetail.feedbackSuccess'));
