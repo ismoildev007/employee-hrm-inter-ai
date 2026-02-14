@@ -308,13 +308,16 @@ const loadTutorials = async () => {
     const response = await fetchTutorials(directionId.value);
 
     if (response.success && response.data && response.data.data) {
+      // Filter tutorials by current educational_field_id (direction)
+      const tutorialsForCurrentDirection = response.data.data.filter(tutorial => tutorial.educational_field_id === parseInt(directionId.value));
+
       // Map API response to component format
-      const mappedTutorials = response.data.data.map(tutorial => ({
+      const mappedTutorials = tutorialsForCurrentDirection.map(tutorial => ({
         id: tutorial.id,
         title: tutorial.name,
         duration: '45 daqiqa', // Default duration, can be updated if API provides it
-        lessons: 5, // Default lessons count, can be updated if API provides it
-        hasVideo: tutorial.videos && tutorial.videos.length > 0 // Check if tutorial has videos
+        lessons: tutorial.test_questions_count || 0, // Test questions count from API
+        hasVideo: tutorial.videos_count > 0 // Check if tutorial has videos
       }));
       tutorials.value = mappedTutorials;
       saveCachedData(mappedTutorials, directionTitle.value, blockTitle.value);

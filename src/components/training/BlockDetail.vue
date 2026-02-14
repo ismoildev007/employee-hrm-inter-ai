@@ -250,8 +250,11 @@ const loadEducationalFields = async () => {
     const response = await fetchEducationalFields(blockId.value);
 
     if (response.success && response.data && response.data.data) {
+      // Filter fields by current block_id (client-side filtering)
+      const fieldsForCurrentBlock = response.data.data.filter(field => field.block_id === parseInt(blockId.value));
+
       // Map API response to component format
-      const mappedFields = response.data.data.map(field => ({
+      const mappedFields = fieldsForCurrentBlock.map(field => ({
         id: field.id,
         title: field.name,
         desc: field.description,

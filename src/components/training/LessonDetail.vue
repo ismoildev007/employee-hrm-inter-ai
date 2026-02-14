@@ -389,6 +389,14 @@ const submitTest = async (testId) => {
     if (response.success) {
       testSubmitted.value = true;
       testResult.value = response.data;
+      
+      // Update tutorial test_attempted flag to persist the state
+      if (tutorial.value) {
+        tutorial.value.test_attempted = true;
+      }
+      
+      // Save to cache so it persists across page reloads
+      saveCachedData();
       alert(t('training.lessonDetail.testSuccess'));
     }
   } catch (err) {
@@ -409,6 +417,14 @@ const submitFeedbackForm = async () => {
 
     if (response.success) {
       feedbackSubmitted.value = true;
+      
+      // Update tutorial feedback_attempted flag to persist the state
+      if (tutorial.value) {
+        tutorial.value.feedback_attempted = true;
+      }
+      
+      // Save to cache so it persists across page reloads
+      saveCachedData();
       alert(t('training.lessonDetail.feedbackSuccess'));
       feedbackText.value = '';
     }
