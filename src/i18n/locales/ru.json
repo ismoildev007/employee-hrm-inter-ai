@@ -124,8 +124,8 @@
             "directions": "НАПРАВЛЕНИЕ",
             "lessons": "УРОК",
             "certificate": "СЕРТИФИКАТ",
-            "enterCourse": "ВОЙТИ В КУРС"
-            ,"emptyTitle": "Пока нет блоков",
+            "enterCourse": "ВОЙТИ В КУРС",
+            "emptyTitle": "Пока нет блоков",
             "emptyDescription": "Учебные блоки появятся здесь, когда будут добавлены"
         },
         "course": {
@@ -153,10 +153,10 @@
             "submitTest": "Сдать тест",
             "testSuccess": "Тест успешно сдан!",
             "testError": "Ошибка при сдаче теста",
-            "leaveFeedback": "Оставьте отзыв",
-            "feedbackSent": "Отзыв отправлен",
-            "writeFeedback": "Напишите ваш отзыв об этом уроке",
-            "feedbackPlaceholder": "Введите ваш отзыв...",
+            "leaveFeedback": "Кейс Отправить",
+            "feedbackSent": "Кейс отправлен",
+            "writeFeedback": "Напишите ваш кейс об этом уроке",
+            "feedbackPlaceholder": "Введите ваш кейс...",
             "send": "Отправить",
             "sent": "Отправлено",
             "enterFeedback": "Пожалуйста, введите ваш отзыв",

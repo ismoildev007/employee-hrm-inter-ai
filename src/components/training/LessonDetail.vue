@@ -36,9 +36,7 @@
                 {{ $t('training.lesson.read') }}
               </span>
             </div>
-            <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">{{ lesson.title }}</h1>
-            <p class="text-sm sm:text-base text-gray-600">{{ lesson.duration }} {{ $t('training.directionDetail.min') }}
-            </p>
+            <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">{{ lesson.title }}</h1>
           </div>
         </div>
       </div>
@@ -49,7 +47,8 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
           <!-- Video Section -->
           <div v-if="lesson.videoUrl" class="rounded-xl overflow-hidden bg-black aspect-video relative group shadow-lg">
-            <video v-if="lesson.videoType === 'native'" :src="lesson.videoUrl" controls preload="metadata" class="w-full h-full object-cover">
+            <video v-if="lesson.videoType === 'native'" :src="lesson.videoUrl" controls preload="metadata"
+              class="w-full h-full object-cover">
             </video>
             <iframe v-else :src="lesson.videoUrl" title="Lesson Video" frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

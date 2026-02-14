@@ -126,8 +126,8 @@
             "directions": "YO'NALISH",
             "lessons": "DARS",
             "certificate": "SERTIFIKAT",
-            "enterCourse": "KURSGA KIRISH"
-            ,"emptyTitle": "Hozircha bloklar yo'q",
+            "enterCourse": "KURSGA KIRISH",
+            "emptyTitle": "Hozircha bloklar yo'q",
             "emptyDescription": "O'quv bloklari qo'shilganda bu yerda ko'rinadi"
         },
         "course": {
@@ -155,10 +155,10 @@
             "submitTest": "Testni topshirish",
             "testSuccess": "Test muvaffaqiyatli topshirildi!",
             "testError": "Testni topshirishda xatolik yuz berdi",
-            "leaveFeedback": "Fikr-mulohaza qoldiring",
-            "feedbackSent": "Fikr-mulohaza yuborilgan",
-            "writeFeedback": "Ushbu dars haqida fikr-mulohazangizni yozing",
-            "feedbackPlaceholder": "Fikr-mulohazangizni kiriting...",
+            "leaveFeedback": "Keys yuboring",
+            "feedbackSent": "Keys yuborilgan",
+            "writeFeedback": "Ushbu dars haqida keys yozing",
+            "feedbackPlaceholder": "Keys yozing...",
             "send": "Yuborish",
             "sent": "Yuborilgan",
             "enterFeedback": "Iltimos, fikr-mulohazangizni kiriting",
