@@ -24,7 +24,7 @@
           <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
               <span class="px-2 sm:px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs sm:text-sm font-medium">
-                {{ $t('training.directionDetail.lesson') }} {{ lessonNumber }}
+                {{ lessonNumber }} - {{ $t('training.directionDetail.title') }}
               </span>
               <span v-if="lesson.isRead"
                 class="px-2 sm:px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs sm:text-sm font-medium flex items-center gap-1">
@@ -79,16 +79,16 @@
                   {{ file.ext }}
                 </div>
                 <div class="min-w-0">
-                  <p class="font-medium text-slate-700 truncate text-sm">{{ file.name }}</p>
-                  <p class="text-xs text-slate-400">{{ file.size }}</p>
+                  <p class="font-medium text-slate-700 truncate text-sm">File</p>
+                  <!-- <p class="text-xs text-slate-400">{{ file.size }}</p> -->
                 </div>
               </div>
-              <button class="p-2 text-slate-400 hover:text-blue-600 transition">
+              <a :href="file.url" target="_blank" download class="p-2 text-slate-400 hover:text-blue-600 transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -313,10 +313,10 @@ const lesson = computed(() => {
         : null),
     videoType: 'native',
     files: tutorial.value.files?.map(file => ({
-      name: file.description || 'File',
+      name: file.description || file.file_path?.split('/').pop() || 'File',
       ext: file.file_path?.split('.').pop()?.toUpperCase() || 'FILE',
       size: '0 KB',
-      url: file.file_path
+      url: `https://api.lms.inter-ai.uz/storage/${file.file_path}`
     })) || [],
     feedback_text: tutorial.value.feedback_text || '',
     isRead: false

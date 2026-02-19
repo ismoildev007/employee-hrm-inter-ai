@@ -15,6 +15,7 @@
         "login": {
             "title": "Добро пожаловать!",
             "subtitle": "Войдите в свою учетную запись, чтобы продолжить",
+            "corporateEmail": "Корпоративная почта",
             "phone": "Номер телефона",
             "password": "Пароль",
             "forgotPassword": "Забыли пароль?",
@@ -27,6 +28,8 @@
             "subtitle": "LMS Inter-AI",
             "firstName": "Имя",
             "lastName": "Фамилия",
+            "corporateEmail": "Корпоративная почта",
+            "tableNumber": "Табельный номер",
             "phone": "Номер телефона",
             "password": "Пароль",
             "confirmPassword": "Подтвердите пароль",
@@ -109,7 +112,10 @@
         "directionDetail": {
             "totalLessons": "ТЕМЫ УРОКОВ",
             "lesson": "УРОК",
+            "title": "УРОК",
             "lessonsList": "ТЕМЫ УРОКОВ",
+            "lessonCount": "УРОКОВ",
+            "questionCount": "ВОПРОСОВ",
             "video": "ВИДЕО ДОСТУПНО",
             "min": "минут",
             "addNewLesson": "ДОБАВИТЬ НОВЫЙ УРОК"

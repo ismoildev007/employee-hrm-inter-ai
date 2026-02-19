@@ -15,6 +15,15 @@
               {{ errorMessage }}
             </div>
 
+            <!-- Corporate Email (UI only) -->
+            <div>
+              <label for="email" class="text-sm font-bold text-gray-600 block">{{ $t('auth.login.corporateEmail')
+              }}</label>
+              <input type="email" id="email" v-model="corporateEmail"
+                class="w-full mt-2 px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                placeholder="example@aloqabank.uz" />
+            </div>
+
             <!-- Phone -->
             <div>
               <label for="phone" class="text-sm font-bold text-gray-600 block">{{ $t('auth.login.phone') }}</label>
@@ -76,6 +85,7 @@ const props = defineProps({
 const emit = defineEmits(['login']);
 
 // Reactive data
+const corporateEmail = ref('');
 const phoneNumber = ref(''); // Only the 9 digits after 998
 const password = ref('');
 const errorMessage = ref('');

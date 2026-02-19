@@ -1,19 +1,20 @@
 <template>
   <div class="p-4 sm:p-6 lg:p-8 min-h-screen bg-blue-50">
     <div class="mb-8">
-      <h2 class="text-3xl font-bold text-[#1a2b50] mb-2 font-display">{{ blockTitle }} {{
+      <h2 class="text-xl sm:text-[28px] font-bold text-[#1a2b50] mb-2 font-display">{{ blockTitle }} {{
         $t('training.blockDetail.directionsTitle') }}</h2>
       <p class="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em]">{{ $t('training.blockDetail.subtitle')
         }}</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-10">
       <div
-        class="bg-white p-5 rounded-[28px] border border-slate-100 shadow-sm flex items-center gap-4 transition-transform hover:scale-[1.02]">
-        <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-[20px] flex items-center justify-center shadow-inner">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-layers" aria-hidden="true">
+        class="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-[28px] border border-slate-100 shadow-sm flex items-center gap-3 sm:gap-4 transition-transform hover:scale-[1.02]">
+        <div
+          class="w-10 h-10 sm:w-14 sm:h-14 bg-blue-50 text-blue-600 rounded-xl sm:rounded-[20px] flex items-center justify-center shadow-inner">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layers w-5 h-5 sm:w-7 sm:h-7"
+            aria-hidden="true">
             <path
               d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z">
             </path>
@@ -22,35 +23,40 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">{{ stats.blocks_count || 0 }}</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
-            $t('training.stats.blocksCount') }}</p>
+          <p class="text-lg sm:text-2xl font-black text-slate-800">{{ stats.blocks_count || 0 }}</p>
+          <p
+            class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-0.5 sm:mt-1">
+            {{
+              $t('training.stats.blocksCount') }}</p>
         </div>
       </div>
 
       <div
-        class="bg-white p-5 rounded-[28px] border border-slate-100 shadow-sm flex items-center gap-4 transition-transform hover:scale-[1.02]">
-        <div class="w-14 h-14 bg-green-50 text-green-600 rounded-[20px] flex items-center justify-center shadow-inner">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-bookmark" aria-hidden="true">
+        class="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-[28px] border border-slate-100 shadow-sm flex items-center gap-3 sm:gap-4 transition-transform hover:scale-[1.02]">
+        <div
+          class="w-10 h-10 sm:w-14 sm:h-14 bg-green-50 text-green-600 rounded-xl sm:rounded-[20px] flex items-center justify-center shadow-inner">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bookmark w-5 h-5 sm:w-7 sm:h-7"
+            aria-hidden="true">
             <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"></path>
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">{{ stats.educational_fields_count || 0 }}</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
-            $t('training.stats.educationalFields') }}</p>
+          <p class="text-lg sm:text-2xl font-black text-slate-800">{{ stats.educational_fields_count || 0 }}</p>
+          <p
+            class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-0.5 sm:mt-1">
+            {{
+              $t('training.stats.educationalFields') }}</p>
         </div>
       </div>
 
       <div
-        class="bg-white p-5 rounded-[28px] border border-slate-100 shadow-sm flex items-center gap-4 transition-transform hover:scale-[1.02]">
+        class="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-[28px] border border-slate-100 shadow-sm flex items-center gap-3 sm:gap-4 transition-transform hover:scale-[1.02]">
         <div
-          class="w-14 h-14 bg-orange-50 text-orange-600 rounded-[20px] flex items-center justify-center shadow-inner">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-book-open" aria-hidden="true">
+          class="w-10 h-10 sm:w-14 sm:h-14 bg-orange-50 text-orange-600 rounded-xl sm:rounded-[20px] flex items-center justify-center shadow-inner">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open w-5 h-5 sm:w-7 sm:h-7"
+            aria-hidden="true">
             <path d="M12 7v14"></path>
             <path
               d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z">
@@ -58,19 +64,21 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">{{ stats.tutorials_count || 0 }}</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
-            $t('training.stats.totalTutorials') }}</p>
+          <p class="text-lg sm:text-2xl font-black text-slate-800">{{ stats.tutorials_count || 0 }}</p>
+          <p
+            class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-0.5 sm:mt-1">
+            {{
+              $t('training.stats.totalTutorials') }}</p>
         </div>
       </div>
 
       <div
-        class="bg-white p-5 rounded-[28px] border border-slate-100 shadow-sm flex items-center gap-4 transition-transform hover:scale-[1.02]">
+        class="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-[28px] border border-slate-100 shadow-sm flex items-center gap-3 sm:gap-4 transition-transform hover:scale-[1.02]">
         <div
-          class="w-14 h-14 bg-purple-50 text-purple-600 rounded-[20px] flex items-center justify-center shadow-inner">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-file-check" aria-hidden="true">
+          class="w-10 h-10 sm:w-14 sm:h-14 bg-purple-50 text-purple-600 rounded-xl sm:rounded-[20px] flex items-center justify-center shadow-inner">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-check w-5 h-5 sm:w-7 sm:h-7"
+            aria-hidden="true">
             <path
               d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z">
             </path>
@@ -79,9 +87,11 @@
           </svg>
         </div>
         <div>
-          <p class="text-2xl font-black text-slate-800">{{ stats.tests_count || 0 }}</p>
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-1">{{
-            $t('training.stats.testQuestions') }}</p>
+          <p class="text-lg sm:text-2xl font-black text-slate-800">{{ stats.tests_count || 0 }}</p>
+          <p
+            class="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mt-0.5 sm:mt-1">
+            {{
+              $t('training.stats.testQuestions') }}</p>
         </div>
       </div>
     </div>
@@ -114,9 +124,9 @@
               </svg>
             </button>
             <div>
-              <h3 class="text-3xl font-black text-slate-800">{{ blockTitle }} {{
+              <h3 class="text-xl sm:text-[28px] font-black text-slate-800">{{ blockTitle }} {{
                 $t('training.blockDetail.directionsTitle') }}</h3>
-              <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mt-1">{{
+              <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1">{{
                 $t('training.blockDetail.subtitle') }}</p>
             </div>
           </div>

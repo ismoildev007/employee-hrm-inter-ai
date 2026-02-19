@@ -15,6 +15,7 @@
         "login": {
             "title": "Welcome Back!",
             "subtitle": "Sign in to your account to continue",
+            "corporateEmail": "Corporate Email",
             "phone": "Phone Number",
             "password": "Password",
             "forgotPassword": "Forgot Password?",
@@ -27,6 +28,8 @@
             "subtitle": "LMS Inter-AI",
             "firstName": "First Name",
             "lastName": "Last Name",
+            "corporateEmail": "Corporate Email",
+            "tableNumber": "Table Number",
             "phone": "Phone Number",
             "password": "Password",
             "confirmPassword": "Confirm Password",
@@ -109,7 +112,10 @@
         "directionDetail": {
             "totalLessons": "LESSON TOPICS",
             "lesson": "LESSON",
+            "title": "LESSON",
             "lessonsList": "LESSON TOPICS",
+            "lessonCount": "LESSONS",
+            "questionCount": "QUESTIONS",
             "video": "VIDEO AVAILABLE",
             "min": "min",
             "addNewLesson": "ADD NEW LESSON"

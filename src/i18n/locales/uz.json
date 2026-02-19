@@ -15,6 +15,7 @@
         "login": {
             "title": "Xush kelibsiz!",
             "subtitle": "Davom etish uchun hisobingizga kiring",
+            "corporateEmail": "Korporativ email",
             "phone": "Telefon raqami",
             "password": "Parol",
             "forgotPassword": "Parolni unutdingizmi?",
@@ -27,6 +28,8 @@
             "subtitle": "LMS Inter-AI",
             "firstName": "Ism",
             "lastName": "Familiya",
+            "corporateEmail": "Korporativ email",
+            "tableNumber": "Tabel raqami",
             "phone": "Telefon raqami",
             "password": "Parol",
             "confirmPassword": "Parolni tasdiqlang",
@@ -110,7 +113,10 @@
         "directionDetail": {
             "totalLessons": "DARSLIK MAVZULARI",
             "lesson": "TA DARS",
+            "title": "DARS",
             "lessonsList": "Mavzular",
+            "lessonCount": "TA DARS",
+            "questionCount": "SAVOL",
             "video": "VIDEO MAVJUD",
             "min": "daqiqa",
             "addNewLesson": "YANGI DARSLIK QO'SHISH"

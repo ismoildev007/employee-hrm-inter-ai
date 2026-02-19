@@ -33,6 +33,24 @@
                 :placeholder="$t('auth.register.lastName')" />
             </div>
 
+            <!-- Corporate Email (UI only) -->
+            <div>
+              <label for="email" class="text-sm font-bold text-gray-600 block">{{ $t('auth.register.corporateEmail')
+              }}</label>
+              <input type="email" id="email" v-model="corporateEmail"
+                class="w-full mt-2 px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                placeholder="example@aloqabank.uz" />
+            </div>
+
+            <!-- Table Number (UI only) -->
+            <div>
+              <label for="tableNumber" class="text-sm font-bold text-gray-600 block">{{ $t('auth.register.tableNumber')
+              }}</label>
+              <input type="text" id="tableNumber" v-model="tableNumber"
+                class="w-full mt-2 px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                placeholder="12345" />
+            </div>
+
             <!-- Phone -->
             <div>
               <label for="phone" class="text-sm font-bold text-gray-600 block">{{ $t('auth.register.phone') }}</label>
@@ -97,6 +115,8 @@ const { t } = useI18n();
 // Reactive data
 const firstName = ref('');
 const lastName = ref('');
+const corporateEmail = ref('');
+const tableNumber = ref('');
 const phoneNumber = ref(''); // Only the 9 digits after 998
 const password = ref('');
 const confirmPassword = ref('');
