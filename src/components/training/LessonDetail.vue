@@ -307,7 +307,7 @@ const lesson = computed(() => {
     title: tutorial.value.name,
     duration: tutorial.value.videos?.[0]?.duration_seconds ? Math.ceil(tutorial.value.videos[0].duration_seconds / 60) : 0,
     content: tutorial.value.description || '',
-    videoUrl: tutorial.value.videos?.[0]?.video_url ||
+    videoUrl: tutorial.value.videos?.[0]?.stream_url ||
       (tutorial.value.videos?.[0]?.video_file_path
         ? `https://api.lms.inter-ai.uz/storage/${tutorial.value.videos[0].video_file_path}`
         : null),
