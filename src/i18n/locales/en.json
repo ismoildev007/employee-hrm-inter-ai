@@ -158,6 +158,7 @@
             "clickToView": "Click to view",
             "clickToDownload": "Click to download",
             "download": "Download",
+            "pdfLoading": "Loading PDF...",
             "questionsCount": "{count} questions",
             "testSubmitted": "Test submitted",
             "submitTest": "Submit test",

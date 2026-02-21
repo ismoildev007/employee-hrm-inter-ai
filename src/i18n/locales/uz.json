@@ -160,6 +160,7 @@
             "clickToView": "Ko'rish uchun bosing",
             "clickToDownload": "Yuklab olish uchun bosing",
             "download": "Yuklab olish",
+            "pdfLoading": "PDF yuklanmoqda...",
             "questionsCount": "{count} ta savol",
             "testSubmitted": "Test topshirilgan",
             "submitTest": "Testni topshirish",

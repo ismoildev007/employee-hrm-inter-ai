@@ -39,7 +39,7 @@
             <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">{{ lesson.title }}</h1>
             <!-- Darslik tavsifi sarlavhadan pastda -->
             <p v-if="lesson.content" class="mt-3 text-sm sm:text-base text-gray-600 leading-relaxed">{{ lesson.content
-              }}</p>
+            }}</p>
           </div>
         </div>
       </div>
@@ -119,9 +119,16 @@
               <!-- Accordion body: inline viewer -->
               <div v-if="isViewable(file.ext) && openFiles.includes(index)" class="border-t border-slate-100">
                 <!-- PDF viewer — Google Docs Viewer orqali -->
-                <div v-if="isPdf(file.ext)" class="w-full" style="height: 75vh;">
+                <div v-if="isPdf(file.ext)" class="w-full relative" style="height: 75vh;">
+                  <!-- Loading overlay -->
+                  <div v-if="pdfLoading[index]"
+                    class="absolute inset-0 flex flex-col items-center justify-center bg-slate-50 z-10 gap-3">
+                    <!-- Spinner -->
+                    <div class="w-12 h-12 rounded-full border-4 border-blue-100 border-t-blue-600 animate-spin"></div>
+                    <p class="text-sm text-slate-500 font-medium">{{ $t('training.lessonDetail.pdfLoading') }}</p>
+                  </div>
                   <iframe :src="'https://docs.google.com/viewer?url=' + encodeURIComponent(file.url) + '&embedded=true'"
-                    class="w-full h-full border-0" allowfullscreen>
+                    class="w-full h-full border-0" allowfullscreen @load="pdfLoading[index] = false">
                     <p class="p-4 text-sm text-slate-500">PDF ko'rib bo'lmadi.
                       <a :href="file.url" target="_blank" class="text-blue-600 underline">Yuklab oling</a>
                     </p>
@@ -269,6 +276,8 @@ const error = ref(null);
 
 // Accordion state for files
 const openFiles = ref([]);
+// PDF loading state: index → boolean
+const pdfLoading = ref({});
 
 const toggleFile = (index) => {
   const i = openFiles.value.indexOf(index);
@@ -276,6 +285,11 @@ const toggleFile = (index) => {
     openFiles.value.splice(i, 1);
   } else {
     openFiles.value.push(index);
+    // PDF bo'lsa loading ni true qilib qo'y
+    const file = lesson.value?.files?.[index];
+    if (file && isPdf(file.ext)) {
+      pdfLoading.value[index] = true;
+    }
   }
 };
 

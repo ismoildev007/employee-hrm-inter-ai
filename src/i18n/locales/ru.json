@@ -158,6 +158,7 @@
             "clickToView": "Нажмите для просмотра",
             "clickToDownload": "Нажмите для скачивания",
             "download": "Скачать",
+            "pdfLoading": "PDF загружается...",
             "questionsCount": "{count} вопросов",
             "testSubmitted": "Тест сдан",
             "submitTest": "Сдать тест",
