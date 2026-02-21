@@ -2,9 +2,9 @@
   <div class="p-4 sm:p-6 lg:p-8 min-h-screen bg-blue-50">
     <!-- Page Header with Title -->
     <div class="mb-8">
-      <h1 class="text-xl sm:text-[28px] font-bold text-[#1a2b50] mb-1">{{ $t('training.center.headerTitle') }}</h1>
-      <p class="text-[9px] font-bold text-[#3169e1] uppercase tracking-wider">{{ $t('training.center.platformName') }}
-      </p>
+      <h1 class="text-xl sm:text-[28px] font-bold text-[#1a2b50] mb-1">{{ directionTitle }}</h1>
+      <!-- <p class="text-[9px] font-bold text-[#3169e1] uppercase tracking-wider">{{ $t('training.center.platformName') }}
+      </p> -->
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-10">
@@ -116,99 +116,101 @@
       <button class="hover:text-blue-600 transition-colors">{{ directionTitle }}</button>
     </div>
 
-    <div
-      class="bg-white/40 backdrop-blur-xl rounded-[48px] border border-white/50 p-1 min-h-[600px] shadow-2xl shadow-blue-100/50 z-10 relative">
-      <!-- Page Header -->
-      <div class="px-6 lg:px-8 py-6">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-6">
-            <button @click="goBack"
-              class="p-4 bg-white rounded-3xl border border-slate-100 text-slate-400 hover:text-blue-600 shadow-lg hover:shadow-blue-100 transition-all group">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="lucide lucide-arrow-left group-hover:-translate-x-1 transition-transform" aria-hidden="true">
-                <path d="m12 19-7-7 7-7"></path>
-                <path d="M19 12H5"></path>
-              </svg>
-            </button>
-            <div>
-              <h3 class="text-3xl font-black text-slate-800">{{ directionTitle }}</h3>
-            </div>
+    <!-- <div
+      class="bg-white/40 backdrop-blur-xl rounded-[48px] border border-white/50 p-1 min-h-[600px] shadow-2xl shadow-blue-100/50 z-10 relative"> -->
+    <!-- Page Header -->
+    <div class="py-4 sm:py-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3 sm:gap-6">
+          <button @click="goBack"
+            class="p-2.5 sm:p-4 bg-white rounded-2xl sm:rounded-3xl border border-slate-100 text-slate-400 hover:text-blue-600 shadow-lg hover:shadow-blue-100 transition-all group">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-arrow-left group-hover:-translate-x-1 transition-transform sm:w-6 sm:h-6"
+              aria-hidden="true">
+              <path d="m12 19-7-7 7-7"></path>
+              <path d="M19 12H5"></path>
+            </svg>
+          </button>
+          <div>
+            <h3 class="text-[16px] sm:text-[20px] font-semibold text-slate-800 line-clamp-2">{{ directionTitle }}</h3>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Tutorials List -->
-      <div class="px-6 lg:px-8 pb-8">
-        <div class="flex items-center justify-between mb-6">
-          <!-- <h3 class="text-2xl font-black text-slate-800">{{ $t('training.courseDetail.lessonsTitle') }}</h3> -->
-          <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">{{ tutorials.length }} {{
-            $t('training.directionDetail.lessonCount') }}</span>
-        </div>
+    <!-- Tutorials List -->
+    <div class="pb-8">
+      <div class="flex items-center justify-between mb-3 sm:mb-6">
+        <span class="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-widest">{{ tutorials.length }} {{
+          $t('training.directionDetail.lessonCount') }}</span>
+      </div>
 
-        <div class="space-y-4">
-          <!-- Loading Skeletons -->
-          <template v-if="loading && tutorials.length === 0">
-            <div v-for="n in 4" :key="n"
-              class="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm animate-pulse">
-              <div class="flex items-center gap-6">
-                <div class="w-16 h-16 bg-slate-200 rounded-2xl"></div>
-                <div class="flex-1">
-                  <div class="h-6 bg-slate-200 rounded w-3/4 mb-2"></div>
-                  <div class="h-4 bg-slate-200 rounded w-1/2"></div>
-                </div>
+      <div class="space-y-2 sm:space-y-4">
+        <!-- Loading Skeletons -->
+        <template v-if="loading && tutorials.length === 0">
+          <div v-for="n in 4" :key="n"
+            class="bg-white p-3 sm:p-6 rounded-2xl sm:rounded-[32px] border border-slate-100 shadow-sm animate-pulse">
+            <div class="flex items-center gap-3 sm:gap-6">
+              <div class="w-10 h-10 sm:w-16 sm:h-16 bg-slate-200 rounded-xl sm:rounded-2xl"></div>
+              <div class="flex-1">
+                <div class="h-4 sm:h-6 bg-slate-200 rounded w-3/4 mb-2"></div>
+                <div class="h-3 sm:h-4 bg-slate-200 rounded w-1/2"></div>
               </div>
             </div>
-          </template>
+          </div>
+        </template>
 
-          <!-- Actual Tutorials -->
-          <template v-else>
-            <div v-for="(tutorial, index) in tutorials" :key="tutorial.id" @click="goToLesson(tutorial.id)"
-              class="cursor-pointer bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all group">
-              <div class="flex items-center gap-6">
-                <div
-                  class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center font-black text-2xl shadow-inner">
-                  {{ index + 1 }}
-                </div>
-                <div class="flex-1">
-                  <h4 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">{{
+        <!-- Actual Tutorials -->
+        <template v-else>
+          <div v-for="(tutorial, index) in tutorials" :key="tutorial.id" @click="goToLesson(tutorial.id)"
+            class="cursor-pointer bg-white p-3 sm:p-6 rounded-2xl sm:rounded-[32px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all group">
+            <div class="flex items-center gap-3 sm:gap-6">
+              <div
+                class="w-10 h-10 sm:w-16 sm:h-16 bg-blue-50 text-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center font-black text-base sm:text-2xl shadow-inner shrink-0">
+                {{ index + 1 }}
+              </div>
+              <div class="flex-1 min-w-0">
+                <h4
+                  class="text-sm sm:text-lg font-bold text-slate-800 mb-1 sm:mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+                  {{
                     tutorial.title }}</h4>
-                  <div class="flex items-center gap-6">
-                    <span v-if="tutorial.hasVideo"
-                      class="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-video text-red-500" aria-hidden="true">
-                        <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path>
-                        <rect x="2" y="6" width="14" height="12" rx="2"></rect>
-                      </svg> VIDEO
-                    </span>
-                    <span
-                      class="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-file-check text-green-500" aria-hidden="true">
-                        <path
-                          d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z">
-                        </path>
-                        <path d="M14 2v5a1 1 0 0 0 1 1h5"></path>
-                        <path d="m9 15 2 2 4-4"></path>
-                      </svg> {{ tutorial.lessons }} {{ $t('training.directionDetail.questionCount') }}
-                    </span>
-                  </div>
+                <div class="flex items-center gap-3 sm:gap-6">
+                  <span v-if="tutorial.hasVideo"
+                    class="flex items-center gap-1 sm:gap-1.5 text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="lucide lucide-video text-red-500" aria-hidden="true">
+                      <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path>
+                      <rect x="2" y="6" width="14" height="12" rx="2"></rect>
+                    </svg> VIDEO
+                  </span>
+                  <span
+                    class="flex items-center gap-1 sm:gap-1.5 text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="lucide lucide-file-check text-green-500" aria-hidden="true">
+                      <path
+                        d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z">
+                      </path>
+                      <path d="M14 2v5a1 1 0 0 0 1 1h5"></path>
+                      <path d="m9 15 2 2 4-4"></path>
+                    </svg> {{ tutorial.lessons }} {{ $t('training.directionDetail.questionCount') }}
+                  </span>
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="lucide lucide-chevron-right text-slate-400 group-hover:text-blue-600 transition-colors"
-                  aria-hidden="true">
-                  <path d="m9 18 6-6-6-6"></path>
-                </svg>
               </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-chevron-right text-slate-400 group-hover:text-blue-600 transition-colors shrink-0 sm:w-6 sm:h-6"
+                aria-hidden="true">
+                <path d="m9 18 6-6-6-6"></path>
+              </svg>
             </div>
-          </template>
-        </div>
+          </div>
+        </template>
       </div>
     </div>
+    <!-- </div> -->
   </div>
 </template>
 

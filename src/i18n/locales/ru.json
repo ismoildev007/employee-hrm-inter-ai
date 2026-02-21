@@ -154,6 +154,10 @@
         },
         "lessonDetail": {
             "attachedFiles": "Прикрепленные файлы",
+            "fileLabel": "Файл",
+            "clickToView": "Нажмите для просмотра",
+            "clickToDownload": "Нажмите для скачивания",
+            "download": "Скачать",
             "questionsCount": "{count} вопросов",
             "testSubmitted": "Тест сдан",
             "submitTest": "Сдать тест",

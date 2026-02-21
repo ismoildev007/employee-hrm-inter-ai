@@ -104,71 +104,76 @@
       <button class="hover:text-blue-600 transition-colors">{{ $t('training.center.teachingManagement') }}</button>
     </div>
 
-    <div
-      class="bg-white/40 backdrop-blur-xl rounded-[48px] border border-white/50 p-10 min-h-[600px] shadow-2xl shadow-blue-100/50 z-10 relative">
-      <div class="flex items-center justify-between mb-8">
-        <h2 class="text-[22px] font-bold text-[#1a2b50]">{{ $t('training.blocks.title') }}</h2>
-        <button class="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+    <!-- <div
+      class="bg-white/40 backdrop-blur-xl rounded-[48px] border border-white/50 p-10 min-h-[600px] shadow-2xl shadow-blue-100/50 z-10 relative"> -->
+    <div class="flex items-center justify-between mb-4 sm:mb-8">
+      <h3 class="text-[16px] sm:text-[20px] font-semibold text-slate-800">{{ $t('training.blocks.title') }}
+      </h3>
+      <!-- <button class="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          {{ $t('training.center.manageBlocks') }}
-        </button>
-      </div>
+          <span class="hidden sm:inline">{{ $t('training.center.manageBlocks') }}</span>
+        </button> -->
+    </div>
 
-      <!-- Blocks Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Loading Skeletons -->
-        <template v-if="loading && blocks.length === 0">
-          <SkeletonCard v-for="n in 6" :key="n" />
-        </template>
+    <!-- Blocks Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+      <!-- Loading Skeletons -->
+      <template v-if="loading && blocks.length === 0">
+        <SkeletonCard v-for="n in 6" :key="n" />
+      </template>
 
-        <!-- Actual Blocks -->
-        <template v-else>
-          <router-link v-for="block in blocks" :key="block.id"
-            :to="{ name: 'block-detail', params: { blockId: block.id } }"
-            class="w-full h-full text-left bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col justify-between">
-            <div class="w-12 h-12 bg-[#f0f4ff] rounded-xl flex items-center justify-center mb-6">
-              <svg class="w-6 h-6 text-[#3169e1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-              </svg>
-            </div>
-
-            <h3 class="text-[17px] font-bold text-[#1a2b50] mb-2">{{ block.title }}</h3>
-            <p class="text-[13px] text-gray-400 leading-relaxed mb-8">{{ block.desc }}</p>
-
-            <div class="flex items-center justify-between mt-auto">
-              <span class="text-[11px] font-black text-[#3169e1] uppercase tracking-wider">{{ block.count }}
-                {{ $t('training.blocks.directions') }}</span>
-              <div
-                class="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-50 transition-colors">
-                <svg class="w-4 h-4 text-gray-300 group-hover:text-[#3169e1]" fill="none" stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
-          </router-link>
-        </template>
-
-        <!-- Empty State -->
-        <div v-if="!loading && blocks.length === 0"
-          class="col-span-full flex flex-col items-center justify-center py-20 px-4">
-          <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mb-6">
-            <svg class="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <!-- Actual Blocks -->
+      <template v-else>
+        <router-link v-for="block in blocks" :key="block.id"
+          :to="{ name: 'block-detail', params: { blockId: block.id } }"
+          class="w-full h-full text-left bg-white p-3 sm:p-8 rounded-2xl sm:rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col justify-between">
+          <div
+            class="w-8 h-8 sm:w-12 sm:h-12 bg-[#f0f4ff] rounded-lg sm:rounded-xl flex items-center justify-center mb-2 sm:mb-6">
+            <svg class="w-4 h-4 sm:w-6 sm:h-6 text-[#3169e1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
           </div>
-          <h3 class="text-xl font-bold text-slate-700 mb-2">{{ $t('training.center.emptyTitle') }}</h3>
-          <p class="text-sm text-slate-400">{{ $t('training.center.emptyDescription') }}</p>
+
+          <h3 class="text-[13px] sm:text-[17px] font-bold text-[#1a2b50] mb-1 sm:mb-2 line-clamp-2">{{ block.title }}
+          </h3>
+          <p class="hidden sm:block text-[13px] text-gray-400 leading-relaxed mb-4 sm:mb-8 line-clamp-3">{{ block.desc
+          }}</p>
+
+          <div class="flex items-center justify-between mt-auto">
+            <span class="text-[9px] sm:text-[11px] font-black text-[#3169e1] uppercase tracking-wider">{{ block.count
+            }}
+              {{ $t('training.blocks.directions') }}</span>
+            <div
+              class="w-6 h-6 sm:w-8 sm:h-8 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-50 transition-colors">
+              <svg class="w-3 h-3 sm:w-4 sm:h-4 text-gray-300 group-hover:text-[#3169e1]" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </router-link>
+      </template>
+
+      <!-- Empty State -->
+      <div v-if="!loading && blocks.length === 0"
+        class="col-span-full flex flex-col items-center justify-center py-20 px-4">
+        <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mb-6">
+          <svg class="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+          </svg>
         </div>
+        <h3 class="text-xl font-bold text-slate-700 mb-2">{{ $t('training.center.emptyTitle') }}</h3>
+        <p class="text-sm text-slate-400">{{ $t('training.center.emptyDescription') }}</p>
       </div>
     </div>
+    <!-- </div> -->
   </div>
 </template>
 

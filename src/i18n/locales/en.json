@@ -154,6 +154,10 @@
         },
         "lessonDetail": {
             "attachedFiles": "Attached files",
+            "fileLabel": "File",
+            "clickToView": "Click to view",
+            "clickToDownload": "Click to download",
+            "download": "Download",
             "questionsCount": "{count} questions",
             "testSubmitted": "Test submitted",
             "submitTest": "Submit test",

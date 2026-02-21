@@ -37,58 +37,108 @@
               </span>
             </div>
             <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">{{ lesson.title }}</h1>
+            <!-- Darslik tavsifi sarlavhadan pastda -->
+            <p v-if="lesson.content" class="mt-3 text-sm sm:text-base text-gray-600 leading-relaxed">{{ lesson.content
+              }}</p>
           </div>
         </div>
       </div>
 
       <!-- Lesson Body -->
       <div class="p-4 sm:p-6 lg:p-8 space-y-8">
-        <!-- Top Section: Video & Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
-          <!-- Video Section -->
-          <div v-if="lesson.videoUrl" class="rounded-xl overflow-hidden bg-black aspect-video relative group shadow-lg">
-            <video v-if="lesson.videoType === 'native'" :src="lesson.videoUrl" controls preload="metadata"
-              class="w-full h-full object-cover">
-            </video>
-            <iframe v-else :src="lesson.videoUrl" title="Lesson Video" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen class="w-full h-full"></iframe>
-          </div>
-
-          <!-- Text Content -->
-          <div class="prose prose-sm sm:prose max-w-none h-full overflow-y-auto custom-scrollbar">
-            <div v-html="lesson.content"></div>
+        <!-- Videos Section: yonma-yon grid -->
+        <div v-if="lesson.videos && lesson.videos.length > 0">
+          <div :class="lesson.videos.length === 1
+            ? 'grid grid-cols-1 gap-4'
+            : 'grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6'">
+            <div v-for="(video, vIdx) in lesson.videos" :key="vIdx" class="flex flex-col gap-2">
+              <!-- Video player -->
+              <div class="rounded-xl overflow-hidden bg-black aspect-video shadow-lg">
+                <video :src="video.stream_url || video.videoUrl" controls preload="metadata"
+                  class="w-full h-full object-cover">
+                </video>
+              </div>
+              <!-- Video izohi (description) -->
+              <p v-if="video.description" class="text-xs sm:text-sm text-gray-500 leading-relaxed px-1">
+                {{ video.description }}
+              </p>
+            </div>
           </div>
         </div>
 
-        <!-- Files Section (Optional) -->
-        <div v-if="lesson.files && lesson.files.length > 0" class="bg-slate-50 rounded-xl p-6 border border-slate-100">
-          <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+        <!-- Files Section (Accordion) -->
+        <div v-if="lesson.files && lesson.files.length > 0"
+          class="bg-slate-50 rounded-xl p-4 sm:p-6 border border-slate-100">
+          <h3 class="text-base sm:text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
             <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
             </svg>
             {{ $t('training.lessonDetail.attachedFiles') }}
           </h3>
-          <div class="grid gap-3 sm:grid-cols-2">
+          <div class="space-y-3">
             <div v-for="(file, index) in lesson.files" :key="index"
-              class="bg-white p-3 rounded-lg border border-slate-200 hover:border-blue-300 hover:shadow-md transition flex items-center justify-between group">
-              <div class="flex items-center gap-3 min-w-0">
-                <div
-                  class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 font-bold text-xs uppercase shrink-0">
-                  {{ file.ext }}
+              class="bg-white rounded-xl border border-slate-200 overflow-hidden transition-all">
+              <!-- Accordion header -->
+              <button @click="toggleFile(index)"
+                class="w-full flex items-center justify-between p-3 sm:p-4 hover:bg-slate-50 transition-colors group">
+                <div class="flex items-center gap-3 min-w-0">
+                  <!-- File type icon -->
+                  <div :class="fileIconClass(file.ext)"
+                    class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center font-bold text-xs uppercase shrink-0">
+                    {{ file.ext }}
+                  </div>
+                  <div class="min-w-0 text-left">
+                    <p class="font-semibold text-slate-700 text-sm">{{ $t('training.lessonDetail.fileLabel') }} {{ index
+                      + 1 }}</p>
+                    <p class="text-xs text-slate-400">
+                      {{ isViewable(file.ext) ? $t('training.lessonDetail.clickToView') :
+                        $t('training.lessonDetail.clickToDownload') }}
+                    </p>
+                  </div>
                 </div>
-                <div class="min-w-0">
-                  <p class="font-medium text-slate-700 truncate text-sm">File</p>
-                  <!-- <p class="text-xs text-slate-400">{{ file.size }}</p> -->
+                <div class="flex items-center gap-2 shrink-0">
+                  <!-- Download button -->
+                  <a :href="file.url" target="_blank" download @click.stop
+                    class="p-1.5 text-slate-400 hover:text-blue-600 transition rounded-lg hover:bg-blue-50"
+                    :title="$t('training.lessonDetail.download')">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                  </a>
+                  <!-- Expand chevron -->
+                  <svg v-if="isViewable(file.ext)" class="w-5 h-5 text-slate-400 transition-transform duration-300"
+                    :class="openFiles.includes(index) ? 'rotate-180' : ''" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6" />
+                  </svg>
+                </div>
+              </button>
+
+              <!-- Accordion body: inline viewer -->
+              <div v-if="isViewable(file.ext) && openFiles.includes(index)" class="border-t border-slate-100">
+                <!-- PDF viewer — Google Docs Viewer orqali -->
+                <div v-if="isPdf(file.ext)" class="w-full" style="height: 75vh;">
+                  <iframe :src="'https://docs.google.com/viewer?url=' + encodeURIComponent(file.url) + '&embedded=true'"
+                    class="w-full h-full border-0" allowfullscreen>
+                    <p class="p-4 text-sm text-slate-500">PDF ko'rib bo'lmadi.
+                      <a :href="file.url" target="_blank" class="text-blue-600 underline">Yuklab oling</a>
+                    </p>
+                  </iframe>
+                </div>
+                <!-- Image viewer -->
+                <div v-else-if="isImage(file.ext)" class="p-4 flex justify-center bg-slate-50">
+                  <img :src="file.url" :alt="file.name"
+                    class="max-w-full max-h-[70vh] object-contain rounded-lg shadow-md" />
+                </div>
+                <!-- Video viewer -->
+                <div v-else-if="isVideo(file.ext)" class="p-4">
+                  <video :src="file.url" controls class="w-full rounded-lg max-h-[70vh] bg-black">
+                    Brauzer video formati qo'llab-quvvatlamaydi.
+                  </video>
                 </div>
               </div>
-              <a :href="file.url" target="_blank" download class="p-2 text-slate-400 hover:text-blue-600 transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-              </a>
             </div>
           </div>
         </div>
@@ -217,6 +267,32 @@ const tutorial = ref(null);
 const loading = ref(true);
 const error = ref(null);
 
+// Accordion state for files
+const openFiles = ref([]);
+
+const toggleFile = (index) => {
+  const i = openFiles.value.indexOf(index);
+  if (i > -1) {
+    openFiles.value.splice(i, 1);
+  } else {
+    openFiles.value.push(index);
+  }
+};
+
+// File type helpers
+const isPdf = (ext) => ['PDF'].includes((ext || '').toUpperCase());
+const isImage = (ext) => ['PNG', 'JPG', 'JPEG', 'GIF', 'WEBP', 'SVG', 'BMP'].includes((ext || '').toUpperCase());
+const isVideo = (ext) => ['MP4', 'MOV', 'AVI', 'WEBM', 'MKV', 'OGG'].includes((ext || '').toUpperCase());
+const isViewable = (ext) => isPdf(ext) || isImage(ext) || isVideo(ext);
+
+const fileIconClass = (ext) => {
+  const e = (ext || '').toUpperCase();
+  if (isPdf(e)) return 'bg-red-50 text-red-600';
+  if (isImage(e)) return 'bg-green-50 text-green-600';
+  if (isVideo(e)) return 'bg-purple-50 text-purple-600';
+  return 'bg-blue-50 text-blue-600';
+};
+
 // Cache key for sessionStorage
 const getCacheKey = () => `tutorial_detail_${route.params.lessonId}`;
 
@@ -307,6 +383,13 @@ const lesson = computed(() => {
     title: tutorial.value.name,
     duration: tutorial.value.videos?.[0]?.duration_seconds ? Math.ceil(tutorial.value.videos[0].duration_seconds / 60) : 0,
     content: tutorial.value.description || '',
+    // Barcha videolar array sifatida
+    videos: tutorial.value.videos?.map(v => ({
+      stream_url: v.stream_url || (v.video_file_path ? `https://api.lms.inter-ai.uz/storage/${v.video_file_path}` : null),
+      description: v.description ? v.description.replace(/^"|"$/g, '') : '', // qo'shtirnoqlarni olib tashlash
+      duration_seconds: v.duration_seconds
+    })) || [],
+    // eski videoUrl (backward compat)
     videoUrl: tutorial.value.videos?.[0]?.stream_url ||
       (tutorial.value.videos?.[0]?.video_file_path
         ? `https://api.lms.inter-ai.uz/storage/${tutorial.value.videos[0].video_file_path}`

@@ -3,8 +3,8 @@
     <div class="mb-8">
       <h2 class="text-xl sm:text-[28px] font-bold text-[#1a2b50] mb-2 font-display">{{ blockTitle }} {{
         $t('training.blockDetail.directionsTitle') }}</h2>
-      <p class="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em]">{{ $t('training.blockDetail.subtitle')
-        }}</p>
+      <!-- <p class="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em]">{{ $t('training.blockDetail.subtitle')
+      }}</p> -->
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-10">
@@ -108,77 +108,80 @@
       <button class="hover:text-blue-600 transition-colors">{{ blockTitle }}</button>
     </div>
 
-    <div
-      class="bg-white/40 backdrop-blur-xl rounded-[48px] border border-white/50 p-1 min-h-[600px] shadow-2xl shadow-blue-100/50 z-10 relative">
-      <!-- Page Header - Centered -->
-      <div class="px-6 lg:px-8 py-6">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-6">
-            <button @click="goBack"
-              class="p-4 bg-white rounded-3xl border border-slate-100 text-slate-400 hover:text-blue-600 shadow-lg hover:shadow-blue-100 transition-all group">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="lucide lucide-arrow-left group-hover:-translate-x-1 transition-transform" aria-hidden="true">
-                <path d="m12 19-7-7 7-7"></path>
-                <path d="M19 12H5"></path>
-              </svg>
-            </button>
-            <div>
-              <h3 class="text-xl sm:text-[28px] font-black text-slate-800">{{ blockTitle }} {{
-                $t('training.blockDetail.directionsTitle') }}</h3>
-              <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1">{{
-                $t('training.blockDetail.subtitle') }}</p>
-            </div>
+    <!-- <div
+      class="bg-white/40 backdrop-blur-xl rounded-[48px] border border-white/50 p-1 min-h-[600px] shadow-2xl shadow-blue-100/50 z-10 relative"> -->
+    <!-- Page Header - Centered -->
+    <div class="py-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-6">
+          <button @click="goBack"
+            class="p-4 bg-white rounded-3xl border border-slate-100 text-slate-400 hover:text-blue-600 shadow-lg hover:shadow-blue-100 transition-all group">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-arrow-left group-hover:-translate-x-1 transition-transform" aria-hidden="true">
+              <path d="m12 19-7-7 7-7"></path>
+              <path d="M19 12H5"></path>
+            </svg>
+          </button>
+          <div>
+            <h3 class="text-[16px] sm:text-[20px] font-semibold text-slate-800">{{ blockTitle }} {{
+              $t('training.blockDetail.directionsTitle') }}</h3>
+            <!-- <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mt-1">{{
+                $t('training.blockDetail.subtitle') }}</p> -->
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Educational Fields Grid -->
-      <div class="px-6 lg:px-8 pb-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Loading Skeletons -->
-          <template v-if="loading && directions.length === 0">
-            <SkeletonCard v-for="n in 6" :key="n" />
-          </template>
+    <!-- Educational Fields Grid -->
+    <div class="pb-8">
+      <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+        <!-- Loading Skeletons -->
+        <template v-if="loading && directions.length === 0">
+          <SkeletonCard v-for="n in 6" :key="n" />
+        </template>
 
-          <!-- Actual Fields -->
-          <template v-else>
-            <div v-for="direction in directions" :key="direction.id" @click="goToDirection(direction.id)"
-              class="cursor-pointer w-full h-full text-left bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col justify-between group">
+        <!-- Actual Fields -->
+        <template v-else>
+          <div v-for="direction in directions" :key="direction.id" @click="goToDirection(direction.id)"
+            class="cursor-pointer w-full h-full text-left bg-white p-3 sm:p-8 rounded-2xl sm:rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all flex flex-col justify-between group">
 
-              <div class="w-12 h-12 bg-[#f0f4ff] rounded-xl flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            <div
+              class="w-8 h-8 sm:w-12 sm:h-12 bg-[#f0f4ff] rounded-lg sm:rounded-xl flex items-center justify-center mb-2 sm:mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-book-open text-blue-600 w-4 h-4 sm:w-6 sm:h-6" aria-hidden="true">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+            </div>
+
+            <h3 class="text-[13px] sm:text-[17px] font-bold text-[#1a2b50] mb-1 sm:mb-2 line-clamp-2">{{
+              direction.title }}</h3>
+            <p class="hidden sm:block text-[13px] text-gray-400 leading-relaxed mb-4 sm:mb-8 line-clamp-3">{{
+              direction.desc }}</p>
+
+            <div class="flex items-center justify-between mt-auto">
+              <span
+                class="text-[8px] sm:text-[10px] font-black text-[#3169e1] uppercase tracking-wider group-hover:text-blue-700">{{
+                  $t('training.blockDetail.goToLessons') }}</span>
+              <div
+                class="w-6 h-6 sm:w-8 sm:h-8 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-50 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="lucide lucide-book-open text-blue-600" aria-hidden="true">
-                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                  class="lucide lucide-arrow-right text-gray-400 group-hover:text-blue-600 transition-colors"
+                  aria-hidden="true">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
                 </svg>
               </div>
-
-              <h3 class="text-[17px] font-bold text-[#1a2b50] mb-2 line-clamp-2">{{ direction.title }}</h3>
-              <p class="text-[13px] text-gray-400 leading-relaxed mb-8 line-clamp-3">{{ direction.desc }}</p>
-
-              <div class="flex items-center justify-between mt-auto">
-                <span
-                  class="text-[10px] font-black text-[#3169e1] uppercase tracking-wider group-hover:text-blue-700">{{
-                    $t('training.blockDetail.goToLessons') }}</span>
-                <div
-                  class="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-blue-50 transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-arrow-right text-gray-400 group-hover:text-blue-600 transition-colors"
-                    aria-hidden="true">
-                    <path d="M5 12h14"></path>
-                    <path d="m12 5 7 7-7 7"></path>
-                  </svg>
-                </div>
-              </div>
             </div>
-          </template>
-        </div>
+          </div>
+        </template>
       </div>
     </div>
   </div>
+  <!-- </div> -->
 </template>
 
 <script setup>
