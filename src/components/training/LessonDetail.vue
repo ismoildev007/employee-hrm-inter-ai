@@ -163,10 +163,9 @@
             <div class="flex-1">
               <h3 class="text-lg font-bold text-slate-800 mb-2">{{ test.name }}</h3>
               <p class="text-sm text-slate-600">{{ $t('training.lessonDetail.questionsCount', {
-                count:
-                  test.questions.length
+                count: test.questions.length
               }) }}</p>
-              <p v-if="isTestAttempted" class="text-sm text-green-600 font-medium mt-1">✓ {{
+              <p v-if="isTestSubmitted(test.id)" class="text-sm text-green-600 font-medium mt-1">✓ {{
                 $t('training.lessonDetail.testSubmitted') }}</p>
             </div>
           </div>
@@ -182,13 +181,13 @@
                   class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 cursor-pointer transition"
                   :class="{
                     'bg-blue-50 border-blue-400': isAnswerSelected(question.id, option.id),
-                    'hover:border-blue-300 hover:bg-blue-50/50': !isTestAttempted,
-                    'opacity-60 cursor-not-allowed': isTestAttempted
+                    'hover:border-blue-300 hover:bg-blue-50/50': !isTestSubmitted(test.id),
+                    'opacity-60 cursor-not-allowed': isTestSubmitted(test.id)
                   }">
                   <input :type="question.type === 'single_choice' ? 'radio' : 'checkbox'"
                     :name="`question-${question.id}`" :value="option.id"
                     @change="selectAnswer(question.id, option.id, question.type === 'multiple_choice')"
-                    :checked="isAnswerSelected(question.id, option.id)" :disabled="isTestAttempted"
+                    :checked="isAnswerSelected(question.id, option.id)" :disabled="isTestSubmitted(test.id)"
                     class="w-4 h-4 text-blue-600 disabled:opacity-50">
                   <span class="text-sm text-slate-700">{{ option.option_text }}</span>
                 </label>
@@ -196,7 +195,7 @@
 
               <!-- Text Answer -->
               <div v-else>
-                <textarea v-model="selectedAnswers[question.id]" rows="3" :disabled="isTestAttempted"
+                <textarea v-model="selectedAnswers[question.id]" rows="3" :disabled="isTestSubmitted(test.id)"
                   class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none disabled:bg-slate-100 disabled:cursor-not-allowed"
                   :placeholder="$t('training.lessonDetail.feedbackPlaceholder')"></textarea>
               </div>
@@ -205,9 +204,10 @@
 
           <!-- Submit Test Button -->
           <div class="mt-6 flex justify-end">
-            <button @click="submitTest(test.id)" :disabled="!canSubmitTest(test)"
+            <button @click="submitTest(test.id)" :disabled="isTestSubmitted(test.id) || !canSubmitTest(test)"
               class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed font-medium">
-              {{ isTestAttempted ? $t('training.lessonDetail.testSubmitted') : $t('training.lessonDetail.submitTest') }}
+              {{ isTestSubmitted(test.id) ? $t('training.lessonDetail.testSubmitted') :
+                $t('training.lessonDetail.submitTest') }}
             </button>
           </div>
         </div>
@@ -226,7 +226,7 @@
               </p>
             </div>
           </div>
-          <p class="text-sm text-slate-600 mb-4">{{ lesson.feedback_text }}</p>
+          <p class="text-sm text-slate-600 mb-4 whitespace-pre-line">{{ lesson.feedback_text }}</p>
           <textarea v-model="feedbackText" rows="4" :disabled="isFeedbackAttempted"
             class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none disabled:bg-slate-100 disabled:cursor-not-allowed"
             :placeholder="$t('training.lessonDetail.feedbackPlaceholder')"></textarea>
@@ -242,7 +242,7 @@
         <div class="flex items-center justify-between pt-6 border-t border-gray-200">
           <button @click="goBack"
             class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium">
-            {{ $t('training.lesson.backToCourse') }}
+            {{ $t('training.course.backToCourses') }}
           </button>
           <!-- <button @click="goToNextLesson"
             class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
@@ -348,15 +348,21 @@ const saveCachedData = () => {
 
 // Test state
 const selectedAnswers = ref({});
-const testSubmitted = ref(false);
 const testResult = ref(null);
 
 // Feedback state
 const feedbackText = ref('');
 const feedbackSubmitted = ref(false);
 
-// Check if test already attempted from API
-const isTestAttempted = computed(() => tutorial.value?.test_attempted || false);
+// Har bir test uchun alohida submitted holat (local Set)
+const submittedTests = ref(new Set());
+
+// Test yuborilganmi yoki yo'qmi (API + local)
+const isTestSubmitted = (testId) => {
+  if (submittedTests.value.has(testId)) return true;
+  const test = tutorial.value?.tests?.find(t => t.id === testId);
+  return test?.attempted === true;
+};
 
 // Check if feedback already attempted from API
 const isFeedbackAttempted = computed(() => tutorial.value?.feedback_attempted || false);
@@ -364,7 +370,6 @@ const isFeedbackAttempted = computed(() => tutorial.value?.feedback_attempted ||
 // Check if all questions are answered for a test
 const areAllQuestionsAnswered = (test) => {
   if (!test || !test.questions) return false;
-
   return test.questions.every(question => {
     if (question.type === 'text') {
       return selectedAnswers.value[question.id] && selectedAnswers.value[question.id].trim().length > 0;
@@ -376,7 +381,7 @@ const areAllQuestionsAnswered = (test) => {
 
 // Check if submit button should be enabled for a specific test
 const canSubmitTest = (test) => {
-  return !isTestAttempted.value && areAllQuestionsAnswered(test);
+  return !isTestSubmitted(test.id) && areAllQuestionsAnswered(test);
 };
 
 // Computed lesson data
@@ -434,8 +439,11 @@ const loadTutorialDetail = async () => {
     if (response.success && response.data) {
       tutorial.value = response.data;
 
-      // Set submitted states from API
-      testSubmitted.value = response.data.test_attempted || false;
+      // API dan kelgan attempted holatlarini submittedTests ga o'tkazish
+      response.data.tests?.forEach(test => {
+        if (test.attempted) submittedTests.value.add(test.id);
+      });
+
       feedbackSubmitted.value = response.data.feedback_attempted || false;
 
       // Save to cache
@@ -451,9 +459,8 @@ const loadTutorialDetail = async () => {
 
 // Handle answer selection
 const selectAnswer = (questionId, optionId, isMultiple) => {
-  // Don't allow selection if test already attempted
-  if (isTestAttempted.value) return;
-
+  // Agar bu savol tegishli test allaqachon yuborilgan bo'lsa, o'zgartirma
+  // (template darajasida disabled bo'lgani uchun bu qo'shimcha himoya)
   if (isMultiple) {
     if (!selectedAnswers.value[questionId]) {
       selectedAnswers.value[questionId] = [];
@@ -485,13 +492,9 @@ const submitTest = async (testId) => {
     const response = await submitTestAttempt(lessonId.value, testId, answers);
 
     if (response.success) {
-      testSubmitted.value = true;
+      // Faqat shu testni submitted deb belgilaymiz
+      submittedTests.value.add(testId);
       testResult.value = response.data;
-
-      // Update tutorial test_attempted flag to persist the state
-      if (tutorial.value) {
-        tutorial.value.test_attempted = true;
-      }
 
       // Save to cache so it persists across page reloads
       saveCachedData();
