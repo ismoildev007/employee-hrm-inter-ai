@@ -39,7 +39,7 @@
             <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">{{ lesson.title }}</h1>
             <!-- Darslik tavsifi sarlavhadan pastda -->
             <p v-if="lesson.content" class="mt-3 text-sm sm:text-base text-gray-600 leading-relaxed">{{ lesson.content
-            }}</p>
+              }}</p>
           </div>
         </div>
       </div>
@@ -484,10 +484,18 @@ const isAnswerSelected = (questionId, optionId) => {
 // Submit test
 const submitTest = async (testId) => {
   try {
-    const answers = Object.keys(selectedAnswers.value).map(questionId => ({
-      question_id: parseInt(questionId),
-      option_ids: selectedAnswers.value[questionId]
-    }));
+    // Faqat shu testga tegishli savol ID larini olamiz
+    const testObj = tutorial.value?.tests?.find(t => t.id === testId);
+    if (!testObj) return;
+
+    const testQuestionIds = new Set(testObj.questions.map(q => q.id));
+
+    const answers = Object.keys(selectedAnswers.value)
+      .filter(questionId => testQuestionIds.has(parseInt(questionId)))
+      .map(questionId => ({
+        question_id: parseInt(questionId),
+        option_ids: selectedAnswers.value[questionId]
+      }));
 
     const response = await submitTestAttempt(lessonId.value, testId, answers);
 
@@ -499,6 +507,8 @@ const submitTest = async (testId) => {
       // Save to cache so it persists across page reloads
       saveCachedData();
       alert(t('training.lessonDetail.testSuccess'));
+    } else {
+      alert(response.message || t('training.lessonDetail.testError'));
     }
   } catch (err) {
     console.error('Failed to submit test:', err);
